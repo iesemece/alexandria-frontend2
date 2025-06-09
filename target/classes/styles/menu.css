@@ -1,0 +1,80 @@
+
+#menuPane {
+
+    -fx-background-color: linear-gradient(to bottom, #181E29 90%, #232C3A 100%);
+    -fx-pref-width: 264px;
+    -fx-effect: dropshadow(gaussian, rgba(32,50,85,0.18), 26, 0.20, 10, 0);
+    -fx-border-width: 0 2px 0 0;
+    -fx-border-color: #26304b;
+    -fx-padding: 0;
+}
+
+#menuPane .label.seccion {
+    -fx-font-size: 15px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #A0AEC0;
+    -fx-padding: 0 0 6px 6px;
+    -fx-letter-spacing: 1px;
+}
+
+#vboxMenu {
+    -fx-padding: 10px 0 0 0;
+    -fx-spacing: 8px;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #D7E2EE;
+    -fx-font-size: 16px;
+    -fx-font-weight: 500;
+    -fx-padding: 12px 0 12px 38px;
+    -fx-alignment: center-left;
+    -fx-background-radius: 10px;
+    -fx-border-width: 0;
+    -fx-cursor: hand;
+    -fx-effect: null;
+    -fx-transition: all 0.18s;
+}
+
+.menu-button:focused, .menu-button:selected {
+    -fx-background-color: #3A4152;
+    -fx-text-fill: #4FD1C5;
+    -fx-font-weight: bold;
+    -fx-scale-x: 1.04;
+    -fx-scale-y: 1.04;
+    -fx-effect: dropshadow(gaussian, rgba(79,209,197,0.07), 7, 0.09, 0, 1);
+}
+
+.menu-button:hover {
+    -fx-background-color: #2D3748;
+    -fx-text-fill: #63B3ED;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.menu-button.cerrar-sesion {
+    -fx-background-color: #F56565;
+    -fx-text-fill: #FFF;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(230,62,62,0.11), 8, 0.12, 0, 1);
+    -fx-padding: 12px 0 12px 38px;
+    -fx-border-width: 0;
+}
+
+.menu-button.cerrar-sesion:hover {
+    -fx-background-color: #C53030;
+    -fx-text-fill: #FFD6D6;
+}
+
+#lblMenuTitulo {
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #D7E2EE;
+    -fx-padding: 6 0 6 38;
+    -fx-letter-spacing: 0.2px;
+    -fx-effect: null;
+}
+
+

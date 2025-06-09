@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.BuscarController">
+   
+   <Label layoutX="50.0" layoutY="93.0" styleClass="titulo" text="Buscar libro">
+      <font>
+         <Font name="System Bold" size="31.0" />
+      </font>
+   </Label>
+   <Label layoutX="50.0" layoutY="174.0" styleClass="titulo" text="Resultados">
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font>
+   </Label>
+   
+    <ListView fx:id="listalibros" layoutX="50.0" layoutY="214.0" prefHeight="306.0" prefWidth="509.0" />
+   <TextField fx:id="txtBuscar" layoutX="50.0" layoutY="139.0" prefHeight="27.0" prefWidth="509.0" promptText="Buscar por nombre del libro, nombre del autor o género" styleClass="custom-textfield" />
+    
+</AnchorPane>

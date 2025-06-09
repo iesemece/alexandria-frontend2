@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+
+<AnchorPane fx:id="lectorPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.alexandriafrontend.controllers.LectorController"
+            prefWidth="649.0" prefHeight="600.0">
+
+    <VBox spacing="5" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+    AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+    style="-fx-padding: 10;">
+
+
+        <HBox fx:id="barraFlotante" spacing="14" styleClass="barra-flotante">
+            <Button text="Amarillo" onAction="#subrayarAmarillo" styleClass="anotacion-yellow"/>
+            <Button text="Azul" onAction="#subrayarAzul" styleClass="anotacion-blue"/>
+            <Button text="Verde" onAction="#subrayarVerde" styleClass="anotacion-green"/>
+            <Button text="✖ Sin subrayado" onAction="#quitarSubrayado" styleClass="anotacion-clear"/>
+            <Button text="💬 Comentario" onAction="#agregarComentario" styleClass="anotacion-comment"/>
+            <Button fx:id="btnGuardarAnotaciones" text="💾 Guardar" onAction="#guardarAnotaciones" styleClass="anotacion-save"/>
+        </HBox>
+
+
+
+
+        <StyleClassedTextArea fx:id="textArea"
+                          wrapText="true"
+                          VBox.vgrow="ALWAYS" />
+
+    </VBox>
+</AnchorPane>

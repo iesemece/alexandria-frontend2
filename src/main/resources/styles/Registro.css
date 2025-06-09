@@ -1,0 +1,109 @@
+
+#rootPane {
+    -fx-background-color: linear-gradient(to bottom right, #181E29 85%, #202736 100%);
+}
+
+.label {
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-weight: 600;
+    -fx-text-fill: #F7FAFC;
+}
+
+.label[alignment="CENTER"] {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #F7FAFC;
+}
+
+.label[alignment="CENTER"][text="Crear una cuenta"] {
+    -fx-font-size: 16px;
+    -fx-text-fill: #4FD1C5;
+}
+
+.label[alignment="CENTER"][text*="Introduce tus datos"] {
+    -fx-font-size: 13px;
+    -fx-text-fill: #CBD5E1;
+}
+
+.text-field {
+    -fx-background-color: #232C3A, #181E29;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 9;
+    -fx-padding: 0 0 0 14;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-size: 15px;
+    -fx-text-fill: #E2E8F0;
+    -fx-prompt-text-fill: #718096;
+    -fx-border-color: #4FD1C5;
+    -fx-border-radius: 9;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(99,179,237,0.09), 8, 0.12, 0, 1);
+    -fx-min-height: 35px;
+}
+.text-field:focused {
+    -fx-border-color: #63B3ED;
+    -fx-background-color: #232C3A;
+}
+
+.combo-box, .combo-box-base {
+    -fx-background-color: #232C3A, #181E29;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 9;
+    -fx-font-size: 15px;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-border-color: #4FD1C5;
+    -fx-border-radius: 9;
+    -fx-border-width: 2;
+    -fx-padding: 0 0 0 14;
+    -fx-text-fill: #E2E8F0;
+}
+.combo-box:focused, .combo-box-base:focused {
+    -fx-border-color: #63B3ED;
+    -fx-background-color: #232C3A;
+}
+.combo-box .arrow, .combo-box-base .arrow {
+    -fx-background-color: #4FD1C5;
+}
+
+#btnRegistrarse {
+    -fx-background-color: linear-gradient(to right, #319795, #38B2AC);
+    -fx-text-fill: #FFF;
+    -fx-font-size: 17px;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(79,209,197,0.12), 6, 0.13, 0, 1);
+    -fx-cursor: hand;
+    -fx-border-width: 0;
+    -fx-padding: 7 0 7 0;
+    -fx-transition: background-color 0.2s;
+}
+#btnRegistrarse:hover {
+    -fx-background-color: linear-gradient(to right, #38B2AC, #63B3ED);
+    -fx-text-fill: #E6FFFA;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+#btnVolver {
+    -fx-background-color: transparent;
+    -fx-border-color: #4FD1C5;
+    -fx-border-width: 2px;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-font-size: 15px;
+    -fx-text-fill: #4FD1C5;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+    -fx-padding: 7 18 7 18;
+    -fx-effect: dropshadow(gaussian, rgba(79,209,197,0.09), 6, 0.11, 0, 1);
+    -fx-transition: all 0.19s;
+    -fx-min-width: 105px;
+}
+#btnVolver:hover {
+    -fx-background-color: #232C3A;
+    -fx-text-fill: #63B3ED;
+    -fx-border-color: #63B3ED;
+}

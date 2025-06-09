@@ -1,0 +1,94 @@
+/* Fondo general */
+#contenido {
+    -fx-background-color: linear-gradient(to bottom right, #181E29 85%, #202736 100%);
+    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.13), 20, 0.12, 0, 5);
+}
+
+.label, .titulo {
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-weight: 700;
+    -fx-text-fill: #F7FAFC;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.09), 0, 0.08, 0, 1);
+}
+
+.titulo {
+    -fx-font-size: 31px;
+}
+
+.titulo[text="Resultados"], .titulo[text="Favoritos"], .titulo[text="Crear una cuenta"], .titulo[text="Bienvenido a Alexandria"] {
+    -fx-font-size: 18px;
+    -fx-text-fill: #4FD1C5;
+    -fx-font-weight: 600;
+}
+
+.titulo[text="Todos los libros que te han gustado"], .titulo[text*="libros recomendados"], .titulo[text*="Introduce tus datos"] {
+    -fx-font-size: 12px;
+    -fx-text-fill: #A0AEC0;
+    -fx-font-weight: 400;
+    -fx-padding: 2 0 0 0;
+}
+
+.custom-textfield, .text-field {
+    -fx-background-color: #232C3A, #181E29;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 10;
+    -fx-padding: 0 0 0 14;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-size: 15px;
+    -fx-text-fill: #E2E8F0;
+    -fx-prompt-text-fill: #718096;
+    -fx-border-color: #4FD1C5;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-effect: dropshadow(gaussian, rgba(99,179,237,0.09), 8, 0.12, 0, 1);
+}
+
+.custom-textfield:focused, .text-field:focused {
+    -fx-border-color: #63B3ED;
+    -fx-background-color: #232C3A;
+}
+
+.list-view {
+    -fx-background-color: #23272F;
+    -fx-border-color: #2D3748;
+    -fx-border-width: 2;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.08), 9, 0.10, 0, 2);
+    -fx-cell-horizontal-margin: 12px;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #CBD5E1;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-size: 16px;
+    -fx-padding: 8 4 8 12;
+    -fx-background-insets: 0;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-transition: background-color 0.2s, color 0.2s;
+}
+
+.list-cell:filled:selected, .list-cell:filled:hover {
+    -fx-background-color: #2D3748;
+    -fx-text-fill: #63B3ED;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(99,179,237,0.14), 4, 0.10, 0, 1);
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+.list-view .thumb {
+    -fx-background-color: #4FD1C5;
+    -fx-background-radius: 8px;
+    -fx-pref-width: 8px;
+}
+
+.label {
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-text-fill: #E2E8F0;
+    -fx-font-weight: 500;
+}
