@@ -46,11 +46,24 @@ public class RegistroController {
 
     @FXML
     private void handleRegistrarse() {
-        String nombre = tfPrimer_Nombre.getText().substring(0, 1).toUpperCase() + tfPrimer_Nombre.getText().substring(1).toLowerCase();
-        String apellido = tfApellido.getText().substring(0, 1).toUpperCase() + tfApellido.getText().substring(1).toLowerCase();
+
+        String nombre = tfPrimer_Nombre.getText();
+        String apellido = tfApellido.getText();
         String email = tfEmail.getText();
         String contrasena = tfContraseña.getText();
-        String rol = cbRol.getValue().toUpperCase();
+        String rol = cbRol.getValue() != null ? cbRol.getValue().toUpperCase() : "";
+
+        // Validación básica ANTES de formatear nombres
+        if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty() || !esRolValido(rol)) {
+            mostrarAlerta("Por favor, completa todos los campos.");
+            return;
+        }
+
+         nombre = tfPrimer_Nombre.getText().substring(0, 1).toUpperCase() + tfPrimer_Nombre.getText().substring(1).toLowerCase();
+         apellido = tfApellido.getText().substring(0, 1).toUpperCase() + tfApellido.getText().substring(1).toLowerCase();
+         email = tfEmail.getText();
+         contrasena = tfContraseña.getText();
+         rol = cbRol.getValue().toUpperCase();
 
         // Validación básica
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty() || !esRolValido(rol)) {
