@@ -1,4 +1,4 @@
-
+/* ===== ESTILOS GENERALES DE PANTALLA ===== */
 #lectorPane, .anchor-pane, .root {
     -fx-background-color: linear-gradient(to bottom right, #1b222b 86%, #222836 100%);
 }
@@ -12,9 +12,9 @@
     -fx-alignment: center-left;
     -fx-border-color: #31979555;
     -fx-border-width: 0 0 2.5px 0;
-    -fx-margin-bottom: 11px;
 }
 
+/* ===== BOTONES ===== */
 .button {
     -fx-background-color: linear-gradient(to right, #232e3e 70%, #324159 100%);
     -fx-background-radius: 12px;
@@ -24,12 +24,9 @@
     -fx-font-size: 15px;
     -fx-padding: 9 24 9 24;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.11), 2.3, 0.10, 0, 1);
     -fx-border-color: #293348;
     -fx-border-width: 1.2px;
     -fx-border-radius: 12px;
-    -fx-transition: background-color 0.16s;
-    -fx-min-width: 122px;
 }
 .button:hover {
     -fx-background-color: linear-gradient(to right, #263C53 75%, #38B2AC 100%);
@@ -54,32 +51,59 @@
     -fx-border-color: #63B3ED;
 }
 
-.style-classed-text-area, .text-area {
-    -fx-background-color: #23272F;
-    -fx-background-radius: 18px;
-    -fx-font-family: "Georgia", "serif";
-    -fx-font-size: 20px;
-    -fx-text-fill: #F5F7FA;
-    -fx-padding: 38 30 38 38;
-    -fx-line-spacing: 0.23em;
-    -fx-border-radius: 18px;
-    -fx-border-width: 2.2px;
-    -fx-border-color: #2D3748;
-    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.10), 10, 0.11, 0, 2);
-    -fx-highlight-fill: #63B3ED66;
-    -fx-highlight-text-fill: #23272F;
-    -fx-cursor: text;
-}
-.style-classed-text-area:focused {
-    -fx-border-color: #4FD1C5;
-    -fx-background-color: #252B38;
+/* ===== ÁREA DE LECTURA ===== */
+.lector-area {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #23272F;
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size: 17px;
+    -fx-padding: 40 60 40 60;
+    -fx-text-alignment: justify;
+    -fx-line-spacing: 1.5em;
+    -fx-border-color: transparent;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
 }
 
+/* ===== TÍTULO Y AUTOR (centrado arriba) ===== */
+.titulo {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-fill: #2D3748;
+    -fx-font-family: "Georgia", serif;
+    -rtfx-text-alignment: center;
+}
+
+.autor {
+    -fx-font-size: 20px;
+    -fx-font-style: italic;
+    -fx-fill: #4A5568;
+    -fx-font-family: "Georgia", serif;
+    -rtfx-text-alignment: center;
+}
+
+.capitulo {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-fill: #2D3748;
+    -fx-font-family: "Georgia", serif;
+    -rtfx-text-alignment: center;
+}
+
+.lector-area {
+    -fx-font-size: 17px;
+    -fx-fill: #23272F;
+    -fx-font-family: "Georgia", serif;
+    -fx-text-alignment: justify;
+    -fx-background-color: #FFFFFF;
+}
+
+
+/* ===== ESTILOS DE SUBRAYADO ===== */
 .color-amarillo {
     -rtfx-background-color: #fffab5;
     -fx-fill: #23272F;
     -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
     -rtfx-underline: true;
     -rtfx-underline-color: #ffe066;
     -fx-border-width: 0 0 3px 0;
@@ -90,7 +114,6 @@
     -rtfx-background-color: #b1e3ff;
     -fx-fill: #23272F;
     -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
     -rtfx-underline: true;
     -rtfx-underline-color: #2894e0;
     -fx-border-width: 0 0 3px 0;
@@ -101,23 +124,21 @@
     -rtfx-background-color: #c3ffd7;
     -fx-fill: #23272F;
     -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
     -rtfx-underline: true;
     -rtfx-underline-color: #00b97b;
     -fx-border-width: 0 0 3px 0;
     -fx-border-color: #00b97b;
 }
 
+/* ===== COMENTARIOS ===== */
 .comentado {
     -rtfx-underline: true;
-    -rtfx-underline-color: #F6AD55;
     -fx-border-width: 0 0 2.5px 0;
-    -fx-border-color: #F6AD55;
     -fx-underline: true;
-    -fx-font-style: italic;
     -fx-fill: #f6ad55;
 }
 
+/* ===== SCROLL Y SELECCIÓN ===== */
 .scroll-bar, .scroll-bar:vertical {
     -fx-background-color: transparent;
 }
@@ -127,22 +148,6 @@
     -fx-pref-width: 8px;
 }
 
-.style-classed-text-area .selection {
-    -fx-background-color: #A3D8F4bb; /* azul claro */
-}
-
-.anotacion-yellow {
-    -fx-background-color: #fff59d;
-    -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
-}
-.anotacion-blue {
-    -fx-background-color: #bbe5ff;
-    -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
-}
-.anotacion-green {
-    -fx-background-color: #b6f7e1;
-    -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
+.lector-area .selection {
+    -fx-background-color: #A3D8F4bb;
 }

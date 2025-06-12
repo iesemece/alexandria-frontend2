@@ -39,7 +39,7 @@ public interface ApiService {
     @GET("/api/biblioteca/favoritos")
     Call<List<LibroResponse>> buscarLibrosFavoritos(@Header("Authorization") String token);
 
-    @GET("/api/biblioteca/lecturas")
+    @GET("/api/biblioteca/enlecturas")
     Call<List<LibroResponse>> buscarLibrosLecturas(@Header("Authorization") String token);
 
     @GET("/api/libros/archivo-url")
@@ -48,15 +48,16 @@ public interface ApiService {
     @GET("api/epubs/{nombreArchivo}")
     Call<ResponseBody> obtenerUrlFirmada(@Path("nombreArchivo") String nombreArchivo);
 
-    @POST("/api/biblioteca/enlectura")
+    @POST("/api/biblioteca/guardar-enlectura")
     Call<Void> registrarLectura(@Header("Authorization") String token, @Query("libroId") Long libroId);
+
+    @POST("/api/biblioteca/guardar-favoritos")
+    Call<Void> registrarFavoritos(@Header("Authorization") String token, @Query("libroId") Long libroId);
 
     @POST("/api/biblioteca/guardar-anotaciones")
     Call<Void> guardarAnotaciones(@Header("Authorization") String token, @Body AnotacionesRequest request);
 
     @GET("/api/biblioteca/recuperar-anotaciones")
     Call<Map<Integer, List<Anotacion>>> obtenerAnotaciones(@Header("Authorization") String token, @Query("libroId") Long libroId);
-
-
 
 }

@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.ScrollPane?>
 <AnchorPane fx:id="lectorPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.alexandriafrontend.controllers.LectorController"
             prefWidth="649.0" prefHeight="600.0">
@@ -19,17 +20,22 @@
             <Button text="Amarillo" onAction="#subrayarAmarillo" styleClass="anotacion-yellow"/>
             <Button text="Azul" onAction="#subrayarAzul" styleClass="anotacion-blue"/>
             <Button text="Verde" onAction="#subrayarVerde" styleClass="anotacion-green"/>
-            <Button text="✖ Sin subrayado" onAction="#quitarSubrayado" styleClass="anotacion-clear"/>
-            <Button text="💬 Comentario" onAction="#agregarComentario" styleClass="anotacion-comment"/>
-            <Button fx:id="btnGuardarAnotaciones" text="💾 Guardar" onAction="#guardarAnotaciones" styleClass="anotacion-save"/>
+            <Button text="Sin subrayado" onAction="#quitarSubrayado" styleClass="anotacion-clear"/>
+            <Button text="Comentario" onAction="#agregarComentario" styleClass="anotacion-comment"/>
+            <Button fx:id="btnGuardarAnotaciones" text="Guardar" onAction="#guardarAnotaciones" styleClass="anotacion-save"/>
+            <Button text="Favoritos" onAction="#anadirFavoritos"/>
         </HBox>
 
 
 
 
-        <StyleClassedTextArea fx:id="textArea"
-                          wrapText="true"
-                          VBox.vgrow="ALWAYS" />
+        <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS" style="-fx-background-color: transparent;" >
+            <StyleClassedTextArea fx:id="textArea"
+                                  editable="false"
+                                  wrapText="true"
+                                  styleClass="lector-area" />
+        </ScrollPane>
+
 
     </VBox>
 </AnchorPane>

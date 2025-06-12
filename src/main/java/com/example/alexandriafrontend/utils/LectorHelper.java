@@ -99,19 +99,21 @@ public class LectorHelper {
 
 
     public static void pedirUrlYMostrarLibro(Libro libro, AnchorPane contenido) {
+        String tokend = SesionUsuario.getInstancia().getToken();
+        if(tokend != null ) {
+            apiService.registrarLectura("Bearer " + tokend, libro.getId()).enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    System.out.println("Lectura registrada correctamente.");
+                }
 
-        apiService.registrarLectura("Bearer " + SesionUsuario.getInstancia().getToken(), libro.getId()).enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                System.out.println("Lectura registrada correctamente.");
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                System.err.println("Error al registrar lectura:");
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    System.err.println("Error al registrar lectura:");
+                    t.printStackTrace();
+                }
+            });
+        }
 
         obtenerArchivoUrlPorId(libro.getId(), archivoNombre -> {
             if (archivoNombre != null) {
