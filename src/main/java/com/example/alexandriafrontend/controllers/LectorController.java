@@ -3,16 +3,19 @@ package com.example.alexandriafrontend.controllers;
 import com.example.alexandriafrontend.api.ApiClient;
 import com.example.alexandriafrontend.api.ApiService;
 import com.example.alexandriafrontend.model.Anotacion;
+import com.example.alexandriafrontend.model.UsuarioListado;
 import com.example.alexandriafrontend.request.AnotacionesRequest;
 import com.example.alexandriafrontend.session.SesionUsuario;
+import com.example.alexandriafrontend.utils.Utils;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubReader;
@@ -37,6 +40,9 @@ public class LectorController {
     private final List<Anotacion> anotaciones = new ArrayList<>();
 
    private Long libroId;
+
+    @FXML
+    private Button btnCompartir;
 
     public void setIdLibro(Long libroId) {
         this.libroId = libroId;
@@ -66,6 +72,7 @@ public class LectorController {
     private void initialize() {
         textArea.getStylesheets().add(getClass().getResource("/styles/lector.css").toExternalForm());
         configurarTooltipComentarios();
+        btnCompartir.setOnAction(e -> compartirLibroConUsuario());
     }
 
     private String leerYProcesarLibro(String urlFirmada) throws Exception {
@@ -82,6 +89,81 @@ public class LectorController {
 
         return textoPlano.toString().replaceAll("<[^>]*>", ""); // quitar etiquetas HTML
     }
+
+    private void compartirLibroConUsuario() {
+        String token = SesionUsuario.getInstancia().getToken();
+        Long usuarioId = SesionUsuario.getInstancia().getIdUsuario();
+
+        if (libroId == null || token == null || usuarioId == null) {
+            System.out.println("Faltan datos para compartir libro");
+            return;
+        }
+
+        // 1. Pedimos la lista de usuarios disponibles
+        ApiService apiService = ApiClient.getApiService();
+        Call<List<UsuarioListado>> call = apiService.obtenerUsuarios("Bearer " + token);
+
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<List<UsuarioListado>> call, Response<List<UsuarioListado>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Platform.runLater(() -> {
+                        List<UsuarioListado> usuarios = response.body();
+                        if (usuarios.isEmpty()) {
+                            Utils.mostrarMensaje("No hay otros usuarios disponibles.");
+                            return;
+                        }
+
+                        // 2. Mostrar diálogo para elegir usuario
+                        ChoiceDialog<UsuarioListado> dialog = new ChoiceDialog<>(usuarios.get(0), usuarios);
+                        dialog.setTitle("Compartir libro");
+                        dialog.setHeaderText("Selecciona el usuario para compartir el libro:");
+                        dialog.setContentText("Usuario:");
+
+                        Optional<UsuarioListado> resultado = dialog.showAndWait();
+                        resultado.ifPresent(usuarioDestino -> {
+                            // 3. Llamada para compartir el libro
+                            compartirLibro(usuarioId, usuarioDestino.getId(), libroId, token);
+                        });
+                    });
+                } else {
+                    Utils.mostrarMensaje("Error cargando usuarios para compartir.");
+                }
+            }
+            @Override
+            public void onFailure(Call<List<UsuarioListado>> call, Throwable t) {
+                Platform.runLater(() -> Utils.mostrarMensaje("Error al conectar para compartir."));
+            }
+        });
+    }
+
+
+    private void compartirLibro(Long usuarioId, Long usuarioDestinoId, Long libroId, String token) {
+        ApiService apiService = ApiClient.getApiService();
+        Call<Void> call = apiService.compartirLibro(
+                usuarioId,
+                usuarioDestinoId,
+                libroId,
+                "Bearer " + token
+        );
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Platform.runLater(() -> {
+                    if (response.isSuccessful()) {
+                        Utils.mostrarMensaje("Libro compartido correctamente.");
+                    } else {
+                        Utils.mostrarMensaje("Error al compartir libro: " + response.code());
+                    }
+                });
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Platform.runLater(() -> Utils.mostrarMensaje("Fallo de red al compartir libro."));
+            }
+        });
+    }
+
 
     private void mostrarTextoEnArea(String texto) {
         textArea.clear();

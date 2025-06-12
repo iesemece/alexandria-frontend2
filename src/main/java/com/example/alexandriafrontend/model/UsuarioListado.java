@@ -20,6 +20,13 @@ public class UsuarioListado {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return primerNombre + " " + segundoNombre; // O lo que quieras mostrar
+    }
+
+
+
     public Long getId() {
         return id;
     }

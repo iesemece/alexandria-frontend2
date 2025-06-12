@@ -130,4 +130,29 @@ public class LectorHelper {
         });
     }
 
+    public static void pedirUrlYMostrarLibroColaborativo(Libro libro, Long lecturaCompartidaId, AnchorPane contenido) {
+        try {
+            FXMLLoader loader = new FXMLLoader(LectorHelper.class.getResource("/fxml/Lector.fxml"));
+            Parent root = loader.load();
+
+            // Recuperar el controller real
+            LectorController controller = loader.getController();
+
+            // Este setIdLibro lo usas igual que siempre
+            controller.setIdLibro(libro.getId());
+
+            // NUEVO: pasamos el id de la lectura compartida (añade este set en LectorController)
+            controller.setLecturaCompartidaId(lecturaCompartidaId);
+
+            // Aquí, si usas Scene, puedes ponerlo en un nuevo Stage, o reemplaza contenido si usas AnchorPane
+            contenido.getChildren().setAll(root);
+
+            // El controller ya puede hacer lógica diferente si lecturaCompartidaId != null
+
+        } catch (Exception e) {
+            Utils.mostrarMensaje("Error abriendo lector colaborativo: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

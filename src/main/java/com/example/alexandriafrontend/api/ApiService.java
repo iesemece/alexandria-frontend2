@@ -68,6 +68,22 @@ public interface ApiService {
             @Header("Authorization") String token
     );
 
+    @POST("/lecturas-compartidas/compartir")
+    Call<Void> compartirLibro(
+            @Query("usuarioId") Long usuarioId,
+            @Query("usuarioDestinoId") Long usuarioDestinoId,
+            @Query("libroId") Long libroId,
+            @Header("Authorization") String token
+    );
+
+    @GET("/lecturas-compartidas/lecturas-compartidas/id")
+    Call<Long> obtenerLecturaCompartidaId(
+            @Query("usuarioId1") Long usuarioId1,
+            @Query("usuarioId2") Long usuarioId2,
+            @Query("libroId") Long libroId,
+            @Header("Authorization") String token
+    );
+
 
 
 }

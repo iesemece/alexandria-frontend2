@@ -21,6 +21,7 @@
             <Button text="Verde" onAction="#subrayarVerde" styleClass="anotacion-green"/>
             <Button text="✖ Sin subrayado" onAction="#quitarSubrayado" styleClass="anotacion-clear"/>
             <Button text="💬 Comentario" onAction="#agregarComentario" styleClass="anotacion-comment"/>
+            <Button fx:id="btnCompartir" layoutX="20" layoutY="20" text="Compartir libro"/>
             <Button fx:id="btnGuardarAnotaciones" text="💾 Guardar" onAction="#guardarAnotaciones" styleClass="anotacion-save"/>
         </HBox>
 
