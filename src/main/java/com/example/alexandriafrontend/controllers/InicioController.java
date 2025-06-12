@@ -11,18 +11,23 @@ import com.example.alexandriafrontend.utils.LectorHelper;
 import com.example.alexandriafrontend.utils.Utils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Alert;
 import javafx.event.ActionEvent;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class InicioController {
 
@@ -43,6 +48,46 @@ public class InicioController {
 
     private ApiService apiService = ApiClient.getApiService();
 
+    private static final Map<String, String> TITULO_A_CATEGORIA = Map.ofEntries(
+            Map.entry("1984", "Ciencia Ficción"),
+            Map.entry("Apocalipsis Z - Los dias oscuros", "Suspense"),
+            Map.entry("De ratones y hombres", "Drama"),
+            Map.entry("El árbol", "Ciencia Ficción"),
+            Map.entry("El caballero de la armadura oxidada", "Fantasía"),
+            Map.entry("El camino", "Drama"),
+            Map.entry("El círculo cero", "Ciencia Ficción"),
+            Map.entry("El Extraño", "Ciencia Ficción"),
+            Map.entry("El Hobbit", "Fantasía"),
+            Map.entry("El hombre de los círculos azules", "Suspense"),
+            Map.entry("El laberinto griego", "Suspense"),
+            Map.entry("El pesar de Odín el Godo", "Ciencia Ficción"),
+            Map.entry("El Principito", "Fantasía"),
+            Map.entry("El secreto de la porcelana", "Suspense"),
+            Map.entry("El terrible anciano", "Ciencia Ficción"),
+            Map.entry("El Túnel del Tiempo", "Ciencia Ficción"),
+            Map.entry("El último gran amor", "Drama"),
+            Map.entry("En el sótano", "Suspense"),
+            Map.entry("Fahrenheit 451", "Ciencia Ficción"),
+            Map.entry("Hombres y dragones", "Fantasía"),
+            Map.entry("Juana la Loca", "Romance"),
+            Map.entry("La horda amarilla", "Suspense"),
+            Map.entry("La isla", "Suspense"),
+            Map.entry("La marca del lobo", "Romance"),
+            Map.entry("La princesa de Eboli", "Romance"),
+            Map.entry("La Rueda del Cielo", "Ciencia Ficción"),
+            Map.entry("Los hombres de venus", "Ciencia Ficción"),
+            Map.entry("Los muertos no caminan y otros cuentos", "Suspense"),
+            Map.entry("Los otros dioses", "Ciencia Ficción"),
+            Map.entry("Mis enigmas", "Suspense"),
+            Map.entry("Mundo de Tinieblas - Vampiro", "Fantasía"),
+            Map.entry("Otelo", "Drama"),
+            Map.entry("Poesías", "Romance"),
+            Map.entry("Rebelión en la granja", "Suspense"),
+            Map.entry("Riesgo mortal", "Suspense"),
+            Map.entry("Sherlock Holmes 10 - El archivo de Sherlock Holmes", "Suspense")
+    );
+
+
 
     @FXML
     private void initialize() {
@@ -58,9 +103,50 @@ public class InicioController {
                 }
             }
         });
+
+        listalibros.setCellFactory(lv -> new javafx.scene.control.ListCell<Libro>() {
+            @Override
+            protected void updateItem(Libro libro, boolean empty) {
+                super.updateItem(libro, empty);
+                if (empty || libro == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/alexandriafrontend/LibroItem.fxml"));
+                        AnchorPane pane = loader.load();
+
+                        // Busca los nodos del FXML
+                        ImageView imgCategoria = (ImageView) pane.lookup("#imgCategoria");
+                        Label lblTitulo = (Label) pane.lookup("#lblTitulo");
+                        Label lblAutor = (Label) pane.lookup("#lblAutor");
+                        Label lblCategoria = (Label) pane.lookup("#lblCategoria");
+
+                        lblTitulo.setText(libro.getTitulo());
+                        lblAutor.setText(libro.getAutor());
+                        String categoria = obtenerCategoriaPorTitulo(libro.getTitulo());
+                        lblCategoria.setText(categoria);
+
+                        // Imagen: solo carpeta /image/
+                        String nombreBase = categoria.toLowerCase().replace(" ", "_");
+                        String urlImg = "/image/" + nombreBase + ".png";
+                        InputStream is = getClass().getResourceAsStream(urlImg);
+                        if (is == null) {
+                            is = getClass().getResourceAsStream("/image/default.png");
+                        }
+                        imgCategoria.setImage(new javafx.scene.image.Image(is));
+
+                        setGraphic(pane);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        setText(libro.toString());
+                    }
+                }
+            }
+        });
     }
 
-    private void cargarLibros() {
+        private void cargarLibros() {
         Call<List<LibroResponse>> call = apiService.obtenerTodosLibros();
         call.enqueue(new Callback<List<LibroResponse>>() {
             @Override
@@ -81,6 +167,10 @@ public class InicioController {
                 t.printStackTrace();
             }
         });
+    }
+
+    private String obtenerCategoriaPorTitulo(String titulo) {
+        return TITULO_A_CATEGORIA.getOrDefault(titulo, "Ciencia Ficción");
     }
 
     public void mostrarUsuarioLogueado(Usuario usuario) {
