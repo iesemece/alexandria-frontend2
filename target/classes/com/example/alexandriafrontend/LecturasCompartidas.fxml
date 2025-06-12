@@ -4,10 +4,17 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.LecturasCompartidasController">
+<AnchorPane fx:id="contenido" prefHeight="600" prefWidth="900"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.alexandriafrontend.controllers.LecturasCompartidasController">
 
-    <Label layoutX="50.0" layoutY="73.0" prefHeight="37.0" prefWidth="509.0" styleClass="titulo" text="Tu biblioteca compartida" />
-    <Label layoutX="50.0" layoutY="139.0" prefHeight="23.0" prefWidth="256.0" styleClass="subtitulo" text="Libros compartidos" />
-    <Label layoutX="50.0" layoutY="173.0" prefHeight="17.0" prefWidth="248.0" styleClass="descripcion" text="Libros leido junto a otros" />
-    <ListView fx:id="listaRecomendaciones" layoutX="50.0" layoutY="214.0" prefHeight="306.0" prefWidth="509.0" />
+    <!-- Lista de usuarios -->
+    <Label layoutX="40.0" layoutY="40.0" styleClass="titulo" text="Usuarios disponibles"/>
+    <ListView fx:id="listViewUsuarios" layoutX="40.0" layoutY="70.0" prefHeight="200.0" prefWidth="340.0"/>
+
+    <!-- Lista de libros compartidos -->
+    <Label layoutX="400.0" layoutY="40.0" styleClass="titulo" text="Libros compartidos"/>
+    <ListView fx:id="listaRecomendaciones" layoutX="400.0" layoutY="70.0" prefHeight="500.0" prefWidth="440.0"/>
 </AnchorPane>
+

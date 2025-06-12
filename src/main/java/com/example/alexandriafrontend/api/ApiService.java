@@ -1,6 +1,7 @@
 package com.example.alexandriafrontend.api;
 
 import com.example.alexandriafrontend.model.Anotacion;
+import com.example.alexandriafrontend.model.UsuarioListado;
 import com.example.alexandriafrontend.request.AnotacionesRequest;
 import com.example.alexandriafrontend.response.LibroResponse;
 import com.example.alexandriafrontend.response.LoginResponse;
@@ -56,6 +57,16 @@ public interface ApiService {
 
     @GET("/api/biblioteca/recuperar-anotaciones")
     Call<Map<Integer, List<Anotacion>>> obtenerAnotaciones(@Header("Authorization") String token, @Query("libroId") Long libroId);
+
+    @GET("/api/usuarios/lista")
+    Call<List<UsuarioListado>> obtenerUsuarios(@Header("Authorization") String token);
+
+    @GET("/lecturas-compartidas/entre")
+    Call<List<LibroResponse>> obtenerLibrosCompartidos(
+            @Query("usuarioId") Long usuarioId,
+            @Query("usuarioDestinoId") Long usuarioDestinoId,
+            @Header("Authorization") String token
+    );
 
 
 

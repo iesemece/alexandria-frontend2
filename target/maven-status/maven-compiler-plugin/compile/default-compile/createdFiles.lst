@@ -1,9 +1,13 @@
+com\example\alexandriafrontend\controllers\LecturasCompartidasController$1.class
 com\example\alexandriafrontend\controllers\BuscarController$1.class
 com\example\alexandriafrontend\controllers\BuscarController$2.class
 com\example\alexandriafrontend\model\Anotacion.class
 com\example\alexandriafrontend\controllers\LectorController$1.class
+com\example\alexandriafrontend\controllers\LecturasCompartidasController$2.class
+com\example\alexandriafrontend\model\UsuarioListado.class
 com\example\alexandriafrontend\request\AnotacionesRequest.class
 com\example\alexandriafrontend\utils\LectorHelper$3.class
+com\example\alexandriafrontend\controllers\LecturasCompartidasController$3.class
 com\example\alexandriafrontend\controllers\LectorController$2.class
 com\example\alexandriafrontend\controllers\LectorController$3.class
 com\example\alexandriafrontend\response\LibroResponse.class
