@@ -15,7 +15,6 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.StringConverter;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubReader;
@@ -39,14 +38,13 @@ public class LectorController {
 
     private final List<Anotacion> anotaciones = new ArrayList<>();
 
-   private Long libroId;
+    private Long libroId;
+
+    private Long lecturaCompartidaId = null;
 
     @FXML
     private Button btnCompartir;
 
-    public void setIdLibro(Long libroId) {
-        this.libroId = libroId;
-    }
 
     @FXML
     private void subrayarAmarillo() {
@@ -74,6 +72,12 @@ public class LectorController {
         configurarTooltipComentarios();
         btnCompartir.setOnAction(e -> compartirLibroConUsuario());
     }
+
+
+
+    public void setIdLibro(Long libroId) { this.libroId = libroId; }
+
+    public void setLecturaCompartidaId(Long lecturaCompartidaId) { this.lecturaCompartidaId = lecturaCompartidaId; }
 
     private String leerYProcesarLibro(String urlFirmada) throws Exception {
         InputStream inputStream = new URL(urlFirmada).openStream(); // Descargar el epud
@@ -130,6 +134,7 @@ public class LectorController {
                     Utils.mostrarMensaje("Error cargando usuarios para compartir.");
                 }
             }
+
             @Override
             public void onFailure(Call<List<UsuarioListado>> call, Throwable t) {
                 Platform.runLater(() -> Utils.mostrarMensaje("Error al conectar para compartir."));
@@ -157,6 +162,7 @@ public class LectorController {
                     }
                 });
             }
+
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Platform.runLater(() -> Utils.mostrarMensaje("Fallo de red al compartir libro."));
@@ -184,6 +190,7 @@ public class LectorController {
                 cargarAnotaciones();
                 return null;
             }
+
             @Override
             protected void failed() {
                 Platform.runLater(() -> mostrarErrorCarga());
@@ -285,42 +292,66 @@ public class LectorController {
             }
         });
     }
+
     @FXML
     private void guardarAnotaciones() {
-
-        String token = SesionUsuario.getInstancia().getToken(); // 👈 así lo coges
+        String token = SesionUsuario.getInstancia().getToken();
         if (libroId == null || token == null) {
             System.out.println("No se puede guardar: libroId o token nulo");
             return;
         }
 
         AnotacionesRequest request = new AnotacionesRequest();
-
         request.setLibroId(libroId);
 
         Map<Integer, List<Anotacion>> mapa = new HashMap<>();
-        mapa.put(0, new ArrayList<>(anotaciones)); // lista ya generada con tus anotaciones
+        mapa.put(0, new ArrayList<>(anotaciones));
         request.setAnotaciones(mapa);
 
-        ApiService apiService =  ApiClient.getApiService();
-        Call<Void> call = apiService.guardarAnotaciones("Bearer " + token ,request);
+        ApiService apiService = ApiClient.getApiService();
 
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("Anotaciones guardadas con éxito");
-                } else {
-                    System.out.println("Error al guardar anotaciones: " + response.code());
+        if (lecturaCompartidaId != null) {
+            // Guardar anotaciones colaborativas
+            Call<Void> call = apiService.guardarAnotacionesCompartidas(
+                    lecturaCompartidaId,
+                    request
+            );
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("Anotaciones colaborativas guardadas con éxito");
+                    } else {
+                        System.out.println("Error al guardar anotaciones colaborativas: " + response.code());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                t.printStackTrace();
-                System.out.println("Fallo en la conexión al guardar anotaciones");
-            }
-        });
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo en la conexión al guardar anotaciones colaborativas");
+                }
+            });
+        } else {
+            // Guardar anotaciones normales
+            Call<Void> call = apiService.guardarAnotaciones("Bearer " + token, request);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("Anotaciones guardadas con éxito");
+                    } else {
+                        System.out.println("Error al guardar anotaciones: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo en la conexión al guardar anotaciones");
+                }
+            });
+        }
     }
 
     public void cargarAnotaciones() {
@@ -331,36 +362,75 @@ public class LectorController {
         }
 
         ApiService apiService = ApiClient.getApiService();
-        Call<Map<Integer, List<Anotacion>>> call = apiService.obtenerAnotaciones("Bearer " + token, libroId);
 
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<Map<Integer, List<Anotacion>>> call, Response<Map<Integer, List<Anotacion>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Map<Integer, List<Anotacion>> mapa = response.body();
-                    List<Anotacion> anotacionesRecibidas = mapa.getOrDefault(0, new ArrayList<>()); // página 0
-
-                    Platform.runLater(() -> {
-                        for (Anotacion a : anotacionesRecibidas) {
-                            for (int i = a.getStart(); i < a.getEnd(); i++) {
-                                textArea.setStyle(i, i + 1, a.getEstilos());
+        if (lecturaCompartidaId != null) {
+            // Cargar anotaciones colaborativas
+            Call<Map<Integer, List<Anotacion>>> call = apiService.obtenerAnotacionesCompartidas(
+                    lecturaCompartidaId
+            );
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Map<Integer, List<Anotacion>>> call, Response<Map<Integer, List<Anotacion>>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Map<Integer, List<Anotacion>> mapa = response.body();
+                        List<Anotacion> anotacionesRecibidas = mapa.getOrDefault(0, new ArrayList<>());
+                        Platform.runLater(() -> {
+                            for (Anotacion a : anotacionesRecibidas) {
+                                for (int i = a.getStart(); i < a.getEnd(); i++) {
+                                    textArea.setStyle(i, i + 1, a.getEstilos());
+                                }
+                                anotaciones.add(a);
                             }
-                            anotaciones.add(a);
-                        }
-                        System.out.println("📝 Anotaciones cargadas y aplicadas.");
-                    });
-
-                } else {
-                    System.out.println("No se encontraron anotaciones o error: " + response.code());
+                            System.out.println("📝 Anotaciones colaborativas cargadas y aplicadas.");
+                        });
+                    } else {
+                        System.out.println("No se encontraron anotaciones colaborativas o error: " + response.code());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Map<Integer, List<Anotacion>>> call, Throwable t) {
-                t.printStackTrace();
-                System.out.println("Fallo al conectar para recuperar anotaciones.");
-            }
-        });
+                @Override
+                public void onFailure(Call<Map<Integer, List<Anotacion>>> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo al conectar para recuperar anotaciones colaborativas.");
+                }
+            });
+        } else {
+            // Cargar anotaciones normales
+            Call<Map<Integer, List<Anotacion>>> call = apiService.obtenerAnotaciones("Bearer " + token, libroId);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Map<Integer, List<Anotacion>>> call, Response<Map<Integer, List<Anotacion>>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Map<Integer, List<Anotacion>> mapa = response.body();
+                        List<Anotacion> anotacionesRecibidas = mapa.getOrDefault(0, new ArrayList<>());
+                        Platform.runLater(() -> {
+                            for (Anotacion a : anotacionesRecibidas) {
+                                for (int i = a.getStart(); i < a.getEnd(); i++) {
+                                    textArea.setStyle(i, i + 1, a.getEstilos());
+                                }
+                                anotaciones.add(a);
+                            }
+                            System.out.println("📝 Anotaciones cargadas y aplicadas.");
+                        });
+                    } else {
+                        System.out.println("No se encontraron anotaciones o error: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<Integer, List<Anotacion>>> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo al conectar para recuperar anotaciones.");
+                }
+            });
+        }
     }
+
+
+
+
+
+
+
 
 }

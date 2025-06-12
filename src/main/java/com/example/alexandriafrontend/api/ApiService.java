@@ -84,6 +84,20 @@ public interface ApiService {
             @Header("Authorization") String token
     );
 
+    // Guardar anotaciones colaborativas
+    @POST("/lecturas-compartidas/lecturas-compartidas/{lecturaCompartidaId}/anotaciones")
+    Call<Void> guardarAnotacionesCompartidas(
+            @Path("lecturaCompartidaId") Long lecturaCompartidaId,
+            @Body AnotacionesRequest request
+    );
+
+    // Obtener anotaciones colaborativas
+    @GET("/lecturas-compartidas/lecturas-compartidas/{lecturaCompartidaId}/anotaciones")
+    Call<Map<Integer, List<Anotacion>>> obtenerAnotacionesCompartidas(
+            @Path("lecturaCompartidaId") Long lecturaCompartidaId
+    );
+
+
 
 
 }
