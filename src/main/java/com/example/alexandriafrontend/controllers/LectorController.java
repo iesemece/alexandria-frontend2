@@ -3,16 +3,18 @@ package com.example.alexandriafrontend.controllers;
 import com.example.alexandriafrontend.api.ApiClient;
 import com.example.alexandriafrontend.api.ApiService;
 import com.example.alexandriafrontend.model.Anotacion;
+import com.example.alexandriafrontend.model.UsuarioListado;
 import com.example.alexandriafrontend.request.AnotacionesRequest;
 import com.example.alexandriafrontend.session.SesionUsuario;
+import com.example.alexandriafrontend.utils.Utils;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubReader;
@@ -37,13 +39,16 @@ public class LectorController {
 
     private final List<Anotacion> anotaciones = new ArrayList<>();
 
-   private Long libroId;
+    private Long libroId;
+
+    private Long lecturaCompartidaId = null;
+
+    @FXML
+    private Button btnCompartir;
+
 
     ApiService apiService = ApiClient.getApiService();
 
-    public void setIdLibro(Long libroId) {
-        this.libroId = libroId;
-    }
 
     @FXML
     private void subrayarAmarillo() {
@@ -69,93 +74,178 @@ public class LectorController {
     private void initialize() {
         textArea.getStylesheets().add(getClass().getResource("/styles/lector.css").toExternalForm());
         configurarTooltipComentarios();
+        btnCompartir.setOnAction(e -> compartirLibroConUsuario());
     }
 
-    private String leerYProcesarLibro(String urlFirmada) throws Exception {
-        InputStream inputStream = new URL(urlFirmada).openStream();
-        Book libro = new EpubReader().readEpub(inputStream);
 
-        String titulo = libro.getTitle();
-        String autor = libro.getMetadata().getAuthors().stream()
+
+    public void setIdLibro(Long libroId) { this.libroId = libroId; }
+
+    public void setLecturaCompartidaId(Long lecturaCompartidaId) { this.lecturaCompartidaId = lecturaCompartidaId; }
+
+
+
+    private String leerYProcesarLibro(String urlFirmada) throws Exception {
+        InputStream in = new URL(urlFirmada).openStream();
+        Book book = new EpubReader().readEpub(in);
+
+        // Construir encabezado con título y autor
+        String title = book.getTitle();
+        String author = book.getMetadata().getAuthors().stream()
                 .map(a -> a.getFirstname() + " " + a.getLastname())
                 .collect(Collectors.joining(", "));
 
-        StringBuilder textoFinal = new StringBuilder();
-        textoFinal.append("[[TITULO]] ").append(titulo.trim()).append("\n");
-        textoFinal.append("[[AUTOR]] ").append(autor.trim()).append("\n\n");
+        StringBuilder sb = new StringBuilder();
+        sb.append("[[TITULO]] ").append(title.trim()).append("\n");
+        sb.append("[[AUTOR]] ").append(author.trim()).append("\n");
 
-        for (Resource recurso : libro.getContents()) {
-            byte[] data = recurso.getData();
-            if (data != null && data.length > 0) {
-                String texto = new String(data, StandardCharsets.UTF_8);
+        // Recorrer capítulos y secciones
+        for (Resource res : book.getContents()) {
+            String href = res.getHref().toLowerCase();
+            if (href.contains("nav") || href.contains("toc") || href.contains("cover")) continue;
 
-                // Eliminar basura HTML
-                texto = texto.replaceAll("(?is)<style[^>]*>.*?</style>", "");
-                texto = texto.replaceAll("(?is)<script[^>]*>.*?</script>", "");
-                texto = texto.replaceAll("(?is)<title[^>]*>.*?</title>", "");
-                texto = texto.replaceAll("(?i)<[^>]+>", "");
-                texto = texto.replaceAll("&nbsp;", " ");
+            String html = new String(res.getData(), StandardCharsets.UTF_8);
 
-                // Filtrado de líneas basura
-                if (texto.toLowerCase().contains("produced by calibre")
-                        || texto.toLowerCase().contains("sobrecubierta")
-                        || texto.toLowerCase().contains("bookdesigner")
-                        || texto.toLowerCase().contains("tags:")
-                        || texto.toLowerCase().contains("editorial")
-                        || texto.toLowerCase().contains("isbn")
-                        || texto.toLowerCase().contains("copyright")) {
-                    continue;
-                }
+            // Detectar <h2> y marcarlos como [[CAPITULO]]
+            html = html.replaceAll("(?is)<h2[^>]*>\\s*(.*?)\\s*</h2>", "\n[[H2]] $1\n");
 
-                // Normalizar saltos de línea y espacios
-                texto = texto.replaceAll("\\s{3,}", " ");
-                texto = texto.replaceAll("\\n{3,}", "\n\n");
+            // Limpieza básica de HTML
+            String text = html.replaceAll("(?is)<(script|style|title|h1|h4)[^>]*>.*?</\\1>", "")
+                    .replaceAll("(?i)<[^>]+>", "")
+                    .replaceAll("&nbsp;", " ");
 
-                // Separar en párrafos tras puntos
-                texto = texto.replaceAll("\\.\\s*", ".\n\n");
+            // Filtrar líneas irrelevantes
+            if (text.matches("(?i).*\\b(isbn|copyright|editorial|produced by calibre|bookdesigner|tags|sobrecubierta)\\b.*")) continue;
 
-                textoFinal.append(texto.trim()).append("\n\n");
-            }
+            // Normalizar espacios y párrafos
+            text = text.replaceAll("\\s+", " ")
+                    .replaceAll("\\.\\s*", ".\n\n");
+
+            sb.append(text.trim()).append("\n\n");
         }
-
-        return textoFinal.toString().trim();
+        return sb.toString().trim();
     }
 
 
+    /**
+     * Muestra el texto procesado en el StyleClassedTextArea,
+     * aplicando estilos a título, autor y contenido.
+     */
     private void mostrarTextoEnArea(String texto) {
-        textArea.clear();
-        textArea.setEditable(false);
-        textArea.moveTo(0);
+        Platform.runLater(() -> {
+            textArea.clear();
+            textArea.setEditable(false);
 
-        String[] lineas = texto.split("\n");
-        int cursor = 0;
-
-        for (String linea : lineas) {
-            linea = linea.trim();
-            if (linea.isEmpty()) continue;
-
-            String contenido = "";
-            if (linea.startsWith("[[TITULO]]")) {
-                contenido = linea.replace("[[TITULO]]", "").trim() + "\n";
-                textArea.appendText(contenido);
-                textArea.setStyleClass(cursor, cursor + contenido.length(), "titulo");
-            } else if (linea.startsWith("[[AUTOR]]")) {
-                contenido = linea.replace("[[AUTOR]]", "").trim() + "\n\n";
-                textArea.appendText(contenido);
-                textArea.setStyleClass(cursor, cursor + contenido.length(), "autor");
-            } else {
-                contenido = linea + "\n\n";
-                textArea.appendText(contenido);
-                textArea.setStyleClass(cursor, cursor + contenido.length(), "lector-area");
+            int pos = 0;
+            for (String line : texto.split("\n")) {
+                if (line.startsWith("[[TITULO]]")) {
+                    String t = line.replace("[[TITULO]]", "").trim() + "\n";
+                    textArea.appendText(t);
+                    textArea.setStyleClass(pos, pos + t.length(), "titulo");
+                    pos += t.length();
+                } else if (line.startsWith("[[AUTOR]]")) {
+                    String a = line.replace("[[AUTOR]]", "").trim() + "\n";
+                    textArea.appendText(a);
+                    textArea.setStyleClass(pos, pos + a.length(), "autor");
+                    pos += a.length();
+                } else if (line.startsWith("[[CAPITULO]]")) {
+                    String cap = line.replace("[[CAPITULO]]", "").trim() + "\n\n";
+                    textArea.appendText(cap);
+                    textArea.setStyleClass(pos, pos + cap.length(), "capitulo");
+                    pos += cap.length();
+                } else {
+                    String c = line.trim() + "\n";
+                    textArea.appendText(c);
+                    textArea.setStyleClass(pos, pos + c.length(), "lector-area");
+                    pos += c.length();
+                }
             }
 
-            cursor += contenido.length();
+            textArea.moveTo(0);
+            textArea.requestFollowCaret();
+        });
+    }
+
+
+    //textArea.requestFollowCaret();
+
+    private void compartirLibroConUsuario() {
+        String token = SesionUsuario.getInstancia().getToken();
+        Long usuarioId = SesionUsuario.getInstancia().getIdUsuario();
+
+        if (libroId == null || token == null || usuarioId == null) {
+            System.out.println("Faltan datos para compartir libro");
+            return;
         }
 
-        textArea.moveTo(0);
-        textArea.requestFollowCaret();
+        // 1. Pedimos la lista de usuarios disponibles
+        ApiService apiService = ApiClient.getApiService();
+        Call<List<UsuarioListado>> call = apiService.obtenerUsuarios("Bearer " + token);
+
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<List<UsuarioListado>> call, Response<List<UsuarioListado>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Platform.runLater(() -> {
+                        List<UsuarioListado> usuarios = response.body();
+                        if (usuarios.isEmpty()) {
+                            Utils.mostrarMensaje("No hay otros usuarios disponibles.");
+                            return;
+                        }
+
+                        // 2. Mostrar diálogo para elegir usuario
+                        ChoiceDialog<UsuarioListado> dialog = new ChoiceDialog<>(usuarios.get(0), usuarios);
+                        dialog.setTitle("Compartir libro");
+                        dialog.setHeaderText("Selecciona el usuario para compartir el libro:");
+                        dialog.setContentText("Usuario:");
+
+                        Optional<UsuarioListado> resultado = dialog.showAndWait();
+                        resultado.ifPresent(usuarioDestino -> {
+                            // 3. Llamada para compartir el libro
+                            compartirLibro(usuarioId, usuarioDestino.getId(), libroId, token);
+                        });
+                    });
+                } else {
+                    Utils.mostrarMensaje("Error cargando usuarios para compartir.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UsuarioListado>> call, Throwable t) {
+                Platform.runLater(() -> Utils.mostrarMensaje("Error al conectar para compartir."));
+            }
+        });
     }
-    //textArea.requestFollowCaret();
+
+
+    private void compartirLibro(Long usuarioId, Long usuarioDestinoId, Long libroId, String token) {
+        ApiService apiService = ApiClient.getApiService();
+        Call<Void> call = apiService.compartirLibro(
+                usuarioId,
+                usuarioDestinoId,
+                libroId,
+                "Bearer " + token
+        );
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Platform.runLater(() -> {
+                    if (response.isSuccessful()) {
+                        Utils.mostrarMensaje("Libro compartido correctamente.");
+                    } else {
+                        Utils.mostrarMensaje("Error al compartir libro: " + response.code());
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Platform.runLater(() -> Utils.mostrarMensaje("Fallo de red al compartir libro."));
+            }
+        });
+    }
+
+
 
     private void mostrarErrorCarga() {
         textArea.clear();
@@ -171,6 +261,7 @@ public class LectorController {
                 cargarAnotaciones();
                 return null;
             }
+
             @Override
             protected void failed() {
                 Platform.runLater(() -> mostrarErrorCarga());
@@ -272,41 +363,65 @@ public class LectorController {
             }
         });
     }
+
     @FXML
     private void guardarAnotaciones() {
-
-        String token = SesionUsuario.getInstancia().getToken(); // 👈 así lo coges
+        String token = SesionUsuario.getInstancia().getToken();
         if (libroId == null || token == null) {
             System.out.println("No se puede guardar: libroId o token nulo");
             return;
         }
 
         AnotacionesRequest request = new AnotacionesRequest();
-
         request.setLibroId(libroId);
 
         Map<Integer, List<Anotacion>> mapa = new HashMap<>();
-        mapa.put(0, new ArrayList<>(anotaciones)); // lista ya generada con tus anotaciones
+        mapa.put(0, new ArrayList<>(anotaciones));
         request.setAnotaciones(mapa);
 
-        Call<Void> call = apiService.guardarAnotaciones("Bearer " + token ,request);
 
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    System.out.println("Anotaciones guardadas con éxito");
-                } else {
-                    System.out.println("Error al guardar anotaciones: " + response.code());
+        if (lecturaCompartidaId != null) {
+            // Guardar anotaciones colaborativas
+            Call<Void> call = apiService.guardarAnotacionesCompartidas(
+                    lecturaCompartidaId,
+                    request
+            );
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("Anotaciones colaborativas guardadas con éxito");
+                    } else {
+                        System.out.println("Error al guardar anotaciones colaborativas: " + response.code());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                t.printStackTrace();
-                System.out.println("Fallo en la conexión al guardar anotaciones");
-            }
-        });
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo en la conexión al guardar anotaciones colaborativas");
+                }
+            });
+        } else {
+            // Guardar anotaciones normales
+            Call<Void> call = apiService.guardarAnotaciones("Bearer " + token, request);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("Anotaciones guardadas con éxito");
+                    } else {
+                        System.out.println("Error al guardar anotaciones: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo en la conexión al guardar anotaciones");
+                }
+            });
+        }
     }
 
     public void cargarAnotaciones() {
@@ -315,37 +430,67 @@ public class LectorController {
             System.out.println("No se pueden cargar anotaciones: libroId o token nulo");
             return;
         }
-
-        Call<Map<Integer, List<Anotacion>>> call = apiService.obtenerAnotaciones("Bearer " + token, libroId);
-
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<Map<Integer, List<Anotacion>>> call, Response<Map<Integer, List<Anotacion>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Map<Integer, List<Anotacion>> mapa = response.body();
-                    List<Anotacion> anotacionesRecibidas = mapa.getOrDefault(0, new ArrayList<>()); // página 0
-
-                    Platform.runLater(() -> {
-                        for (Anotacion a : anotacionesRecibidas) {
-                            for (int i = a.getStart(); i < a.getEnd(); i++) {
-                                textArea.setStyle(i, i + 1, a.getEstilos());
+        if (lecturaCompartidaId != null) {
+            // Cargar anotaciones colaborativas
+            Call<Map<Integer, List<Anotacion>>> call = apiService.obtenerAnotacionesCompartidas(
+                    lecturaCompartidaId
+            );
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Map<Integer, List<Anotacion>>> call, Response<Map<Integer, List<Anotacion>>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Map<Integer, List<Anotacion>> mapa = response.body();
+                        List<Anotacion> anotacionesRecibidas = mapa.getOrDefault(0, new ArrayList<>());
+                        Platform.runLater(() -> {
+                            for (Anotacion a : anotacionesRecibidas) {
+                                for (int i = a.getStart(); i < a.getEnd(); i++) {
+                                    textArea.setStyle(i, i + 1, a.getEstilos());
+                                }
+                                anotaciones.add(a);
                             }
-                            anotaciones.add(a);
-                        }
-                        System.out.println("📝 Anotaciones cargadas y aplicadas.");
-                    });
-
-                } else {
-                    System.out.println("No se encontraron anotaciones o error: " + response.code());
+                            System.out.println("📝 Anotaciones colaborativas cargadas y aplicadas.");
+                        });
+                    } else {
+                        System.out.println("No se encontraron anotaciones colaborativas o error: " + response.code());
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Map<Integer, List<Anotacion>>> call, Throwable t) {
-                t.printStackTrace();
-                System.out.println("Fallo al conectar para recuperar anotaciones.");
-            }
-        });
+                @Override
+                public void onFailure(Call<Map<Integer, List<Anotacion>>> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo al conectar para recuperar anotaciones colaborativas.");
+                }
+            });
+        } else {
+            // Cargar anotaciones normales
+            Call<Map<Integer, List<Anotacion>>> call = apiService.obtenerAnotaciones("Bearer " + token, libroId);
+            call.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<Map<Integer, List<Anotacion>>> call, Response<Map<Integer, List<Anotacion>>> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        Map<Integer, List<Anotacion>> mapa = response.body();
+                        List<Anotacion> anotacionesRecibidas = mapa.getOrDefault(0, new ArrayList<>());
+                        Platform.runLater(() -> {
+                            for (Anotacion a : anotacionesRecibidas) {
+                                for (int i = a.getStart(); i < a.getEnd(); i++) {
+                                    textArea.setStyle(i, i + 1, a.getEstilos());
+                                }
+                                anotaciones.add(a);
+                            }
+                            System.out.println("📝 Anotaciones cargadas y aplicadas.");
+                        });
+                    } else {
+                        System.out.println("No se encontraron anotaciones o error: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Map<Integer, List<Anotacion>>> call, Throwable t) {
+                    t.printStackTrace();
+                    System.out.println("Fallo al conectar para recuperar anotaciones.");
+                }
+            });
+        }
     }
 
     @FXML
@@ -367,5 +512,4 @@ public class LectorController {
         }
 
     }
-
 }

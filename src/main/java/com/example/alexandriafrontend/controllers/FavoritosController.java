@@ -4,12 +4,9 @@ package com.example.alexandriafrontend.controllers;
 import com.example.alexandriafrontend.api.ApiClient;
 import com.example.alexandriafrontend.api.ApiService;
 import com.example.alexandriafrontend.model.Libro;
-import com.example.alexandriafrontend.response.LibroResponse;
 import com.example.alexandriafrontend.session.SesionUsuario;
 import com.example.alexandriafrontend.utils.LectorHelper;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -48,15 +45,37 @@ public class FavoritosController {
                 }
             }
         });
+
+        listaFavoritos.setCellFactory(listView -> new ListCell<>() {
+            @Override
+            protected void updateItem(Libro libro, boolean empty) {
+                super.updateItem(libro, empty);
+                if (empty || libro == null) {
+                    setText(null);
+                    setContextMenu(null);
+                } else {
+                    setText(libro.getTitulo());
+
+                    javafx.scene.control.ContextMenu contextMenu = new javafx.scene.control.ContextMenu();
+                    javafx.scene.control.MenuItem eliminarItem = new javafx.scene.control.MenuItem("Eliminar de favoritos");
+
+                    eliminarItem.setOnAction(e -> eliminarLibro(libro));
+                    contextMenu.getItems().add(eliminarItem);
+
+                    setContextMenu(contextMenu);
+                }
+            }
+        });
+
     }
 
     private void cargarLibrosFavoritos() {
-        Call<List<LibroResponse>> call = apiService.buscarLibrosFavoritos("Bearer " + sesionUsuario.getToken());
-        call.enqueue(new Callback<List<LibroResponse>>() {
+        Call<List<Libro>> call = apiService.buscarLibrosFavoritos("Bearer " + sesionUsuario.getToken());
+        call.enqueue(new Callback<List<Libro>>() {
             @Override
-            public void onResponse(Call<List<LibroResponse>> call, Response<List<LibroResponse>> response) {
+            public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    for (LibroResponse libro : response.body()) {
+                    for (Libro libro : response.body()) {
                         Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
                         javafx.application.Platform.runLater(() -> listaFavoritos.getItems().add(nuevoLibro));
                     }
@@ -66,8 +85,29 @@ public class FavoritosController {
             }
 
             @Override
-            public void onFailure(Call<List<LibroResponse>> call, Throwable t) {
+            public void onFailure(Call<List<Libro>> call, Throwable t) {
                 System.out.println("Error de conexión con el servidor");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void eliminarLibro(Libro libro) {
+        String token = SesionUsuario.getInstancia().getToken();
+        if (token == null || libro == null) return;
+
+        apiService.eliminarFavoritos("Bearer " + token, libro.getId()).enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Platform.runLater(() -> listaFavoritos.getItems().remove(libro));
+                } else {
+                    System.err.println("No se pudo eliminar: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
                 t.printStackTrace();
             }
         });

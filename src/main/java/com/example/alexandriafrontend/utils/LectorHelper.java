@@ -17,6 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.function.Consumer;
 
 public class LectorHelper {
@@ -131,5 +132,30 @@ public class LectorHelper {
             }
         });
     }
+
+    public static void pedirUrlYMostrarLibroColaborativo(Libro libro, Long lecturaCompartidaId, AnchorPane contenido) {
+        obtenerArchivoUrlPorId(libro.getId(), archivoNombre -> {
+            if (archivoNombre != null) {
+                obtenerUrlFirmada(archivoNombre, urlFirmada -> {
+                    if (urlFirmada != null) {
+                        Platform.runLater(() -> {
+                            cargarPantalla(contenido, "/com/example/alexandriafrontend/Lector.fxml",
+                                    (LectorController controller) -> {
+                                        controller.setIdLibro(libro.getId());
+                                        controller.setLecturaCompartidaId(lecturaCompartidaId); // Para modo colaborativo
+                                        controller.cargarLibroDesdeURL(urlFirmada); // ¡Esto es CLAVE!
+                                    });
+                        });
+                    } else {
+                        Utils.mostrarMensaje("No se pudo obtener la URL firmada para el libro colaborativo.");
+                    }
+                });
+            } else {
+                Utils.mostrarMensaje("No se pudo obtener el nombre del archivo para el libro colaborativo.");
+            }
+        });
+    }
+
+
 
 }

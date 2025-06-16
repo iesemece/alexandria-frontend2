@@ -46,6 +46,14 @@ public class SesionUsuario {
         token = null;
     }
 
+    public Long getIdUsuario() {
+        // Suponiendo que tu JwtUtils.decodificarToken(token) ya te da un JsonObject con el campo "sub" = id
+        if (token == null) return null;
+        JsonObject payload = JwtUtils.decodificarToken(token);
+        return payload.has("sub") ? payload.get("sub").getAsLong() : null;
+    }
+
+
 }
 
 

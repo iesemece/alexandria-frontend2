@@ -6,11 +6,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="contenido" prefHeight="600" prefWidth="900" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
+<AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
 
-
-	<Button fx:id="btnCrearCuenta" layoutX="50.0" layoutY="40.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="130.0" styleClass="registrarse-button" text="Registrarse" textFill="WHITE" />
-	<Button fx:id="btnIniciarSesion" layoutX="200.0" layoutY="40.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="130.0" styleClass="iniciar-button" text="Iniciar sesión">
+	<Button fx:id="btnCrearCuenta" layoutX="246.0" layoutY="37.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="140.0" styleClass="registrarse-button" text="Registrarse" textFill="WHITE" />
+	<Button fx:id="btnIniciarSesion" layoutX="408.0" layoutY="37.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="140.0" styleClass="iniciar-button" text="Iniciar sesión">
 		<font>
 			<Font name="System Bold" size="14" />
 		</font>
@@ -36,5 +35,6 @@
 		</font>
 	</Label>
 
-	<ListView fx:id="listalibros" layoutX="50.0" layoutY="214.0" prefHeight="306.0" prefWidth="509.0" />
+	<!-- Cambia orientation a HORIZONTAL -->
+	<ListView fx:id="listalibros" fixedCellSize="220.0" layoutX="50.0" layoutY="225.0" orientation="HORIZONTAL" prefHeight="240.0" prefWidth="580.0" />
 </AnchorPane>

@@ -30,6 +30,12 @@ public class Utils {
             e.printStackTrace();
         }
     }
+    public static void mostrarMensaje(String texto) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setContentText(texto);
+        alert.showAndWait();
+    }
+
 
 
     public static void cargarPantalla(AnchorPane contenedor, String rutaFXML, String rutaCSS) {
