@@ -212,12 +212,6 @@ public class InicioController {
 
                             barraCategorias.getChildren().add(btn);
 
-                            // Seleccionar la primera por defecto
-                            if (botonSeleccionado == null) {
-                                botonSeleccionado = btn;
-                                btn.getStyleClass().add("selected");
-                                filtraPorCategoria(categoria);
-                            }
                         }
                     });
 
