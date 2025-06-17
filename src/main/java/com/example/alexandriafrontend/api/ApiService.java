@@ -161,6 +161,12 @@ public interface ApiService {
     @GET("/api/biblioteca/recuperar/anotaciones")
     Call<Map<Integer, List<Anotacion>>> obtenerAnotaciones(@Header("Authorization") String token, @Query("libroId") Long libroId);
 
+    @GET("/api/libros/categorias")
+    Call<List<String>> obtenerCategorias();
+
+    @GET("/api/libros/categorias/libros")
+    Call<List<Libro>> obtenerLibrosPorCategoria(@Query("categoria") String categoria);
+
     /**
      * Obtiene la lista de usuarios registrados.
      *

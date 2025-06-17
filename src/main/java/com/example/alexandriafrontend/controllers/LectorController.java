@@ -23,6 +23,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.swing.*;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -46,8 +48,12 @@ public class LectorController {
     @FXML
     private Button btnCompartir;
 
+    private static final Map<Long, CacheEntry> cacheLibrosProcesados = new HashMap<>();
+    private static final long CACHE_EXPIRATION_MS = 3600000; // 1 hora
 
     ApiService apiService = ApiClient.getApiService();
+
+
 
 
     @FXML
@@ -89,41 +95,34 @@ public class LectorController {
         InputStream in = new URL(urlFirmada).openStream();
         Book book = new EpubReader().readEpub(in);
 
-        // Construir encabezado con título y autor
-        String title = book.getTitle();
-        String author = book.getMetadata().getAuthors().stream()
-                .map(a -> a.getFirstname() + " " + a.getLastname())
-                .collect(Collectors.joining(", "));
-
+        // Construir encabezado
         StringBuilder sb = new StringBuilder();
-        sb.append("[[TITULO]] ").append(title.trim()).append("\n");
-        sb.append("[[AUTOR]] ").append(author.trim()).append("\n");
+        sb.append("[[TITULO]] ").append(book.getTitle().trim()).append("\n");
+        sb.append("[[AUTOR]] ").append(book.getMetadata().getAuthors().stream()
+                .map(a -> a.getFirstname() + " " + a.getLastname())
+                .collect(Collectors.joining(", ")).trim()).append("\n\n");
 
-        // Recorrer capítulos y secciones
+        // Procesar contenido
         for (Resource res : book.getContents()) {
             String href = res.getHref().toLowerCase();
             if (href.contains("nav") || href.contains("toc") || href.contains("cover")) continue;
 
             String html = new String(res.getData(), StandardCharsets.UTF_8);
 
-            // Detectar <h2> y marcarlos como [[CAPITULO]]
-            html = html.replaceAll("(?is)<h2[^>]*>\\s*(.*?)\\s*</h2>", "\n[[H2]] $1\n");
-
-            // Limpieza básica de HTML
+            // Paso clave 1: Procesar h2 manteniendo saltos de línea naturales
+            html = html.replaceAll("(?is)<h2[^>]*>\\s*(.*?)\\s*</h2>", "[[H2]] $1 [[ENDH2]]");
+            // Limpieza mejorada
             String text = html.replaceAll("(?is)<(script|style|title|h1|h4)[^>]*>.*?</\\1>", "")
-                    .replaceAll("(?i)<[^>]+>", "")
-                    .replaceAll("&nbsp;", " ");
-
-            // Filtrar líneas irrelevantes
-            if (text.matches("(?i).*\\b(isbn|copyright|editorial|produced by calibre|bookdesigner|tags|sobrecubierta)\\b.*")) continue;
-
-            // Normalizar espacios y párrafos
-            text = text.replaceAll("\\s+", " ")
-                    .replaceAll("\\.\\s*", ".\n\n");
+                    .replaceAll("(?i)<[^>]+>", " ")
+                    .replaceAll("&nbsp;", " ")
+                    .replaceAll("\\s+", " ")
+                    .replaceAll("(\\.|\\?|!)\\s*", "$1\n\n"); // Mantener saltos después de puntuación
 
             sb.append(text.trim()).append("\n\n");
         }
-        return sb.toString().trim();
+
+        // Paso clave 2: Limpieza final para evitar espacios excesivos
+        return sb.toString().replaceAll("\\n{3,}", "\n\n");
     }
 
 
@@ -133,38 +132,96 @@ public class LectorController {
      */
     private void mostrarTextoEnArea(String texto) {
         Platform.runLater(() -> {
+            // Limpieza inicial
             textArea.clear();
             textArea.setEditable(false);
 
-            int pos = 0;
-            for (String line : texto.split("\n")) {
-                if (line.startsWith("[[TITULO]]")) {
-                    String t = line.replace("[[TITULO]]", "").trim() + "\n";
-                    textArea.appendText(t);
-                    textArea.setStyleClass(pos, pos + t.length(), "titulo");
-                    pos += t.length();
-                } else if (line.startsWith("[[AUTOR]]")) {
-                    String a = line.replace("[[AUTOR]]", "").trim() + "\n";
-                    textArea.appendText(a);
-                    textArea.setStyleClass(pos, pos + a.length(), "autor");
-                    pos += a.length();
-                } else if (line.startsWith("[[CAPITULO]]")) {
-                    String cap = line.replace("[[CAPITULO]]", "").trim() + "\n\n";
-                    textArea.appendText(cap);
-                    textArea.setStyleClass(pos, pos + cap.length(), "capitulo");
-                    pos += cap.length();
-                } else {
-                    String c = line.trim() + "\n";
-                    textArea.appendText(c);
-                    textArea.setStyleClass(pos, pos + c.length(), "lector-area");
-                    pos += c.length();
-                }
-            }
+            // 1. Carga todo el texto de una vez (más eficiente que append)
+            textArea.replaceText(texto);
 
+            // 2. Aplicar estilos por secciones
+            aplicarEstilosGlobales(texto);
+
+            // Posicionamiento inicial
             textArea.moveTo(0);
             textArea.requestFollowCaret();
         });
     }
+
+    private void aplicarEstilosGlobales(String textoOriginal) {
+        StringBuilder textoLimpio = new StringBuilder();
+
+        // Listas para guardar posiciones y estilos
+        List<Integer> inicios = new ArrayList<>();
+        List<Integer> fines = new ArrayList<>();
+        List<String> clases = new ArrayList<>();
+
+        for (String linea : textoOriginal.split("\n")) {
+            if (linea.startsWith("[[TITULO]]")) {
+                String contenido = linea.replace("[[TITULO]]", "").trim();
+                int inicio = textoLimpio.length();
+                textoLimpio.append(contenido).append("\n");
+                int fin = textoLimpio.length();
+                inicios.add(inicio);
+                fines.add(fin);
+                clases.add("titulo");
+
+            } else if (linea.startsWith("[[AUTOR]]")) {
+                String contenido = linea.replace("[[AUTOR]]", "").trim();
+                int inicio = textoLimpio.length();
+                textoLimpio.append("\n").append(contenido).append("\n\n");
+                int fin = textoLimpio.length();
+                inicios.add(inicio);
+                fines.add(fin);
+                clases.add("autor");
+
+            } else if (linea.contains("[[H2]]") && linea.contains("[[ENDH2]]")) {
+                int inicioEtiqueta = linea.indexOf("[[H2]]") + 6;
+                int finEtiqueta = linea.indexOf("[[ENDH2]]");
+                String subtitulo = linea.substring(inicioEtiqueta, finEtiqueta).trim();
+                String resto = linea.substring(finEtiqueta + 9).trim();
+
+                // Subtítulo
+                int inicio = textoLimpio.length();
+                textoLimpio.append(subtitulo).append("\n\n");
+                int fin = textoLimpio.length();
+                inicios.add(inicio);
+                fines.add(fin);
+                clases.add("subtitulo");
+
+                // Texto restante
+                if (!resto.isEmpty()) {
+                    int inicioTexto = textoLimpio.length();
+                    textoLimpio.append(resto).append("\n");
+                    int finTexto = textoLimpio.length();
+                    inicios.add(inicioTexto);
+                    fines.add(finTexto);
+                    clases.add("lector-area");
+                }
+
+            } else {
+                // Texto normal
+                String contenido = linea.trim();
+                if (!contenido.isEmpty()) {
+                    int inicio = textoLimpio.length();
+                    textoLimpio.append(contenido).append("\n");
+                    int fin = textoLimpio.length();
+                    inicios.add(inicio);
+                    fines.add(fin);
+                    clases.add("lector-area");
+                }
+            }
+        }
+
+        // 1. Reemplazar todo el contenido con texto limpio
+        textArea.replaceText(textoLimpio.toString());
+
+        // 2. Aplicar estilos a los rangos correctos
+        for (int i = 0; i < inicios.size(); i++) {
+            textArea.setStyleClass(inicios.get(i), fines.get(i), clases.get(i));
+        }
+    }
+
 
 
     //textArea.requestFollowCaret();
@@ -252,23 +309,77 @@ public class LectorController {
         textArea.replaceText("Error al cargar el libro.");
     }
 
+    // Variable de clase (añadir al inicio de LectorController)
     public void cargarLibroDesdeURL(String urlFirmada) {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                String textoPlano = leerYProcesarLibro(urlFirmada);
-                Platform.runLater(() -> mostrarTextoEnArea(textoPlano));
+        // 1. Verificar cache válido
+        CacheEntry cached = cacheLibrosProcesados.get(libroId);
+        if (cached != null && cached.isValid()) {
+            Platform.runLater(() -> {
+                mostrarTextoEnArea(cached.contenido);
                 cargarAnotaciones();
-                return null;
-            }
+            });
+            return;
+        }
 
+        // 2. Procesamiento en segundo plano con mejor manejo de recursos
+        Task<String> processingTask = new Task<>() {
             @Override
-            protected void failed() {
-                Platform.runLater(() -> mostrarErrorCarga());
-                getException().printStackTrace();
+            protected String call() throws Exception {
+                try (InputStream in = new URL(urlFirmada).openStream()) {
+                    return procesarLibroEficientemente(in);
+                }
             }
         };
-        new Thread(task).start();
+
+        processingTask.setOnSucceeded(e -> {
+            String resultado = processingTask.getValue();
+            cacheLibrosProcesados.put(libroId, new CacheEntry(resultado));
+            mostrarTextoEnArea(resultado);
+            cargarAnotaciones();
+        });
+
+        processingTask.setOnFailed(e -> {
+            mostrarErrorCarga();
+            processingTask.getException().printStackTrace();
+        });
+
+        new Thread(processingTask, "LibroProcessingThread").start();
+    }
+
+    private String procesarLibroEficientemente(InputStream in) throws IOException {
+        Book book = new EpubReader().readEpub(in);
+        StringBuilder sb = new StringBuilder(10000); // Tamaño inicial estimado
+
+        // Encabezado optimizado
+        sb.append("[[TITULO]] ").append(book.getTitle().trim()).append('\n')
+                .append("[[AUTOR]] ").append(book.getMetadata().getAuthors().stream()
+                        .map(a -> a.getFirstname() + " " + a.getLastname())
+                        .collect(Collectors.joining(", ")).trim()).append("\n\n");
+
+        // Procesamiento paralelo de recursos (Java 8+)
+        book.getContents().parallelStream()
+                .filter(res -> !res.getHref().toLowerCase().matches(".*(nav|toc|cover).*"))
+                .forEach(res -> procesarRecurso(res, sb));
+
+        return sb.toString();
+    }
+
+    private void procesarRecurso(Resource res, StringBuilder sb) {
+        try {
+            String html = new String(res.getData(), StandardCharsets.UTF_8);
+            String processed = html.replaceAll("(?is)<h2[^>]*>\\s*(.*?)\\s*</h2>", "[[H2]] $1 [[ENDH2]]")
+                    .replaceAll("(?is)<(script|style|title|h1|h4)[^>]*>.*?</\\1>", "")
+                    .replaceAll("<[^>]+>", " ")
+                    .replaceAll("\\s+", " ")
+                    .replaceAll("([.!?])\\s+", "$1\n\n")
+                    .trim();
+
+            synchronized (sb) {
+                sb.append(processed).append("\n\n");
+            }
+        } catch (Exception e) {
+            System.err.println("Error procesando recurso: " + res.getHref());
+        }
     }
 
     private void aplicarEstiloSeleccionado(String colorClaseCss) {
@@ -511,5 +622,21 @@ public class LectorController {
             });
         }
 
+    }
+
+
+
+    private static class CacheEntry {
+        String contenido;
+        long timestamp;
+
+        CacheEntry(String contenido) {
+            this.contenido = contenido;
+            this.timestamp = System.currentTimeMillis();
+        }
+
+        boolean isValid() {
+            return (System.currentTimeMillis() - timestamp) < CACHE_EXPIRATION_MS;
+        }
     }
 }

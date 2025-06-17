@@ -6,6 +6,7 @@ import com.example.alexandriafrontend.model.Libro;
 import com.example.alexandriafrontend.model.Usuario;
 import com.example.alexandriafrontend.utils.LectorHelper;
 import com.example.alexandriafrontend.utils.Utils;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.control.ListView;
 import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +41,12 @@ public class InicioController {
 
     @FXML
     private AnchorPane contenido;
+
+    @FXML
+    private HBox barraCategorias;
+
+    private Button botonSeleccionado;
+
 
     private ApiService apiService = ApiClient.getApiService();
 
@@ -87,6 +95,7 @@ public class InicioController {
     private void initialize() {
 
         cargarLibros();
+        obtenerCategorias();
 
 
         listalibros.setOnMouseClicked(event -> {
@@ -147,6 +156,7 @@ public class InicioController {
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     for (Libro libro : response.body()) {
+                        listalibros.getItems().clear();
                         Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
                         javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
                     }
@@ -162,6 +172,93 @@ public class InicioController {
             }
         });
     }
+
+    private void obtenerCategorias() {
+        Call<List<String>> call = apiService.obtenerCategorias();
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> categorias = response.body();
+
+                    Platform.runLater(() -> {
+                        barraCategorias.getChildren().clear(); // Limpiar botones anteriores
+
+                        for (String c : categorias) {
+                            final String categoria = c;
+
+                            Button btn = new Button(categoria);
+                            btn.getStyleClass().add("categoria-button");
+
+                            btn.setOnAction(e -> {
+                                // Si el botón clicado ya está seleccionado, lo deseleccionamos
+                                if (botonSeleccionado == btn) {
+                                    btn.getStyleClass().remove("selected");
+                                    botonSeleccionado = null;
+                                    cargarLibros(); // 🔁 cargar todos los libros
+                                } else {
+                                    // Si hay otro botón seleccionado, lo deseleccionamos
+                                    if (botonSeleccionado != null) {
+                                        botonSeleccionado.getStyleClass().remove("selected");
+                                    }
+
+                                    // Seleccionamos el nuevo botón
+                                    btn.getStyleClass().add("selected");
+                                    botonSeleccionado = btn;
+
+                                    filtraPorCategoria(categoria); // 🔍 aplicar filtro
+                                }
+                            });
+
+                            barraCategorias.getChildren().add(btn);
+
+                            // Seleccionar la primera por defecto
+                            if (botonSeleccionado == null) {
+                                botonSeleccionado = btn;
+                                btn.getStyleClass().add("selected");
+                                filtraPorCategoria(categoria);
+                            }
+                        }
+                    });
+
+                } else {
+                    System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                System.out.println("Error de conexión con el servidor");
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void filtraPorCategoria(String categoria) {
+        Call<List<Libro>> call = apiService.obtenerLibrosPorCategoria(categoria);
+        call.enqueue(new Callback<List<Libro>>() {
+            @Override
+            public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    for (Libro libro : response.body()) {
+                        listalibros.getItems().clear();
+                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
+                        javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
+                    }
+                } else {
+                    System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Libro>> call, Throwable t) {
+                System.out.println("Error de conexión con el servidor");
+                t.printStackTrace();
+            }
+        });
+    }
+
+
 
     private String obtenerCategoriaPorTitulo(String titulo) {
         return TITULO_A_CATEGORIA.getOrDefault(titulo, "Ciencia Ficción");

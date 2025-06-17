@@ -53,16 +53,10 @@
 
 /* ===== ÁREA DE LECTURA ===== */
 .lector-area {
-    -fx-background-color: #FFFFFF;
-    -fx-text-fill: #23272F;
-    -fx-font-family: "Georgia", serif;
-    -fx-font-size: 17px;
-    -fx-padding: 40 60 40 60;
-    -fx-text-alignment: justify;
-    -fx-line-spacing: 1.5em;
-    -fx-border-color: transparent;
-    -fx-border-radius: 12px;
-    -fx-background-radius: 12px;
+    -fx-background-color: #F9FAFB;  /* Fondo más suave (casi blanco roto) */
+    -fx-text-fill: #2D3748;        /* Texto más oscuro para mejor contraste */
+    -fx-padding: 50 80 50 80;      /* Más margen lateral (mejor para pantallas anchas) */
+    -fx-line-spacing: 1.8em;       /* Mayor espacio entre líneas */
 }
 
 /* ===== TÍTULO Y AUTOR (centrado arriba) ===== */
@@ -75,29 +69,34 @@
 }
 
 .autor {
-    -fx-font-size: 20px;
-    -fx-font-style: italic;
+    -fx-font-size: 18px;
     -fx-fill: #4A5568;
-    -fx-font-family: "Georgia", serif;
-    -rtfx-text-alignment: center;
+    -fx-padding: 0 0 30 0;         /* Más espacio antes del texto */
+    -rtfx-underline: true;
+    -rtfx-underline-color: #E2E8F0; /* Subrayado decorativo */
 }
 
-.capitulo {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-fill: #2D3748;
-    -fx-font-family: "Georgia", serif;
+.subtitulo {
+    -fx-font-size: 21px;
+    -fx-font-style: italic;
+    -fx-fill: #4A5568;
     -rtfx-text-alignment: center;
+    -fx-text-alignment: center;
+    -fx-padding: 15 0 10 0;
+}
+
+#lectorPane {
+    -fx-background-color: #F0F2F5;  /* Fondo general más claro */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);
 }
 
 .lector-area {
-    -fx-font-size: 17px;
-    -fx-fill: #23272F;
-    -fx-font-family: "Georgia", serif;
-    -fx-text-alignment: justify;
+    -fx-font-size: 14px;
     -fx-background-color: #FFFFFF;
-}
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.05), 30, 0, 0, 5);
+    -fx-paragraph-spacing: 1.5em;
 
+}
 
 /* ===== ESTILOS DE SUBRAYADO ===== */
 .color-amarillo {
@@ -139,13 +138,12 @@
 }
 
 /* ===== SCROLL Y SELECCIÓN ===== */
-.scroll-bar, .scroll-bar:vertical {
-    -fx-background-color: transparent;
-}
 .scroll-bar .thumb {
-    -fx-background-color: #4FD1C5;
-    -fx-background-radius: 8px;
-    -fx-pref-width: 8px;
+    -fx-background-color: #38B2AC;  /* Turquesa vibrante */
+    -fx-opacity: 0.7;
+}
+.scroll-bar .thumb:hover {
+    -fx-opacity: 1;
 }
 
 .lector-area .selection {

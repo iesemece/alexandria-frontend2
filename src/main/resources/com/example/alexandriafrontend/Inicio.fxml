@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.layout.HBox?>
 <AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
 
 	<Button fx:id="btnCrearCuenta" layoutX="246.0" layoutY="37.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="140.0" styleClass="registrarse-button" text="Registrarse" textFill="WHITE" />
@@ -29,11 +30,9 @@
 		</font>
 	</Label>
 
-	<Label layoutX="50.0" layoutY="190.0" styleClass="titulo" text="Libros recomendados">
-		<font>
-			<Font size="14" />
-		</font>
-	</Label>
+	<HBox fx:id="barraCategorias" layoutX="50.0" layoutY="190.0" spacing="8" alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="580.0">
+
+	</HBox>
 
 	<!-- Cambia orientation a HORIZONTAL -->
 	<ListView fx:id="listalibros" fixedCellSize="220.0" layoutX="50.0" layoutY="225.0" orientation="HORIZONTAL" prefHeight="240.0" prefWidth="580.0" />
