@@ -1,127 +1,151 @@
-/* ===== ESTILOS GENERALES DE PANTALLA ===== */
+/* ======== FONDO GENERAL DEL LECTOR (SUTIL, MUY CLARO) ======== */
 #lectorPane, .anchor-pane, .root {
-    -fx-background-color: linear-gradient(to bottom right, #1b222b 86%, #222836 100%);
+    -fx-background-color: #f7fafc;
 }
 
-.hbox, #barraFlotante {
-    -fx-background-color: #222936;
-    -fx-background-radius: 16px;
-    -fx-padding: 13 34 13 34;
-    -fx-spacing: 17px;
-    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.10), 11, 0.12, 0, 2);
+/* ======== BARRA SUPERIOR DE ANOTACIONES ======== */
+#barraFlotante, .hbox {
+    -fx-background-color: #f4f6fa;
+    -fx-background-radius: 18px;
+    -fx-padding: 9 14 9 14;
+    -fx-spacing: 10px;
     -fx-alignment: center-left;
-    -fx-border-color: #31979555;
-    -fx-border-width: 0 0 2.5px 0;
+    -fx-border-color: transparent;
 }
 
-/* ===== BOTONES ===== */
-.button {
-    -fx-background-color: linear-gradient(to right, #232e3e 70%, #324159 100%);
-    -fx-background-radius: 12px;
-    -fx-text-fill: #4FD1C5;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+/* ======== BOTONES DE COLORES CLAROS ======== */
+.anotacion-yellow {
+    -fx-background-color: #fffbe7;
+    -fx-text-fill: #ad9000;
+    -fx-border-color: #ffe066;
+    -fx-border-width: 1.3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
     -fx-font-weight: 600;
-    -fx-font-size: 15px;
-    -fx-padding: 9 24 9 24;
-    -fx-cursor: hand;
-    -fx-border-color: #293348;
-    -fx-border-width: 1.2px;
-    -fx-border-radius: 12px;
+    -fx-min-width: 100px;
 }
-.button:hover {
-    -fx-background-color: linear-gradient(to right, #263C53 75%, #38B2AC 100%);
-    -fx-text-fill: #E6FFFA;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+.anotacion-yellow:hover {
+    -fx-background-color: #fff5b0;
+    -fx-text-fill: #7c6b00;
+    -fx-border-color: #ffe066;
+}
+
+/* -- Azul pastel -- */
+.anotacion-blue {
+    -fx-background-color: #e6f4ff;
+    -fx-text-fill: #2a65ad;
+    -fx-border-color: #bae3fa;
+    -fx-border-width: 1.3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-weight: 600;
+    -fx-min-width: 100px;
+}
+.anotacion-blue:hover {
+    -fx-background-color: #cbe8ff;
+    -fx-text-fill: #21587d;
+    -fx-border-color: #74c4ec;
+}
+
+/* -- Verde suave -- */
+.anotacion-green {
+    -fx-background-color: #e6faee;
+    -fx-text-fill: #25946e;
+    -fx-border-color: #b7eed6;
+    -fx-border-width: 1.3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-weight: 600;
+    -fx-min-width: 100px;
+}
+.anotacion-green:hover {
+    -fx-background-color: #c1f6da;
+    -fx-text-fill: #207f5c;
+    -fx-border-color: #5dd88a;
+}
+
+/* ====== RESTO DE BOTONES: BLANCOS, MODERNOS, LIMPIOS ====== */
+.anotacion-clear, .anotacion-comment, #btnCompartir, .button, .anotacion-save {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #22b8c4;
+    -fx-font-weight: 600;
+    -fx-border-color: #c6e1e6;
+    -fx-border-width: 1.3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-min-width: 100px;
+    -fx-cursor: hand;
+    -fx-effect: none;
+}
+.anotacion-clear:hover, .anotacion-comment:hover, #btnCompartir:hover, .button:hover, .anotacion-save:hover {
+    -fx-background-color: #e0f7fa;
+    -fx-text-fill: #1b7c84;
     -fx-border-color: #38B2AC;
 }
 
-#btnGuardarAnotaciones {
-    -fx-background-color: linear-gradient(to right, #319795, #38B2AC);
-    -fx-text-fill: white;
+/* ==== GUARDAR: MÁS DESTACADO ==== */
+.anotacion-save {
+    -fx-background-color: linear-gradient(to right, #38b2ac 70%, #74c4ec 100%);
+    -fx-text-fill: #fff;
     -fx-font-weight: 700;
-    -fx-border-color: #4FD1C5;
-    -fx-min-width: 155px;
+    -fx-border-color: #74c4ec;
+    -fx-border-width: 1.3px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-min-width: 120px;
 }
-#btnGuardarAnotaciones:hover {
-    -fx-background-color: linear-gradient(to right, #38B2AC, #63B3ED);
-    -fx-text-fill: #E6FFFA;
-    -fx-scale-x: 1.06;
-    -fx-scale-y: 1.06;
-    -fx-border-color: #63B3ED;
+.anotacion-save:hover {
+    -fx-background-color: linear-gradient(to right, #74c4ec 70%, #38b2ac 100%);
+    -fx-text-fill: #fff;
+    -fx-border-color: #38B2AC;
 }
 
-/* ===== ÁREA DE LECTURA ===== */
+/* ==== ÁREA DE LECTURA ==== */
 .lector-area {
-    -fx-background-color: #F9FAFB;  /* Fondo más suave (casi blanco roto) */
-    -fx-text-fill: #2D3748;        /* Texto más oscuro para mejor contraste */
-    -fx-padding: 50 80 50 80;      /* Más margen lateral (mejor para pantallas anchas) */
-    -fx-line-spacing: 1.8em;       /* Mayor espacio entre líneas */
-}
-
-/* ===== TÍTULO Y AUTOR (centrado arriba) ===== */
-.titulo {
-    -fx-font-size: 32px;
-    -fx-font-weight: bold;
-    -fx-fill: #2D3748;
-    -fx-font-family: "Georgia", serif;
-    -rtfx-text-alignment: center;
-}
-
-.autor {
-    -fx-font-size: 18px;
-    -fx-fill: #4A5568;
-    -fx-padding: 0 0 30 0;         /* Más espacio antes del texto */
-    -rtfx-underline: true;
-    -rtfx-underline-color: #E2E8F0; /* Subrayado decorativo */
-}
-
-.subtitulo {
-    -fx-font-size: 21px;
-    -fx-font-style: italic;
-    -fx-fill: #4A5568;
-    -rtfx-text-alignment: center;
-    -fx-text-alignment: center;
-    -fx-padding: 15 0 10 0;
-}
-
-#lectorPane {
-    -fx-background-color: #F0F2F5;  /* Fondo general más claro */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 20, 0, 0, 5);
-}
-
-.lector-area {
-    -fx-font-size: 14px;
-    -fx-background-color: #FFFFFF;
-    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.05), 30, 0, 0, 5);
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #2D3748;
+    -fx-padding: 40 40 40 40;
+    -fx-font-size: 15px;
+    -fx-background-radius: 14px;
     -fx-paragraph-spacing: 1.5em;
-
+    -fx-line-spacing: 1.7em;
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.04), 16, 0, 0, 1.5);
 }
 
-/* ===== ESTILOS DE SUBRAYADO ===== */
+/* ==== SCROLL PERSONALIZADO ==== */
+.scroll-bar .thumb {
+    -fx-background-color: #38B2AC;
+    -fx-opacity: 0.44;
+    -fx-background-radius: 12px;
+}
+.scroll-bar .thumb:hover {
+    -fx-opacity: 1;
+}
+
+/* ==== SELECCIÓN ==== */
+.lector-area .selection {
+    -fx-background-color: #A3D8F4bb;
+}
+
+/* ==== SUBRAYADOS COLOREADOS ==== */
 .color-amarillo {
     -rtfx-background-color: #fffab5;
-    -fx-fill: #23272F;
     -fx-text-fill: #23272F;
     -rtfx-underline: true;
     -rtfx-underline-color: #ffe066;
     -fx-border-width: 0 0 3px 0;
     -fx-border-color: #ffe066;
 }
-
 .color-azul {
     -rtfx-background-color: #b1e3ff;
-    -fx-fill: #23272F;
     -fx-text-fill: #23272F;
     -rtfx-underline: true;
     -rtfx-underline-color: #2894e0;
     -fx-border-width: 0 0 3px 0;
     -fx-border-color: #2894e0;
 }
-
 .color-verde {
     -rtfx-background-color: #c3ffd7;
-    -fx-fill: #23272F;
     -fx-text-fill: #23272F;
     -rtfx-underline: true;
     -rtfx-underline-color: #00b97b;
@@ -129,23 +153,36 @@
     -fx-border-color: #00b97b;
 }
 
-/* ===== COMENTARIOS ===== */
+/* ==== COMENTARIOS ==== */
 .comentado {
     -rtfx-underline: true;
     -fx-border-width: 0 0 2.5px 0;
     -fx-underline: true;
-
 }
 
-/* ===== SCROLL Y SELECCIÓN ===== */
-.scroll-bar .thumb {
-    -fx-background-color: #38B2AC;  /* Turquesa vibrante */
-    -fx-opacity: 0.7;
-}
-.scroll-bar .thumb:hover {
-    -fx-opacity: 1;
+/* ==== TITULO Y AUTOR (en el área de lectura, centrados y limpios) ==== */
+.titulo {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #242934;
+    -fx-font-family: "Georgia", serif;
+    -rtfx-text-alignment: center;
+    -fx-text-alignment: center;
 }
 
-.lector-area .selection {
-    -fx-background-color: #A3D8F4bb;
+.autor {
+    -fx-font-size: 16px;
+    -fx-text-fill: #38B2AC;
+    -fx-padding: 0 0 14 0;
+    -rtfx-underline: true;
+    -rtfx-underline-color: #4FD1C5;
+}
+
+.subtitulo {
+    -fx-font-size: 18px;
+    -fx-font-style: italic;
+    -fx-text-fill: #38B2AC;
+    -rtfx-text-alignment: center;
+    -fx-text-alignment: center;
+    -fx-padding: 10 0 6 0;
 }

@@ -91,7 +91,8 @@ public class LecturasCompartidasController {
                                     Libro libro = new Libro(
                                             libroSeleccionado.getId(),
                                             libroSeleccionado.getTitulo(),
-                                            libroSeleccionado.getAutor()
+                                            libroSeleccionado.getAutor(),
+                                            libroSeleccionado.getCategoria()
                                             // añade más campos si tu constructor lo necesita
                                     );
                                     LectorHelper.pedirUrlYMostrarLibroColaborativo(libro, lecturaCompartidaId, contenido);
@@ -102,7 +103,8 @@ public class LecturasCompartidasController {
                                     Libro libro = new Libro(
                                             libroSeleccionado.getId(),
                                             libroSeleccionado.getTitulo(),
-                                            libroSeleccionado.getAutor()
+                                            libroSeleccionado.getAutor(),
+                                            libroSeleccionado.getCategoria()
                                     );
                                     LectorHelper.pedirUrlYMostrarLibro(libro, contenido);
                                 });

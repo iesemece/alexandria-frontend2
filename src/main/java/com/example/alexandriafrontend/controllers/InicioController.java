@@ -22,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.InputStream;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Map;
 
@@ -49,46 +50,6 @@ public class InicioController {
 
 
     private ApiService apiService = ApiClient.getApiService();
-
-    private static final Map<String, String> TITULO_A_CATEGORIA = Map.ofEntries(
-            Map.entry("1984", "Ciencia Ficción"),
-            Map.entry("Apocalipsis Z - Los dias oscuros", "Suspense"),
-            Map.entry("De ratones y hombres", "Drama"),
-            Map.entry("El árbol", "Ciencia Ficción"),
-            Map.entry("El caballero de la armadura oxidada", "Fantasía"),
-            Map.entry("El camino", "Drama"),
-            Map.entry("El círculo cero", "Ciencia Ficción"),
-            Map.entry("El Extraño", "Ciencia Ficción"),
-            Map.entry("El Hobbit", "Fantasía"),
-            Map.entry("El hombre de los círculos azules", "Suspense"),
-            Map.entry("El laberinto griego", "Suspense"),
-            Map.entry("El pesar de Odín el Godo", "Ciencia Ficción"),
-            Map.entry("El Principito", "Fantasía"),
-            Map.entry("El secreto de la porcelana", "Suspense"),
-            Map.entry("El terrible anciano", "Ciencia Ficción"),
-            Map.entry("El Túnel del Tiempo", "Ciencia Ficción"),
-            Map.entry("El último gran amor", "Drama"),
-            Map.entry("En el sótano", "Suspense"),
-            Map.entry("Fahrenheit 451", "Ciencia Ficción"),
-            Map.entry("Hombres y dragones", "Fantasía"),
-            Map.entry("Juana la Loca", "Romance"),
-            Map.entry("La horda amarilla", "Suspense"),
-            Map.entry("La isla", "Suspense"),
-            Map.entry("La marca del lobo", "Romance"),
-            Map.entry("La princesa de Eboli", "Romance"),
-            Map.entry("La Rueda del Cielo", "Ciencia Ficción"),
-            Map.entry("Los hombres de venus", "Ciencia Ficción"),
-            Map.entry("Los muertos no caminan y otros cuentos", "Suspense"),
-            Map.entry("Los otros dioses", "Ciencia Ficción"),
-            Map.entry("Mis enigmas", "Suspense"),
-            Map.entry("Mundo de Tinieblas - Vampiro", "Fantasía"),
-            Map.entry("Otelo", "Drama"),
-            Map.entry("Poesías", "Romance"),
-            Map.entry("Rebelión en la granja", "Suspense"),
-            Map.entry("Riesgo mortal", "Suspense"),
-            Map.entry("Sherlock Holmes 10 - El archivo de Sherlock Holmes", "Suspense")
-    );
-
 
 
     @FXML
@@ -127,11 +88,10 @@ public class InicioController {
 
                         lblTitulo.setText(libro.getTitulo());
                         lblAutor.setText(libro.getAutor());
-                        String categoria = obtenerCategoriaPorTitulo(libro.getTitulo());
-                        lblCategoria.setText(categoria);
+                        String categoria = libro.getCategoria();
+                        lblCategoria.setText(categoria != null ? categoria : "");
 
-                        // Imagen: solo carpeta /image/
-                        String nombreBase = categoria.toLowerCase().replace(" ", "_");
+                        String nombreBase = getImageFileName(categoria);
                         String urlImg = "/image/" + nombreBase + ".png";
                         InputStream is = getClass().getResourceAsStream(urlImg);
                         if (is == null) {
@@ -157,7 +117,7 @@ public class InicioController {
                 if (response.isSuccessful() && response.body() != null) {
                     for (Libro libro : response.body()) {
                         listalibros.getItems().clear();
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
+                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria());
                         javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
                     }
                 } else {
@@ -172,6 +132,22 @@ public class InicioController {
             }
         });
     }
+    private String getImageFileName(String categoria) {
+        if (categoria == null || categoria.isEmpty()) return "default";
+        // Quitar tildes y pasar a minúsculas
+        String nombre = Normalizer.normalize(categoria, Normalizer.Form.NFD)
+                .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "")
+                .toLowerCase()
+                .replace(" ", "_")
+                .replace("ó", "o")
+                .replace("í", "i")
+                .replace("é", "e")
+                .replace("á", "a")
+                .replace("ú", "u")
+                .replace("ñ", "n");
+        return nombre;
+    }
+
 
     private void obtenerCategorias() {
         Call<List<String>> call = apiService.obtenerCategorias();
@@ -236,7 +212,7 @@ public class InicioController {
                 if (response.isSuccessful() && response.body() != null) {
                     for (Libro libro : response.body()) {
                         listalibros.getItems().clear();
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
+                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria());
                         javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
                     }
                 } else {
@@ -250,12 +226,6 @@ public class InicioController {
                 t.printStackTrace();
             }
         });
-    }
-
-
-
-    private String obtenerCategoriaPorTitulo(String titulo) {
-        return TITULO_A_CATEGORIA.getOrDefault(titulo, "Ciencia Ficción");
     }
 
     public void mostrarUsuarioLogueado(Usuario usuario) {

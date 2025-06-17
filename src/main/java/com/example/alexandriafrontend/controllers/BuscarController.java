@@ -54,7 +54,7 @@ public class BuscarController {
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     for (Libro libro : response.body()) {
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
+                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria());
                         javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
                     }
                 } else {
@@ -79,7 +79,7 @@ public class BuscarController {
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     for (Libro libro : response.body()) {
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor());
+                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(),libro.getCategoria());
                         javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
                     }
                 } else {

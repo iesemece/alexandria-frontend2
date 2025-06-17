@@ -78,6 +78,7 @@ public class LectorController {
 
     @FXML
     private void initialize() {
+        lectorPane.getStylesheets().add(getClass().getResource("/styles/lector.css").toExternalForm());
         textArea.getStylesheets().add(getClass().getResource("/styles/lector.css").toExternalForm());
         configurarTooltipComentarios();
         btnCompartir.setOnAction(e -> compartirLibroConUsuario());
