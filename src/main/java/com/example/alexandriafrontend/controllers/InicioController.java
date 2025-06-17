@@ -115,11 +115,13 @@ public class InicioController {
             @Override
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    for (Libro libro : response.body()) {
+                    List<Libro> libros = response.body();
+                    Platform.runLater(() -> {
                         listalibros.getItems().clear();
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria());
-                        javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
-                    }
+                        for (Libro libro : libros) {
+                            listalibros.getItems().add(libro);
+                        }
+                    });
                 } else {
                     System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
                 }
@@ -210,15 +212,18 @@ public class InicioController {
             @Override
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    for (Libro libro : response.body()) {
+                    List<Libro> libros = response.body();
+                    Platform.runLater(() -> {
                         listalibros.getItems().clear();
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria());
-                        javafx.application.Platform.runLater(() -> listalibros.getItems().add(nuevoLibro));
-                    }
+                        for (Libro libro : libros) {
+                            listalibros.getItems().add(libro);
+                        }
+                    });
                 } else {
                     System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
                 }
             }
+
 
             @Override
             public void onFailure(Call<List<Libro>> call, Throwable t) {
