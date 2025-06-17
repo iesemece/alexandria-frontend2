@@ -94,3 +94,50 @@
 * {
     -fx-effect: none;
 }
+
+/* ====== BARRA DE CATEGORÍAS ====== */
+#barraCategorias {
+    -fx-background-color: transparent;
+    -fx-padding: 4 0 4 0;
+    -fx-spacing: 7px;
+    -fx-alignment: center-left;
+    -fx-effect: none;
+    -fx-border-width: 0;
+}
+
+/* ====== BOTONES DE CATEGORÍA ====== */
+.categoria-button {
+    -fx-background-color: #f9fafb;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-width: 0;
+    -fx-text-fill: #319795;
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
+    -fx-font-weight: 500;
+    -fx-font-size: 15px;
+    -fx-padding: 4 13 4 13;
+    -fx-cursor: hand;
+    -fx-effect: none;
+    -fx-opacity: 1;
+    -fx-min-width: 70px;
+    -fx-max-width: 150px;
+    -fx-max-height: 34px;
+    -fx-min-height: 28px;
+    -fx-alignment: center;
+    -fx-background-insets: 0;
+}
+.categoria-button:hover {
+    -fx-background-color: #e3f8f8;
+    -fx-text-fill: #256079;
+    -fx-scale-x: 1.045;
+    -fx-scale-y: 1.045;
+}
+
+.categoria-button.selected {
+    -fx-background-color: linear-gradient(to right, #38B2AC, #63B3ED);
+    -fx-text-fill: #fff;
+    -fx-font-weight: bold;
+    -fx-scale-x: 1.08;
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(gaussian, rgba(70,170,200,0.16), 10, 0.14, 0, 1.5);
+}
