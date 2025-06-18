@@ -45,8 +45,6 @@
     -fx-scale-y: 1.06;
 }
 
-
-
 .list-view {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #E2E8F0;
@@ -97,12 +95,10 @@
     -fx-faint-focus-color: transparent;
 }
 
-/* Para quitar sombra a todo */
 * {
     -fx-effect: none;
 }
 
-/* ====== BARRA DE CATEGORÍAS ====== */
 #barraCategorias {
     -fx-background-color: transparent;
     -fx-padding: 4 0 4 0;
@@ -112,7 +108,6 @@
     -fx-border-width: 0;
 }
 
-/* ====== BOTONES DE CATEGORÍA ====== */
 .categoria-button {
     -fx-background-color: #f9fafb;
     -fx-background-radius: 8px;

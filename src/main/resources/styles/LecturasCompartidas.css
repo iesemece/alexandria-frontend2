@@ -1,9 +1,8 @@
-/* ==== FONDO GENERAL ==== */
+
 #contenido, .anchor-pane, .root {
     -fx-background-color: #FAFBFC;
 }
 
-/* ==== TÍTULOS ==== */
 .titulo {
     -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-font-size: 24px;
@@ -13,7 +12,6 @@
     -fx-padding: 0 0 6 0;
 }
 
-/* ==== LISTAS ==== */
 .list-view {
     -fx-background-color: transparent;
     -fx-border-color: #e4ecf5;
@@ -46,7 +44,6 @@
     -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.17), 4, 0.08, 0, 1);
 }
 
-/* ==== SCROLL PERSONALIZADO ==== */
 .list-view .scroll-bar:vertical, .scroll-bar:vertical {
     -fx-background-color: transparent;
 }

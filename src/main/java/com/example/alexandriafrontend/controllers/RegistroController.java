@@ -40,7 +40,7 @@ public class RegistroController {
 
     @FXML
     private void initialize() {
-        // Añadimos roles al ComboBox
+
         cbRol.getItems().addAll("Alumno", "Profesor", "Administrador");
     }
 
@@ -53,7 +53,6 @@ public class RegistroController {
         String contrasena = tfContraseña.getText();
         String rol = cbRol.getValue() != null ? cbRol.getValue().toUpperCase() : "";
 
-        // Validación básica ANTES de formatear nombres
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty() || !esRolValido(rol)) {
             mostrarAlerta("Por favor, completa todos los campos.");
             return;
@@ -65,7 +64,6 @@ public class RegistroController {
          contrasena = tfContraseña.getText();
          rol = cbRol.getValue().toUpperCase();
 
-        // Validación básica
         if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || contrasena.isEmpty() || !esRolValido(rol)) {
             mostrarAlerta("Por favor, completa todos los campos.");
             return;

@@ -80,7 +80,6 @@ public class InicioController {
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/alexandriafrontend/LibroItem.fxml"));
                         AnchorPane pane = loader.load();
 
-                        // Busca los nodos del FXML
                         ImageView imgCategoria = (ImageView) pane.lookup("#imgCategoria");
                         Label lblTitulo = (Label) pane.lookup("#lblTitulo");
                         Label lblAutor = (Label) pane.lookup("#lblAutor");

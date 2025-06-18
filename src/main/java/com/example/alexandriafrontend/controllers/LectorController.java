@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class LectorController {
@@ -39,7 +40,8 @@ public class LectorController {
     @FXML
     private StyleClassedTextArea textArea;
 
-    private final List<Anotacion> anotaciones = new ArrayList<>();
+    private final List<Anotacion> anotaciones = new CopyOnWriteArrayList<>();
+
 
     private Long libroId;
 
@@ -52,8 +54,6 @@ public class LectorController {
     private static final long CACHE_EXPIRATION_MS = 3600000; // 1 hora
 
     ApiService apiService = ApiClient.getApiService();
-
-
 
 
     @FXML
@@ -73,7 +73,7 @@ public class LectorController {
 
     @FXML
     private void quitarSubrayado() {
-        aplicarEstiloSeleccionado(""); // Sin clase = estilo por defecto
+        aplicarEstiloSeleccionado("");
     }
 
     @FXML
@@ -90,20 +90,19 @@ public class LectorController {
 
     public void setLecturaCompartidaId(Long lecturaCompartidaId) { this.lecturaCompartidaId = lecturaCompartidaId; }
 
+/*
 
-
-    private String leerYProcesarLibro(String urlFirmada) throws Exception {
+ private String leerYProcesarLibro(String urlFirmada) throws Exception {
         InputStream in = new URL(urlFirmada).openStream();
         Book book = new EpubReader().readEpub(in);
 
-        // Construir encabezado
+
         StringBuilder sb = new StringBuilder();
         sb.append("[[TITULO]] ").append(book.getTitle().trim()).append("\n");
         sb.append("[[AUTOR]] ").append(book.getMetadata().getAuthors().stream()
                 .map(a -> a.getFirstname() + " " + a.getLastname())
                 .collect(Collectors.joining(", ")).trim()).append("\n\n");
 
-        // Procesar contenido
         for (Resource res : book.getContents()) {
             String href = res.getHref().toLowerCase();
             if (href.contains("nav") || href.contains("toc") || href.contains("cover")) continue;
@@ -122,9 +121,10 @@ public class LectorController {
             sb.append(text.trim()).append("\n\n");
         }
 
-        // Paso clave 2: Limpieza final para evitar espacios excesivos
         return sb.toString().replaceAll("\\n{3,}", "\n\n");
     }
+ */
+
 
 
     /**
@@ -451,30 +451,43 @@ public class LectorController {
         tooltip.setMaxWidth(300);
 
         textArea.setOnMouseMoved(event -> {
-            int pos = textArea.hit(event.getX(), event.getY()).getInsertionIndex();
-
-            for (Anotacion a : anotaciones) {
-                if (a.getComentario() != null && pos >= a.getStart() && pos <= a.getEnd()) {
-                    if (!tooltip.isShowing()) {
-                        tooltip.setText(a.getComentario());
-                        tooltip.show(textArea, event.getScreenX() + 10, event.getScreenY() + 10);
-                    }
+            Platform.runLater(() -> {
+                int pos;
+                try {
+                    pos = textArea.hit(event.getX(), event.getY()).getInsertionIndex();
+                } catch (Exception e) {
+                    // Si ocurre ConcurrentModification, ignoramos y salimos (JavaFX volverá a intentarlo)
                     return;
                 }
-            }
 
-            if (tooltip.isShowing()) {
-                tooltip.hide();
-            }
+                // Hacemos una copia inmutable de la lista en este momento
+                List<Anotacion> anotacionesSnapshot = List.copyOf(anotaciones);
+
+                for (Anotacion a : anotacionesSnapshot) {
+                    if (a.getComentario() != null && pos >= a.getStart() && pos <= a.getEnd()) {
+                        if (!tooltip.isShowing()) {
+                            tooltip.setText(a.getComentario());
+                            tooltip.show(textArea, event.getScreenX() + 10, event.getScreenY() + 10);
+                        }
+                        return;
+                    }
+                }
+
+                if (tooltip.isShowing()) {
+                    tooltip.hide();
+                }
+            });
         });
 
-        // Oculta tooltip si el ratón sale del área
         textArea.setOnMouseExited(event -> {
             if (tooltip.isShowing()) {
                 tooltip.hide();
             }
         });
     }
+
+
+
 
     @FXML
     private void guardarAnotaciones() {

@@ -17,7 +17,7 @@ public class Anotacion {
         this.comentario = comentario;
     }
 
-    // Getters y setters
+
     public int getStart() { return start; }
     public void setStart(int start) { this.start = start; }
 

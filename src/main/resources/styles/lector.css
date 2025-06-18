@@ -1,9 +1,8 @@
-/* ======== FONDO GENERAL DEL LECTOR (SUTIL, MUY CLARO) ======== */
+
 #lectorPane, .anchor-pane, .root {
     -fx-background-color: #f7fafc;
 }
 
-/* ======== BARRA SUPERIOR DE ANOTACIONES ======== */
 #barraFlotante, .hbox {
     -fx-background-color: #f4f6fa;
     -fx-background-radius: 18px;
@@ -13,7 +12,6 @@
     -fx-border-color: transparent;
 }
 
-/* ======== BOTONES DE COLORES CLAROS ======== */
 .anotacion-yellow {
     -fx-background-color: #fffbe7;
     -fx-text-fill: #ad9000;
@@ -30,7 +28,6 @@
     -fx-border-color: #ffe066;
 }
 
-/* -- Azul pastel -- */
 .anotacion-blue {
     -fx-background-color: #e6f4ff;
     -fx-text-fill: #2a65ad;
@@ -47,7 +44,6 @@
     -fx-border-color: #74c4ec;
 }
 
-/* -- Verde suave -- */
 .anotacion-green {
     -fx-background-color: #e6faee;
     -fx-text-fill: #25946e;
@@ -64,7 +60,6 @@
     -fx-border-color: #5dd88a;
 }
 
-/* ====== RESTO DE BOTONES: BLANCOS, MODERNOS, LIMPIOS ====== */
 .anotacion-clear, .anotacion-comment, #btnCompartir, .button, .anotacion-save {
     -fx-background-color: #ffffff;
     -fx-text-fill: #22b8c4;
@@ -83,7 +78,6 @@
     -fx-border-color: #38B2AC;
 }
 
-/* ==== GUARDAR: MÁS DESTACADO ==== */
 .anotacion-save {
     -fx-background-color: linear-gradient(to right, #38b2ac 70%, #74c4ec 100%);
     -fx-text-fill: #fff;
@@ -100,7 +94,6 @@
     -fx-border-color: #38B2AC;
 }
 
-/* ==== ÁREA DE LECTURA ==== */
 .lector-area {
     -fx-background-color: #ffffff;
     -fx-text-fill: #2D3748;
@@ -112,7 +105,6 @@
     -fx-effect: innershadow(gaussian, rgba(0,0,0,0.04), 16, 0, 0, 1.5);
 }
 
-/* ==== SCROLL PERSONALIZADO ==== */
 .scroll-bar .thumb {
     -fx-background-color: #38B2AC;
     -fx-opacity: 0.44;
@@ -122,12 +114,10 @@
     -fx-opacity: 1;
 }
 
-/* ==== SELECCIÓN ==== */
 .lector-area .selection {
     -fx-background-color: #A3D8F4bb;
 }
 
-/* ==== SUBRAYADOS COLOREADOS ==== */
 .color-amarillo {
     -rtfx-background-color: #fffab5;
     -fx-text-fill: #23272F;
@@ -160,7 +150,6 @@
     -fx-underline: true;
 }
 
-/* ==== TITULO Y AUTOR (en el área de lectura, centrados y limpios) ==== */
 .titulo {
     -fx-font-size: 28px;
     -fx-font-weight: bold;

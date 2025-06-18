@@ -5,7 +5,7 @@ public class Usuario {
     private String apellido;
 
     public Usuario() {
-        // Constructor vacío necesario para Gson
+
     }
 
     public Usuario( String nombre, String apellido) {
@@ -13,7 +13,6 @@ public class Usuario {
         this.apellido = apellido;
     }
 
-    // Getters y setters
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
 

@@ -99,7 +99,7 @@ public class LoginController {
 		Utils.cambiarPantalla(
 				stage,
 				"/com/example/alexandriafrontend/Menu.fxml",
-				"/styles/menu.css", // Ruta al CSS del menú
+				"/styles/menu.css",
 				c -> {}
 		);
 		System.out.println("Cargando Inicio.fxml");

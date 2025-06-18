@@ -29,7 +29,6 @@ public class LecturasCompartidasController {
     private void initialize() {
         cargarUsuariosDisponibles();
 
-        // Mostrar nombre y apellido en la lista de usuarios
         listViewUsuarios.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
             @Override
             protected void updateItem(UsuarioListado usuario, boolean empty) {
@@ -42,7 +41,7 @@ public class LecturasCompartidasController {
             }
         });
 
-        // Al pinchar en un usuario, mostrar sus libros compartidos
+
         listViewUsuarios.setOnMouseClicked(event -> {
             UsuarioListado seleccionado = listViewUsuarios.getSelectionModel().getSelectedItem();
             if (seleccionado != null) {
@@ -50,7 +49,6 @@ public class LecturasCompartidasController {
             }
         });
 
-        // Mostrar los libros compartidos (título — autor)
         listViewLibrosCompartidos.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
             @Override
             protected void updateItem(Libro libro, boolean empty) {
@@ -87,13 +85,11 @@ public class LecturasCompartidasController {
                             if (response.isSuccessful() && response.body() != null) {
                                 Long lecturaCompartidaId = response.body();
                                 Platform.runLater(() -> {
-                                    // Ahora lanzas el lector en modo colaborativo
                                     Libro libro = new Libro(
                                             libroSeleccionado.getId(),
                                             libroSeleccionado.getTitulo(),
                                             libroSeleccionado.getAutor(),
                                             libroSeleccionado.getCategoria()
-                                            // añade más campos si tu constructor lo necesita
                                     );
                                     LectorHelper.pedirUrlYMostrarLibroColaborativo(libro, lecturaCompartidaId, contenido);
                                 });
