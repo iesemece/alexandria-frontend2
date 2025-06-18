@@ -8,7 +8,7 @@
 
     <!-- Lista de usuarios -->
     <Label layoutX="128.0" layoutY="37.0" styleClass="titulo" text="Usuarios disponibles" />
-    <ListView fx:id="listViewUsuarios" layoutX="40.0" layoutY="70.0" prefHeight="77.0" prefWidth="497.0" />
+    <ListView fx:id="listViewUsuarios" layoutX="40.0" layoutY="70.0" prefHeight="111.0" prefWidth="497.0" />
 
     <!-- Lista de libros compartidos -->
     <Label layoutX="132.0" layoutY="234.0" styleClass="titulo" text="Libros compartidos" />

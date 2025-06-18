@@ -1,94 +1,80 @@
-/* Fondo general */
-#contenido {
-    -fx-background-color: linear-gradient(to bottom right, #181E29 85%, #202736 100%);
-    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.13), 20, 0.12, 0, 5);
+/* ==== FONDO GENERAL ==== */
+#contenido, .anchor-pane, .root {
+    -fx-background-color: #FAFBFC;
 }
 
-.label, .titulo {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: 700;
-    -fx-text-fill: #F7FAFC;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.09), 0, 0.08, 0, 1);
-}
-
+/* ==== TÍTULOS ==== */
 .titulo {
+    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-font-size: 31px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222b45;
+    -fx-effect: dropshadow(gaussian, rgba(33,43,69,0.04), 7, 0.10, 0, 1);
+    -fx-padding: 0 0 10 0;
 }
 
-.titulo[text="Resultados"], .titulo[text="Favoritos"], .titulo[text="Crear una cuenta"], .titulo[text="Bienvenido a Alexandria"] {
-    -fx-font-size: 18px;
-    -fx-text-fill: #4FD1C5;
-    -fx-font-weight: 600;
-}
-
-.titulo[text="Todos los libros que te han gustado"], .titulo[text*="libros recomendados"], .titulo[text*="Introduce tus datos"] {
-    -fx-font-size: 12px;
-    -fx-text-fill: #A0AEC0;
-    -fx-font-weight: 400;
-    -fx-padding: 2 0 0 0;
-}
-
+/* ==== CAMPO DE BÚSQUEDA ==== */
 .custom-textfield, .text-field {
-    -fx-background-color: #232C3A, #181E29;
-    -fx-background-insets: 0, 1;
-    -fx-background-radius: 10;
-    -fx-padding: 0 0 0 14;
+    -fx-background-color: #f7fafc;
+    -fx-border-color: #c4e2de;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
     -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-font-size: 15px;
-    -fx-text-fill: #E2E8F0;
-    -fx-prompt-text-fill: #718096;
-    -fx-border-color: #4FD1C5;
-    -fx-border-radius: 10;
-    -fx-border-width: 2;
-    -fx-effect: dropshadow(gaussian, rgba(99,179,237,0.09), 8, 0.12, 0, 1);
+    -fx-padding: 5 12 5 12;
+    -fx-text-fill: #28394d;
+    -fx-effect: none;
 }
 
 .custom-textfield:focused, .text-field:focused {
-    -fx-border-color: #63B3ED;
-    -fx-background-color: #232C3A;
+    -fx-border-color: #319795;
+    -fx-background-color: #fff;
+    -fx-effect: dropshadow(gaussian, #38B2AC33, 6, 0.07, 0, 1.4);
 }
 
+/* ==== LISTA DE RESULTADOS ==== */
 .list-view {
-    -fx-background-color: #23272F;
-    -fx-border-color: #2D3748;
-    -fx-border-width: 2;
-    -fx-border-radius: 12;
-    -fx-background-radius: 12;
-    -fx-padding: 8px;
-    -fx-effect: dropshadow(gaussian, rgba(44,56,80,0.08), 9, 0.10, 0, 2);
-    -fx-cell-horizontal-margin: 12px;
+    -fx-background-color: transparent;
+    -fx-border-color: #e4ecf5;
+    -fx-border-width: 2px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-padding: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.06), 7, 0.13, 0, 1);
 }
 
 .list-cell {
-    -fx-background-color: transparent;
-    -fx-text-fill: #CBD5E1;
+    -fx-background-color: white;
+    -fx-background-radius: 12px;
+    -fx-padding: 15 22 15 22;
     -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-font-size: 16px;
-    -fx-padding: 8 4 8 12;
-    -fx-background-insets: 0;
-    -fx-border-radius: 8px;
-    -fx-background-radius: 8px;
-    -fx-transition: background-color 0.2s, color 0.2s;
+    -fx-text-fill: #28394d;
+    -fx-border-color: #E9EFF5;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.08), 4, 0.09, 0, 0.7);
+    -fx-alignment: center-left;
+    -fx-min-height: 48px;
 }
 
 .list-cell:filled:selected, .list-cell:filled:hover {
-    -fx-background-color: #2D3748;
-    -fx-text-fill: #63B3ED;
+    -fx-background-color: #f1fcfa;
+    -fx-text-fill: #319795;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(99,179,237,0.14), 4, 0.10, 0, 1);
+    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.18), 5, 0.09, 0, 1);
 }
 
-.list-view .scroll-bar:vertical {
+/* ==== SCROLL BAR ==== */
+.list-view .scroll-bar:vertical, .scroll-bar:vertical {
     -fx-background-color: transparent;
 }
-.list-view .thumb {
-    -fx-background-color: #4FD1C5;
+.list-view .thumb, .scroll-bar .thumb {
+    -fx-background-color: #319795;
     -fx-background-radius: 8px;
-    -fx-pref-width: 8px;
+    -fx-opacity: 0.38;
 }
-
-.label {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-text-fill: #E2E8F0;
-    -fx-font-weight: 500;
+.list-view .thumb:hover, .scroll-bar .thumb:hover {
+    -fx-opacity: 0.87;
 }

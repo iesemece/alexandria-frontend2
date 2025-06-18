@@ -107,6 +107,11 @@ public class InicioController {
                 }
             }
         });
+
+        Usuario usuarioLogueado = com.example.alexandriafrontend.session.SesionUsuario.getInstancia().getUsuarioActual();
+        if (usuarioLogueado != null) {
+            mostrarUsuarioLogueado(usuarioLogueado);
+        }
     }
 
         private void cargarLibros() {

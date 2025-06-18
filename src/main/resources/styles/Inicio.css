@@ -141,3 +141,22 @@
     -fx-scale-y: 1.08;
     -fx-effect: dropshadow(gaussian, rgba(70,170,200,0.16), 10, 0.14, 0, 1.5);
 }
+.usuario-pill {
+    -fx-background-color: linear-gradient(to right, #e3fafb 50%, #c0f5ed 100%);
+    -fx-text-fill: #319795;
+    -fx-font-size: 16.5px;
+    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
+    -fx-font-weight: 700;
+    -fx-padding: 7 24 7 24;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-color: #38b2ac99;
+    -fx-border-width: 1.4px;
+    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.22), 8, 0.19, 0, 1.6);
+    -fx-alignment: center;
+    -fx-label-padding: 0 6 0 6;
+    -fx-min-width: 110px;
+    -fx-max-width: 300px;
+    -fx-wrap-text: true;
+}
+
