@@ -9,20 +9,14 @@
 
 <AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
 
-	<Button fx:id="btnCrearCuenta" layoutX="246.0" layoutY="37.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="140.0" styleClass="registrarse-button" text="Registrarse" textFill="WHITE" />
-	<Button fx:id="btnIniciarSesion" layoutX="408.0" layoutY="37.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="140.0" styleClass="iniciar-button" text="Iniciar sesión">
+	<Button fx:id="btnCrearCuenta" layoutX="235.0" layoutY="547.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="180.0" styleClass="registrarse-button" text="Registrarse" textFill="WHITE" />
+	<Button fx:id="btnIniciarSesion" layoutX="440.0" layoutY="547.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="190.0" styleClass="iniciar-button" text="Iniciar sesión">
 		<font>
 			<Font name="System Bold" size="14" />
 		</font>
 	</Button>
 
-	<Label fx:id="lblNombreUsuario"
-		   layoutX="351.0"
-		   layoutY="33.0"
-		   prefHeight="32.0"
-		   maxWidth="300"
-		   styleClass="usuario-pill"
-		   visible="false"/>
+	<Label fx:id="lblNombreUsuario" layoutX="351.0" layoutY="33.0" maxWidth="300" prefHeight="32.0" styleClass="usuario-pill" visible="false" />
 
 	<Label layoutX="50.0" layoutY="84.0" styleClass="titulo" text="Bienvenido a Alexandria">
 		<font>

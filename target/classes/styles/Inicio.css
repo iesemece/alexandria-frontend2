@@ -15,29 +15,36 @@
 }
 
 .registrarse-button, .iniciar-button {
-    -fx-background-color: #000;          /* Fondo negro */
-    -fx-text-fill: #fff;                 /* Texto blanco */
-    -fx-font-size: 20px;
+    -fx-background-color: linear-gradient(to bottom, #222b35 90%, #38b2ac 100%);
+    -fx-text-fill: #f7fafc;
+    -fx-font-size: 19px;
     -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: normal;
-    -fx-background-radius: 14px;         /* Bordes redondeados */
+    -fx-font-weight: 700;
+    -fx-background-radius: 14px;
     -fx-border-radius: 14px;
-    -fx-cursor: hand;
-    -fx-border-width: 0;
-    -fx-effect: none;                    /* Sin sombra */
-    -fx-padding: 0 5px 0 5px;          /* Espaciado horizontal */
+    -fx-padding: 7 33px 7 33px;    /* Vertical y horizontal */
     -fx-alignment: center;
-    -fx-focus-color: transparent;        /* Sin borde azul al enfocar */
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.10), 10, 0.10, 0, 2);
+    -fx-border-width: 2px;
+    -fx-border-color: #38B2AC44;
+    -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
     -fx-background-insets: 0;
     -fx-border-insets: 0;
     -fx-box-border: transparent;
+    -fx-transition: all 0.18s;
 }
 
-.registrarse-button:hover,
-.iniciar-button:hover {
-    -fx-background-color: #222;         /* Ligeramente más claro al pasar el ratón */
+.registrarse-button:hover, .iniciar-button:hover {
+    -fx-background-color: linear-gradient(to top, #38B2AC 85%, #222b35 100%);
+    -fx-text-fill: #e6fffa;
+    -fx-border-color: #4fd1c5;
+    -fx-effect: dropshadow(gaussian, #38b2ac33, 13, 0.10, 0, 2);
+    -fx-scale-x: 1.06;
+    -fx-scale-y: 1.06;
 }
+
 
 
 .list-view {

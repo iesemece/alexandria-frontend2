@@ -11,35 +11,19 @@
     <AnchorPane fx:id="menuPane" prefHeight="600" prefWidth="264">
         <children>
 
-            <Label fx:id="lblMenuTitulo" layoutX="32" layoutY="36" text="Biblioteca"/>
+            <Label fx:id="lblMenuTitulo" layoutX="32" layoutY="36" text="Biblioteca" />
 
 
             <Label layoutX="14.0" layoutY="76.0" styleClass="seccion" text="Menú" />
 
-            <VBox fx:id="vboxMenu" layoutX="0" layoutY="110" prefWidth="264" spacing="10">
+            <VBox fx:id="vboxMenu" layoutX="0" layoutY="110" prefHeight="86.0" prefWidth="264.0" spacing="10">
                 <children>
-                    <Button fx:id="btnHome" onAction="#handleMenuAction"
-                            prefHeight="38.0" prefWidth="240.0"
-                            styleClass="menu-button" text="   Home" />
-                    <Button fx:id="btnBuscar" onAction="#handleMenuAction"
-                            prefHeight="38.0" prefWidth="240.0"
-                            styleClass="menu-button" text="   Buscar" />
-                    <Button fx:id="btnFavoritos" managed="false" visible="false"
-                            onAction="#handleMenuAction"
-                            prefHeight="38.0" prefWidth="240.0"
-                            styleClass="menu-button" text="   Favoritos" />
-                    <Button fx:id="btnBiblioteca" managed="false" visible="false"
-                            onAction="#handleMenuAction"
-                            prefHeight="38.0" prefWidth="240.0"
-                            styleClass="menu-button" text="   Mi biblioteca" />
-                    <Button fx:id="btnLecturasCompartidas" managed="false" visible="false"
-                            onAction="#handleMenuAction"
-                            prefHeight="38.0" prefWidth="240.0"
-                            styleClass="menu-button" text="   Lecturas compartidas" />
-                    <Button fx:id="btnCerrarSesion" managed="false" visible="false"
-                            onAction="#handleMenuAction"
-                            prefHeight="38.0" prefWidth="240.0"
-                            styleClass="menu-button" text="   Cerrar sesión" />
+                    <Button fx:id="btnHome" onAction="#handleMenuAction" prefHeight="38.0" prefWidth="267.0" styleClass="menu-button" text="   Home" />
+                    <Button fx:id="btnBuscar" onAction="#handleMenuAction" prefHeight="38.0" prefWidth="267.0" styleClass="menu-button" text="   Buscar" />
+                    <Button fx:id="btnFavoritos" managed="false" onAction="#handleMenuAction" prefHeight="38.0" prefWidth="267.0" styleClass="menu-button" text="   Favoritos" visible="false" />
+                    <Button fx:id="btnBiblioteca" managed="false" onAction="#handleMenuAction" prefHeight="38.0" prefWidth="267.0" styleClass="menu-button" text="   Mi biblioteca" visible="false" />
+                    <Button fx:id="btnLecturasCompartidas" managed="false" onAction="#handleMenuAction" prefHeight="38.0" prefWidth="267.0" styleClass="menu-button" text="   Lecturas compartidas" visible="false" />
+                    <Button fx:id="btnCerrarSesion" managed="false" onAction="#handleMenuAction" prefHeight="38.0" prefWidth="267.0" styleClass="menu-button" text="   Cerrar sesión" visible="false" />
                 </children>
             </VBox>
         </children>
