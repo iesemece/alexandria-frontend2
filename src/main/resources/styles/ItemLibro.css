@@ -1,0 +1,68 @@
+/* --- Estilos para el componente ItemLibro --- */
+
+.libro-item {
+    -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+}
+
+.libro-item-background {
+    -fx-fill: #F5F5F5;  /* Color de fondo base */
+    -fx-stroke: #E0E0E0;
+    -fx-stroke-width: 0.5;
+}
+
+/* Efecto hover */
+.libro-item:hover .libro-item-background {
+    -fx-fill: #EEEEEE;  /* Color más claro al hacer hover */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.1, 0, 2);
+    -fx-translate-y: -3px;
+}
+
+/* Transición suave */
+.libro-item, .libro-cover, .libro-title, .libro-author {
+    -fx-transition: all 0.3s ease;
+}
+
+/* Portada del libro */
+.libro-cover-container {
+    -fx-padding: 15 15 10 15;
+}
+
+.libro-cover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 6, 0, 1, 2);
+}
+
+/* Efecto zoom al pasar el ratón */
+.libro-item:hover .libro-cover {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+/* Textos */
+.libro-title {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;  /* Color de texto oscuro */
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+    -fx-max-width: 130px;
+}
+
+.libro-author {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;  /* Color de texto gris */
+    -fx-font-style: italic;
+    -fx-padding: 0 0 15 0;
+}
+
+/* Efecto hover para el texto */
+.libro-item:hover .libro-title {
+    -fx-text-fill: #000000;  /* Negro puro al hacer hover */
+}
+
+.libro-item:hover .libro-author {
+    -fx-text-fill: #444444;  /* Gris más oscuro al hacer hover */
+}

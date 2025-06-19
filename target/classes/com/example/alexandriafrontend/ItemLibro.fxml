@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<fx:root type="StackPane" xmlns="http://javafx.com/javafx/17"
+         xmlns:fx="http://javafx.com/fxml/1"
+         styleClass="libro-item"
+         prefWidth="150" prefHeight="220">
+
+    <!-- Fondo cuadrado suave -->
+    <Rectangle width="150" height="220" arcWidth="0"
+               styleClass="libro-item-background"/>
+
+    <VBox alignment="TOP_CENTER" spacing="10" styleClass="libro-content">
+        <!-- Portada del libro con margen -->
+        <StackPane styleClass="libro-cover-container">
+            <ImageView fx:id="coverImage" fitWidth="120" fitHeight="160"
+                       preserveRatio="true" styleClass="libro-cover"/>
+        </StackPane>
+
+        <!-- Información del libro centrada -->
+        <VBox alignment="CENTER" spacing="2" styleClass="libro-info-container">
+            <Label fx:id="titleLabel" wrapText="true" styleClass="libro-title"/>
+            <Label fx:id="authorLabel" styleClass="libro-author"/>
+        </VBox>
+    </VBox>
+</fx:root>

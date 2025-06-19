@@ -1,164 +1,146 @@
+/* ========== ESTILOS BASE (MODIFICADO) ========== */
 #contenido {
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: transparent; /* Fondo transparente */
 }
 
-.titulo {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-text-fill: #23272F;
-    -fx-font-weight: 700;
+/* ========== TIPOGRAFÍA (MODIFICADO) ========== */
+.titulo-app {
+    -fx-font-family: 'Georgia', serif;
+    -fx-font-size: 36px; /* Más grande */
+    -fx-text-fill: #2C3E50;
+    -fx-font-weight: bold;
+    -fx-effect: none; /* Sin sombra */
 }
 
-.label {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-text-fill: #23272F;
-    -fx-font-weight: 500;
+.subtitulo-sesion {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 18px;
+    -fx-text-fill: #7F8C8D; /* Color más suave */
+    -fx-font-weight: bold;
 }
 
-.registrarse-button, .iniciar-button {
-    -fx-background-color: linear-gradient(to bottom, #222b35 90%, #38b2ac 100%);
-    -fx-text-fill: #f7fafc;
-    -fx-font-size: 19px;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: 700;
-    -fx-background-radius: 14px;
-    -fx-border-radius: 14px;
-    -fx-padding: 7 33px 7 33px;    /* Vertical y horizontal */
-    -fx-alignment: center;
-    -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.10), 10, 0.10, 0, 2);
-    -fx-border-width: 2px;
-    -fx-border-color: #38B2AC44;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
-    -fx-background-insets: 0;
-    -fx-border-insets: 0;
-    -fx-box-border: transparent;
-    -fx-transition: all 0.18s;
-}
-
-.registrarse-button:hover, .iniciar-button:hover {
-    -fx-background-color: linear-gradient(to top, #38B2AC 85%, #222b35 100%);
-    -fx-text-fill: #e6fffa;
-    -fx-border-color: #4fd1c5;
-    -fx-effect: dropshadow(gaussian, #38b2ac33, 13, 0.10, 0, 2);
-    -fx-scale-x: 1.06;
-    -fx-scale-y: 1.06;
-}
-
-.list-view {
-    -fx-background-color: #FFFFFF;
-    -fx-border-color: #E2E8F0;
-    -fx-border-width: 1;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-padding: 8px;
-}
-
-.list-cell {
+/* ========== CONTENEDOR DE LIBROS (NUEVO ESTILO) ========== */
+.scroll-transparente {
     -fx-background-color: transparent;
-    -fx-text-fill: #23272F;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 16px;
-    -fx-padding: 14 6 14 18;
-    -fx-border-radius: 7px;
-    -fx-background-radius: 7px;
-    -fx-border-color: #E2E8F0;
-    -fx-border-width: 1 0 0 0;
+    -fx-border-color: transparent; /* Sin bordes */
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }
 
-.list-cell:filled:selected, .list-cell:filled:hover {
-    -fx-background-color: #E5F1FB;
-    -fx-text-fill: #23272F;
+.flow-pane {
+    -fx-background-color: transparent;
+    -fx-hgap: 30px; /* Más espacio horizontal entre libros */
+    -fx-vgap: 30px; /* Más espacio vertical entre libros */
+    -fx-padding: 20px; /* Más margen interno */
 }
 
-.list-view .scroll-bar:vertical {
-    -fx-opacity: 0;
-    -fx-max-width: 0;
-    -fx-pref-width: 0;
-    -fx-min-width: 0;
-}
-
-.list-view .scroll-bar:horizontal {
-    -fx-background-color: #eaeaea;
-}
-
-.list-view .thumb {
-    -fx-background-color: #357ae8;
+/* ========== TARJETAS DE LIBROS (NUEVO ESTILO) ========== */
+.libro-card {
+    -fx-background-color: white;
     -fx-background-radius: 8px;
-    -fx-pref-height: 8px;
-    -fx-pref-width: 30px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0.1, 0, 2);
+    -fx-border-color: transparent; /* Sin bordes */
 }
 
-/* Botón y campos */
-.button, .label, .text-field {
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
+.libro-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0.2, 0, 3);
+    -fx-translate-y: -3px; /* Efecto de elevación */
 }
 
-* {
-    -fx-effect: none;
+/* ========== SCROLLBAR (MODIFICADO) ========== */
+.scroll-bar:horizontal,
+.scroll-bar:vertical {
+    -fx-opacity: 0; /* Scrollbars invisibles */
 }
 
+/* ========== BARRA DE CATEGORÍAS ========== */
 #barraCategorias {
     -fx-background-color: transparent;
-    -fx-padding: 4 0 4 0;
-    -fx-spacing: 7px;
-    -fx-alignment: center-left;
-    -fx-effect: none;
-    -fx-border-width: 0;
+    -fx-padding: 0 0 15px 40px; /* Ajusta el padding izquierdo según necesites */
+    -fx-spacing: 10px; /* Espacio entre botones */
 }
 
+/* ========== BOTONES DE CATEGORÍA ========== */
 .categoria-button {
-    -fx-background-color: #f9fafb;
-    -fx-background-radius: 8px;
-    -fx-border-radius: 8px;
-    -fx-border-width: 0;
-    -fx-text-fill: #319795;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: 500;
-    -fx-font-size: 15px;
-    -fx-padding: 4 13 4 13;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: #7F8C8D; /* Color gris para no seleccionados */
+    -fx-background-color: transparent;
+    -fx-padding: 6px 16px 8px 16px; /* Más espacio interno */
+    -fx-border-width: 0 0 2px 0; /* Solo línea inferior */
+    -fx-border-color: transparent; /* Invisible por defecto */
     -fx-cursor: hand;
-    -fx-effect: none;
-    -fx-opacity: 1;
-    -fx-min-width: 70px;
-    -fx-max-width: 150px;
-    -fx-max-height: 34px;
-    -fx-min-height: 28px;
-    -fx-alignment: center;
-    -fx-background-insets: 0;
-}
-.categoria-button:hover {
-    -fx-background-color: #e3f8f8;
-    -fx-text-fill: #256079;
-    -fx-scale-x: 1.045;
-    -fx-scale-y: 1.045;
-}
-
-.categoria-button.selected {
-    -fx-background-color: linear-gradient(to right, #38B2AC, #63B3ED);
-    -fx-text-fill: #fff;
     -fx-font-weight: bold;
-    -fx-scale-x: 1.08;
-    -fx-scale-y: 1.08;
-    -fx-effect: dropshadow(gaussian, rgba(70,170,200,0.16), 10, 0.14, 0, 1.5);
-}
-.usuario-pill {
-    -fx-background-color: linear-gradient(to right, #e3fafb 50%, #c0f5ed 100%);
-    -fx-text-fill: #319795;
-    -fx-font-size: 16.5px;
-    -fx-font-family: "Segoe UI", "Roboto", sans-serif;
-    -fx-font-weight: 700;
-    -fx-padding: 7 24 7 24;
-    -fx-background-radius: 20px;
-    -fx-border-radius: 20px;
-    -fx-border-color: #38b2ac99;
-    -fx-border-width: 1.4px;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.22), 8, 0.19, 0, 1.6);
-    -fx-alignment: center;
-    -fx-label-padding: 0 6 0 6;
-    -fx-min-width: 110px;
-    -fx-max-width: 300px;
-    -fx-wrap-text: true;
+    -fx-effect: none;
 }
 
+/* Efecto hover para todos los botones */
+.categoria-button:hover {
+    -fx-text-fill: #2C3E50; /* Color oscuro al pasar el mouse */
+    -fx-border-color: #BDC3C7 !important; /* Línea gris al hover */
+}
+
+/* Estilo para el botón seleccionado */
+.categoria-button.selected {
+    -fx-text-fill: #2C3E50 !important; /* Color oscuro permanente */
+    -fx-font-weight: bolder; /* Texto más grueso */
+    -fx-border-color: #3498DB !important; /* Línea azul permanente */
+    -fx-background-color: transparent !important; /* Fondo transparente */
+}
+
+/* ========== RESET DE ESTILOS POR DEFECTO ========== */
+.categoria-button:focused {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* ========== BOTONES (SIN CAMBIOS) ========== */
+.boton-login {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2C3E50;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 32px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-border-color: #2C3E50;
+    -fx-border-width: 1px;
+    -fx-cursor: hand;
+}
+
+.boton-login:hover {
+    -fx-background-color: rgba(44, 62, 80, 0.05);
+    -fx-text-fill: #3498DB;
+    -fx-border-color: #3498DB;
+}
+
+.boton-secundario {
+    -fx-background-color: #2C3E50;
+    -fx-text-fill: white;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 32px;
+    -fx-background-radius: 16px;
+    -fx-border-radius: 16px;
+    -fx-cursor: hand;
+}
+
+.boton-secundario:hover {
+    -fx-background-color: #34495E;
+}
+
+/* ========== USUARIO PILL (SIN CAMBIOS) ========== */
+.usuario-pill {
+    -fx-background-color: transparent;
+    -fx-text-fill: #7F8C8D;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 3px 12px;
+    -fx-background-radius: 12px;
+}
