@@ -1,113 +1,97 @@
-
-#rootPane {
-    -fx-background-color: linear-gradient(to bottom right, #181E29 85%, #202736 100%);
+/* Estilo base */
+.root {
+    -fx-primary: #2C3E50;     /* Azul oscuro */
+    -fx-secondary: #7F8C8D;   /* Gris */
+    -fx-accent: #3498DB;      /* Azul suave (para enlaces) */
+    -fx-light: #FFFFFF;       /* Blanco */
+    -fx-dark: #34495E;        /* Azul más oscuro (hover) */
+    -fx-background-color: #F5F5F5;
 }
 
-.label {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: 600;
-    -fx-text-fill: #F7FAFC;
+/* Título "Alexandria" */
+.titulo-app {
+    -fx-font-family: 'Georgia', serif;
+    -fx-font-size: 42px;
+    -fx-text-fill: -fx-primary;
+    -fx-font-weight: bold;
 }
 
-.label[alignment="CENTER"] {
+/* Subtítulo "Inicia sesión" */
+.subtitulo-sesion {
+    -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 24px;
+    -fx-text-fill: -fx-primary;
+}
+
+/* Texto guía */
+.texto-guia, .texto-secundario {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-secondary;
+}
+
+/* Campos de texto */
+.campo-texto {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-pref-width: 350px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-border-color: #BDC3C7;
+    -fx-padding: 0 12px;
+    -fx-font-size: 14px;
+}
+
+.campo-texto:focused {
+    -fx-border-color: -fx-primary;
+    -fx-border-width: 1.5px;
+}
+
+/* Botón de inicio de sesión */
+.boton-login {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: -fx-light;
+    -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-weight: bold;
-    -fx-text-fill: #F7FAFC;
-}
-
-.label[alignment="CENTER"][text="Iniciar Sesión"] {
-    -fx-font-size: 16px;
-    -fx-text-fill: #4FD1C5;
-}
-
-.label[alignment="CENTER"][text*="email"] {
-    -fx-font-size: 13px;
-    -fx-text-fill: #CBD5E1;
-}
-
-.text-field {
-    -fx-background-color: #232C3A, #181E29;
-    -fx-background-insets: 0, 1;
-    -fx-background-radius: 9;
-    -fx-padding: 0 0 0 14;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
     -fx-font-size: 15px;
-    -fx-text-fill: #E2E8F0;
-    -fx-prompt-text-fill: #718096;
-    -fx-border-color: #4FD1C5;
-    -fx-border-radius: 9;
-    -fx-border-width: 2;
-    -fx-effect: dropshadow(gaussian, rgba(99,179,237,0.09), 8, 0.12, 0, 1);
-    -fx-min-height: 35px;
-}
-
-.text-field:focused {
-    -fx-border-color: #63B3ED;
-    -fx-background-color: #232C3A;
-}
-
-#btnIniciarSesion {
-    -fx-background-color: linear-gradient(to right, #319795, #38B2AC);
-    -fx-text-fill: #FFF;
-    -fx-font-size: 17px;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: bold;
-    -fx-background-radius: 10px;
-    -fx-border-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(79,209,197,0.12), 6, 0.13, 0, 1);
+    -fx-pref-width: 350px;
+    -fx-pref-height: 45px;
+    -fx-background-radius: 6px;
     -fx-cursor: hand;
-    -fx-border-width: 0;
-    -fx-padding: 7 0 7 0;
-    -fx-transition: background-color 0.2s;
 }
 
-#btnIniciarSesion:hover {
-    -fx-background-color: linear-gradient(to right, #38B2AC, #63B3ED);
-    -fx-text-fill: #E6FFFA;
-    -fx-scale-x: 1.03;
-    -fx-scale-y: 1.03;
+.boton-login:hover {
+    -fx-background-color: -fx-dark;
 }
 
-#btnVolver {
+/* Enlace "Crear cuenta" */
+.enlace-registro {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: -fx-accent;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.enlace-registro:hover {
+    -fx-text-fill: derive(-fx-accent, -20%);
+    -fx-underline: true;
+}
+
+.boton-volver {
     -fx-background-color: transparent;
-    -fx-border-color: #4FD1C5;
-    -fx-border-width: 2px;
-    -fx-background-radius: 8px;
-    -fx-border-radius: 8px;
-    -fx-font-size: 15px;
-    -fx-text-fill: #4FD1C5;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-weight: 600;
-    -fx-cursor: hand;
-    -fx-padding: 7 18 7 18;
-    -fx-effect: dropshadow(gaussian, rgba(79,209,197,0.09), 6, 0.11, 0, 1);
-    -fx-transition: all 0.19s;
-    -fx-min-width: 105px;
-}
-
-#btnVolver:hover {
-    -fx-background-color: #232C3A;
-    -fx-text-fill: #63B3ED;
-    -fx-border-color: #63B3ED;
-}
-
-.label[text*="En caso de no tener"] {
-    -fx-font-size: 13px;
-    -fx-text-fill: #A0AEC0;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-padding: 6 0 0 0;
-}
-
-.label[text="CREAR UNA CUENTA"] {
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #63B3ED;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-padding: 2 0 0 0;
+    -fx-text-fill: #2C3E50; /* Color azul oscuro */
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14px;
+    -fx-border-color: #BDC3C7; /* Gris claro */
+    -fx-border-radius: 15px;
+    -fx-border-width: 1px;
+    -fx-padding: 5px 15px;
     -fx-cursor: hand;
 }
 
-@font-face {
-    font-family: "Segoe UI";
-    src: local("Segoe UI"), local("Roboto"), local("Arial"), local("sans-serif");
+.boton-volver:hover {
+    -fx-text-fill: #3498DB; /* Azul claro al pasar el ratón */
+    -fx-border-color: #3498DB;
 }

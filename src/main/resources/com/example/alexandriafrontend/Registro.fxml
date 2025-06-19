@@ -1,75 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="rootPane"
             prefHeight="600.0" prefWidth="900.0"
-            xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.alexandriafrontend.controllers.RegistroController">
+           xmlns="http://javafx.com/javafx/17"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="com.example.alexandriafrontend.controllers.RegistroController">
 
-   <Label layoutX="220.0" layoutY="65.0" prefHeight="51.0" prefWidth="460.0"
-          text="Alexandria" alignment="CENTER">
-      <font>
-         <Font name="System Bold" size="43.0"/>
-      </font>
-   </Label>
+        <!-- Botón Volver (esquina superior izquierda) -->
+<Button fx:id="btnVolver" text="Atrás" layoutX="20.0" layoutY="20.0" styleClass="boton-volver"
+        onAction="#volverAlInicio" />
 
-   <!-- Subtítulo -->
-   <Label layoutX="355.0" layoutY="140.0" prefHeight="25.0" prefWidth="184.0"
-          text="Crear una cuenta" alignment="CENTER">
-      <font>
-         <Font name="System Bold" size="14.0"/>
-      </font>
-   </Label>
+        <!-- Contenedor principal (centrado) -->
+<VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="50.0"
+      AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0">
 
-   <Label layoutX="338.0" layoutY="165.0" prefHeight="25.0" prefWidth="225.0"
-          text="Introduce tus datos para registrarte" alignment="CENTER"/>
+<!-- Título "Alexandria" -->
+<Label text="Alexandria" styleClass="titulo-app"/>
 
-   <TextField fx:id="tfPrimer_Nombre"
-              layoutX="264.0" layoutY="206.0"
-              prefHeight="35.0" prefWidth="365.0"
-              promptText="Nombre"/>
+<!-- Subtítulo "Crear una cuenta" -->
+<Label text="Crear una cuenta" styleClass="subtitulo-sesion"/>
 
-   <TextField fx:id="tfApellido"
-              layoutX="264.0" layoutY="253.0"
-              prefHeight="35.0" prefWidth="365.0"
-              promptText="Apellido"/>
+<!-- Texto guía -->
+<Label text="Introduce tus datos para registrarte" styleClass="texto-guia"/>
 
-   <TextField fx:id="tfEmail"
-              layoutX="264.0" layoutY="300.0"
-              prefHeight="35.0" prefWidth="365.0"
-              promptText="email@ejemplo.com"/>
+<!-- Campos del formulario -->
+<TextField fx:id="tfPrimer_Nombre" promptText="Nombre" styleClass="campo-texto"/>
+<TextField fx:id="tfApellido" promptText="Apellido" styleClass="campo-texto"/>
+<TextField fx:id="tfEmail" promptText="email@ejemplo.com" styleClass="campo-texto"/>
+<PasswordField fx:id="tfContraseña" promptText="Contraseña" styleClass="campo-texto"/>
+<ComboBox fx:id="cbRol" promptText="Selecciona un rol" styleClass="combo-box"  prefWidth="350.0"
+          prefHeight="40.0"/>
 
-   <PasswordField  fx:id="tfContraseña"
-              layoutX="264.0" layoutY="348.0"
-              prefHeight="35.0" prefWidth="365.0"
-              promptText="Contraseña"/>
+<!-- Botón de registro -->
+<Button fx:id="btnRegistrarse" text="Registrarse" styleClass="boton-login"
+        defaultButton="true" onAction="#handleRegistrarse"/>
 
-   <ComboBox fx:id="cbRol"
-             layoutX="264.0" layoutY="395.0"
-             prefHeight="35.0" prefWidth="365.0"
-             promptText="Selecciona un rol"/>
-
-   <Button fx:id="btnRegistrarse"
-           layoutX="264.0" layoutY="445.0"
-           prefHeight="35.0" prefWidth="365.0"
-           text="Registrarse"
-           style="-fx-background-color: black;"
-           textFill="WHITE" defaultButton="true"
-           onAction="#handleRegistrarse">
-      <font>
-         <Font name="System Bold" size="12.0"/>
-      </font>
-   </Button>
-
-   <Button fx:id="btnVolver"
-           layoutX="20.0" layoutY="550.0"
-           prefHeight="30.0" prefWidth="130.0"
-           text="⟵ Volver"
-           onAction="#volverAlInicio"
-            />
-
-</AnchorPane>
+<!-- Enlace para volver al login -->
+<HBox alignment="CENTER" spacing="5">
+   <Label text="¿Ya tienes una cuenta?" styleClass="texto-secundario"/>
+   <Hyperlink fx:id="enlaceIniciarSesion" text="Iniciar sesión" styleClass="enlace-registro"
+              onAction="#irAlLogin"/>
+</HBox>
+</VBox>
+        </AnchorPane>

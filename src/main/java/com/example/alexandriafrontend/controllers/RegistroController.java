@@ -7,11 +7,15 @@ import com.example.alexandriafrontend.utils.Utils;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.net.URL;
 
 public class RegistroController {
 
@@ -110,6 +114,20 @@ public class RegistroController {
         alert.setTitle("Registro");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
+
+        // Icono minimalista
+        Text icon = new Text("i"); // Letra "i" estilizada
+        icon.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-fill: white;");
+        StackPane graphic = new StackPane(icon);
+        graphic.setStyle("-fx-background-color: #3498DB; -fx-background-radius: 50%; -fx-min-width: 36px; -fx-min-height: 36px;");
+        alert.setGraphic(graphic);
+
+        // Carga CSS
+        URL cssUrl = getClass().getResource("/styles/alertas.css");
+        if (cssUrl != null) {
+            alert.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+        }
+
         alert.showAndWait();
     }
 
@@ -123,6 +141,18 @@ public class RegistroController {
                 c -> {}
         );
         System.out.println("Cargando Inicio.fxml");
+    }
+
+    @FXML
+    private void irAlLogin() {
+        Stage stage = (Stage) btnVolver.getScene().getWindow();
+        Utils.cambiarPantalla(
+                stage,
+                "/com/example/alexandriafrontend/Login.fxml",
+                "/styles/Login.css",
+                c -> {}
+        );
+        System.out.println("Cargando Login.fxml");
     }
 
     private boolean esRolValido(String role) {

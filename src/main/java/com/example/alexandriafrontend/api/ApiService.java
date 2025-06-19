@@ -174,7 +174,7 @@ public interface ApiService {
      * Filtra todos los libros por categorias.
      *
      * @param categoria String de la categoria.
-     * @return Llamada que devuelve una lista filtrada segun la categoria.
+     * @return Llamada que devuelve una lista de libros filtrada según la categoria.
      */
 
     @GET("/api/libros/categorias/libros")

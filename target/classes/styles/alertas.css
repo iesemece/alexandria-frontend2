@@ -1,0 +1,83 @@
+/* Elegant Alert Dialog Style - Alexandria Theme */
+.dialog-pane {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 10px;
+    -fx-border-color: rgba(44, 62, 80, 0.15);
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 12, 0, 0, 0);
+    -fx-padding: 0;
+}
+
+/* Header Section */
+.dialog-pane .header-panel {
+    -fx-background-color: transparent;
+    -fx-padding: 18px 20px 8px 20px;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: #2C3E50;
+    -fx-font-family: 'Georgia', serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+/* Content Section - Ajustado para el nuevo icono */
+.dialog-pane .content.label {
+    -fx-text-fill: #5A6A7F;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14px;
+    -fx-padding: 0 20px 20px 40px; /* Más padding izquierdo */
+    -fx-line-spacing: 5px;
+    -fx-alignment: center-left;
+}
+
+/* Button Bar */
+.dialog-pane .button-bar {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 0 0 10px 10px;
+    -fx-padding: 15px;
+    -fx-border-width: 1px 0 0 0;
+    -fx-border-color: rgba(44, 62, 80, 0.1);
+}
+
+/* Buttons */
+.dialog-pane .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #3498DB;
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-padding: 8px 24px;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-border-width: 1px;
+    -fx-border-color: #3498DB;
+    -fx-cursor: hand;
+    -fx-content-display: center;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: rgba(52, 152, 219, 0.08);
+    -fx-text-fill: #2980B9;
+    -fx-border-color: #2980B9;
+}
+
+/* Icon Container - Modificado para alinear a la derecha */
+.dialog-pane .alert.information .graphic-container {
+    -fx-background-color: transparent;
+    -fx-padding: 0 60px 15px 0; /* Margen derecho aumentado */
+    -fx-alignment: center-right;
+}
+
+/* Custom Information Icon - Posicionado a la derecha */
+.dialog-pane .alert.information .graphic {
+    -fx-shape: "M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M13,17h-2v-6h2V17z M13,9h-2V7h2V9z";
+    -fx-background-color: #2C3E50;
+    -fx-scale-shape: true;
+    -fx-pref-width: 32px;
+    -fx-pref-height: 32px;
+    -fx-effect: dropshadow(one-pass-box, rgba(44,62,80,0.3), 0, 0, 0, 2);
+    -fx-translate-x: -10px; /* Ajuste fino de posición horizontal */
+}

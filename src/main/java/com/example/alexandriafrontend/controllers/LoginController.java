@@ -11,7 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import retrofit2.Call;
@@ -19,6 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class LoginController {
 
@@ -90,8 +94,23 @@ public class LoginController {
 		alert.setTitle("Login");
 		alert.setHeaderText(null);
 		alert.setContentText(mensaje);
+
+		// Icono minimalista
+		Text icon = new Text("i"); // Letra "i" estilizada
+		icon.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-fill: white;");
+		StackPane graphic = new StackPane(icon);
+		graphic.setStyle("-fx-background-color: #3498DB; -fx-background-radius: 50%; -fx-min-width: 36px; -fx-min-height: 36px;");
+		alert.setGraphic(graphic);
+
+		// Carga CSS
+		URL cssUrl = getClass().getResource("/styles/alertas.css");
+		if (cssUrl != null) {
+			alert.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+		}
+
 		alert.showAndWait();
 	}
+
 
 	@FXML
 	private void volverAlInicio() {
@@ -103,5 +122,17 @@ public class LoginController {
 				c -> {}
 		);
 		System.out.println("Cargando Inicio.fxml");
+	}
+
+	@FXML
+	private void irARegistro() {
+		Stage stage = (Stage) btnVolver.getScene().getWindow();
+		Utils.cambiarPantalla(
+				stage,
+				"/com/example/alexandriafrontend/Registro.fxml",
+				"/styles/Registro.css",
+				c -> {}
+		);
+		System.out.println("Cargando Registro.fxml");
 	}
 }

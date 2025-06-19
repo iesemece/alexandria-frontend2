@@ -1,51 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.PasswordField?>
-<AnchorPane fx:id="rootPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.LoginController">
+<AnchorPane fx:id="panelRaiz" prefHeight="600.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.alexandriafrontend.controllers.LoginController">
 
-   <Label alignment="CENTER" layoutX="220.0" layoutY="65.0" prefHeight="51.0" prefWidth="460.0" text="Alexandria">
-      <font>
-         <Font name="System Bold" size="43.0" />
-      </font>
-   </Label>
+   <!-- Botón Volver (esquina superior izquierda) -->
+   <Button fx:id="btnVolver" text="Atrás" layoutX="20.0" layoutY="20.0" styleClass="boton-volver"
+           onAction="#volverAlInicio" />
 
-   <Label alignment="CENTER" layoutX="355.0" layoutY="140.0" prefHeight="25.0" prefWidth="184.0" text="Iniciar Sesión">
-      <font>
-         <Font name="System Bold" size="14.0" />
-      </font>
-   </Label>
+   <!-- Contenedor principal (centrado) -->
+   <VBox alignment="CENTER" spacing="20" AnchorPane.topAnchor="100.0" AnchorPane.bottomAnchor="100.0"
+         AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="250.0">
 
-   <Label alignment="CENTER" layoutX="338.0" layoutY="165.0" prefHeight="25.0" prefWidth="225.0" text="Enter your email to sign up for this app" />
 
-   <TextField fx:id="tfEmail" layoutX="268.0" layoutY="212.0" prefHeight="35.0" prefWidth="365.0" promptText="email@ejemplo.com" />
+      <!-- Título "Alexandria" -->
+      <Label text="Alexandria" styleClass="titulo-app"/>
 
-   <PasswordField fx:id="tfContrasena" layoutX="268.0" layoutY="265.0" prefHeight="35.0" prefWidth="365.0" promptText="Contraseña" />
+      <!-- Subtítulo "Inicia sesión" -->
+      <Label text="Inicia sesión" styleClass="subtitulo-sesion"/>
 
-   <Button fx:id="btnIniciarSesion" defaultButton="true" layoutX="268.0" layoutY="319.0" onAction="#iniciarSesion" prefHeight="35.0" prefWidth="365.0" style="-fx-background-color: black;" text="Iniciar Sesión" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-   </Button>
+      <!-- Texto guía -->
+      <Label text="Ingresa tu correo para registrarte en la app" styleClass="texto-guia"/>
 
-   <Label alignment="CENTER" layoutX="281.0" layoutY="375.0" prefHeight="43.0" prefWidth="338.0" text="En caso de no tener una cuenta creada, debe de crear una cuenta previamente, para ello:" textAlignment="CENTER" wrapText="true" />
+      <!-- Campo de email -->
+      <TextField fx:id="tfEmail" promptText="ejemplo@email.com" styleClass="campo-texto"/>
 
-   <Label layoutX="389.0" layoutY="419.0" prefHeight="17.0" prefWidth="122.0" text="CREAR UNA CUENTA">
-      <font>
-         <Font name="System Bold" size="12.0" />
-      </font>
-   </Label>
+      <!-- Campo de contraseña -->
+      <PasswordField fx:id="tfContrasena" promptText="Contraseña" styleClass="campo-texto"/>
 
-   <Button fx:id="btnVolver"
-           layoutX="20.0" layoutY="550.0"
-           prefHeight="30.0" prefWidth="130.0"
-           text="⟵ Volver"
-           onAction="#volverAlInicio"
-            />
+      <!-- Botón de inicio de sesión -->
+      <Button fx:id="btnIniciarSesion" text="Iniciar sesión" styleClass="boton-login"
+              defaultButton="true" onAction="#iniciarSesion"/>
 
+      <!-- Enlace para crear cuenta -->
+      <HBox alignment="CENTER" spacing="5">
+         <Label text="Si no tienes una cuenta, debes registrarte:" styleClass="texto-secundario"/>
+         <Hyperlink fx:id="enlaceCrearCuenta" text="Crear cuenta" styleClass="enlace-registro" onAction="#irARegistro"/>
+      </HBox>
+   </VBox>
 </AnchorPane>
