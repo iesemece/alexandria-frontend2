@@ -77,7 +77,7 @@ public class ItemLibro extends StackPane {
         switch (categoria) {
             case "Romance": return "romance.png";
             case "Terror": return "terror.png";
-            case "Fantasia": return "fantasia.png";
+            case "Fantasia": return "fantasía.png";
             case "Suspense": return "suspense.png";
             case "Ciencia Ficcion": return "ciencia_ficcion.png";
             default: return "default.png";

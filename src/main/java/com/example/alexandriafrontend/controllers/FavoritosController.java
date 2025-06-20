@@ -48,9 +48,23 @@ public class FavoritosController {
                             ItemLibro item = new ItemLibro(libro);
 
                             item.setOnMouseClicked(event -> {
-                                if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+                                // Si quieres que se elimine con UN solo clic izquierdo:
+                                if (event.isPrimaryButtonDown()) {
                                     eliminarLibro(libro);
-                                } else if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                                }
+                            });
+
+                            // Menú contextual para eliminar
+                            javafx.scene.control.ContextMenu contextMenu = new javafx.scene.control.ContextMenu();
+                            javafx.scene.control.MenuItem eliminarItem = new javafx.scene.control.MenuItem("Eliminar de favoritos");
+
+                            eliminarItem.setOnAction(e -> eliminarLibro(libro));
+                            contextMenu.getItems().add(eliminarItem);
+
+                            item.setOnContextMenuRequested(e -> contextMenu.show(item, e.getScreenX(), e.getScreenY()));
+
+                            item.setOnMouseClicked(event -> {
+                                if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY && event.getClickCount() == 2) {
                                     LectorHelper.pedirUrlYMostrarLibro(libro, contenido);
                                 }
                             });

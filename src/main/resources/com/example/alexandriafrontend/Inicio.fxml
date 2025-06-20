@@ -10,7 +10,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.geometry.Insets?>
-<AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
+<AnchorPane fx:id="contenido" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
 
 	<!-- Botones en esquina superior derecha -->
 	<HBox alignment="CENTER_RIGHT" spacing="10" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="29">
@@ -24,29 +24,27 @@
 				<Font name="Segoe UI Bold" size="14" />
 			</font>
 		</Button>
-		<Label  fx:id="lblNombreUsuario" layoutX="351.0" layoutY="33.0" maxWidth="300" prefHeight="32.0" styleClass="usuario-pill" visible="false" />
-
+		<Label fx:id="lblNombreUsuario" styleClass="usuario-pill" visible="false" />
 	</HBox>
 
-
-	<Label layoutX="50.0" layoutY="84.0" styleClass="titulo-app" text="Bienvenido a Alexandria">
+	<Label styleClass="titulo-app" text="Bienvenido a Alexandria" AnchorPane.leftAnchor="50" AnchorPane.topAnchor="84">
 		<font>
 			<Font name="Georgia" size="36" />
 		</font>
 	</Label>
 
-	<Label layoutX="50.0" layoutY="137.0" styleClass="subtitulo-sesion" text="Todos los libros">
+	<Label styleClass="subtitulo-sesion" text="Todos los libros" AnchorPane.leftAnchor="50" AnchorPane.topAnchor="137">
 		<font>
 			<Font name="Segoe UI" size="22" />
 		</font>
 	</Label>
 
-	<HBox fx:id="barraCategorias" alignment="CENTER_LEFT" layoutX="50.0" layoutY="176.0" prefHeight="40.0" prefWidth="580.0" spacing="8"> </HBox>
+	<HBox fx:id="barraCategorias" alignment="CENTER_LEFT" spacing="8" AnchorPane.leftAnchor="52" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="176" prefHeight="40"/>
 
 	<!-- Lista de libros horizontal -->
-	<ScrollPane fx:id="scrollPaneLibros" styleClass="scroll-transparente" layoutX="50.0" layoutY="225.0" prefHeight="340.0" prefWidth="580.0"
+	<ScrollPane fx:id="scrollPaneLibros" styleClass="scroll-transparente" layoutX="50.0" layoutY="220.0" prefHeight="340.0" prefWidth="580.0"
 				fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
-		<FlowPane fx:id="contenedorLibros" prefWrapLength="580" hgap="20" vgap="20">
+	<FlowPane fx:id="contenedorLibros" hgap="20" vgap="20">
 			<padding>
 				<Insets top="20" right="20" bottom="20" left="20"/>
 			</padding>

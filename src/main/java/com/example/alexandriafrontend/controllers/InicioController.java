@@ -26,6 +26,7 @@ import java.util.List;
 
 public class InicioController {
 
+
     @FXML
     private FlowPane contenedorLibros;
 
@@ -58,6 +59,7 @@ public class InicioController {
         if (usuarioLogueado != null) {
             mostrarUsuarioLogueado(usuarioLogueado);
         }
+
     }
 
     private void cargarLibros() {

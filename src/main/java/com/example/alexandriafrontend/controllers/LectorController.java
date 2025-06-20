@@ -30,6 +30,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class LectorController {
@@ -91,6 +93,9 @@ public class LectorController {
             seccionAcciones.setVisible(false);
             seccionAcciones.setManaged(false); // evita que ocupe espacio
         }
+
+        Logger.getLogger("nl.siegmann.epublib.epub.PackageDocumentReader").setLevel(Level.OFF);
+        Logger.getLogger("nl.siegmann.epublib.epub.NCXDocument").setLevel(Level.OFF);
     }
 
 
@@ -193,7 +198,7 @@ public class LectorController {
 
                 // Subtítulo
                 int inicio = textoLimpio.length();
-                textoLimpio.append(subtitulo).append("\n\n");
+                textoLimpio.append(subtitulo).append("\n");
                 int fin = textoLimpio.length();
                 inicios.add(inicio);
                 fines.add(fin);

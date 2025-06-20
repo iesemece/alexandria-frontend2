@@ -15,6 +15,7 @@ public class App extends Application {
         scene.getStylesheets().add(App.class.getResource("/styles/menu.css").toExternalForm());
         stage.setTitle("Alexandria");
         stage.getIcons().add(new Image(App.class.getResourceAsStream("/image/logo.png")));
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
