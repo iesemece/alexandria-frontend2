@@ -67,8 +67,15 @@ public class MiBibliotecaController {
 
                             item.setOnContextMenuRequested(e -> contextMenu.show(item, e.getScreenX(), e.getScreenY()));
 
+                            item.setOnMouseClicked(event -> {
+                                if (event.getButton() == javafx.scene.input.MouseButton.PRIMARY && event.getClickCount() == 2) {
+                                    LectorHelper.pedirUrlYMostrarLibro(libro, contenido);
+                                }
+                            });
+
                             listaBiblioteca.getChildren().add(item);
                         }
+
                     });
                 } else {
                     System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
