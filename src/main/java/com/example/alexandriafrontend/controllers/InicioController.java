@@ -29,8 +29,6 @@ public class InicioController {
     @FXML
     private FlowPane contenedorLibros;
 
-    @FXML
-    private ScrollPane scrollPaneLibros;
 
     @FXML
     private Button btnIniciarSesion;

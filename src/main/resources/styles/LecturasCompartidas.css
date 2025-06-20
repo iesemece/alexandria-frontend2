@@ -1,57 +1,112 @@
-
+/* ===== FONDO GENERAL ===== */
 #contenido, .anchor-pane, .root {
     -fx-background-color: #FAFBFC;
+    -fx-padding: 0;
 }
 
-.titulo {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #222b45;
-    -fx-effect: dropshadow(gaussian, rgba(33,43,69,0.04), 7, 0.10, 0, 1);
-    -fx-padding: 0 0 6 0;
-}
-
-.list-view {
+/* ===== CONTENEDORES ===== */
+.seccion-contenido {
     -fx-background-color: transparent;
-    -fx-border-color: #e4ecf5;
-    -fx-border-width: 2px;
-    -fx-background-radius: 14px;
-    -fx-border-radius: 14px;
-    -fx-padding: 5px;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.08), 5, 0.10, 0, 1);
+    -fx-padding: 0;
+    -fx-spacing: 15px;
 }
 
-.list-cell {
-    -fx-background-color: white;
-    -fx-background-radius: 11px;
-    -fx-padding: 13 18 13 18;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 16px;
-    -fx-text-fill: #29394d;
-    -fx-border-color: #E9EFF5;
-    -fx-border-width: 0 0 1px 0;
-    -fx-border-radius: 11px;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.07), 4, 0.08, 0, 0.7);
-    -fx-alignment: center-left;
-    -fx-min-height: 45px;
-}
-
-.list-cell:filled:selected, .list-cell:filled:hover {
-    -fx-background-color: #f1fcfa;
-    -fx-text-fill: #319795;
+/* ===== TÍTULOS ===== */
+.titulo-principal {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size: 28px;
+    -fx-text-fill: #2C3E50;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.17), 4, 0.08, 0, 1);
+    -fx-padding: 0 0 10px 0;
+    -fx-effect: dropshadow(gaussian, rgba(33,43,69,0.04), 8, 0.11, 0, 1);
 }
 
-.list-view .scroll-bar:vertical, .scroll-bar:vertical {
+//* ===== LISTA DE USUARIOS (ESTILO SIN BORDES) ===== */
+ .custom-list-view {
+     -fx-background-color: transparent; /* Fondo transparente */
+     -fx-border-color: transparent;     /* Sin borde */
+     -fx-border-width: 0;               /* Elimina completamente el borde */
+     -fx-background-radius: 0;          /* Sin esquinas redondeadas */
+     -fx-padding: 0;                    /* Sin padding adicional */
+     -fx-effect: none;                  /* Sin sombras */
+ }
+
+ .custom-list-view .list-cell {
+     -fx-background-color: white;
+     -fx-background-radius: 0;
+     -fx-border-radius: 0;
+     -fx-padding: 12px 20px;
+     -fx-border-color: #f0f0f0;         /* Solo línea divisoria entre items */
+     -fx-border-width: 0 0 1px 0;       /* Solo línea inferior */
+     -fx-font-family: 'Segoe UI', sans-serif;
+     -fx-font-size: 14px;
+     -fx-text-fill: #2C3E50;
+ }
+
+ /* Elimina el borde del viewport interno */
+ .custom-list-view .viewport {
+     -fx-background-color: transparent;
+     -fx-border-color: transparent;
+ }
+
+ /* Mantiene los estilos interactivos */
+ .custom-list-view .list-cell:filled:hover {
+     -fx-background-color: #f8f8f8;
+ }
+
+ .custom-list-view .list-cell:filled:selected {
+     -fx-background-color: #e3f2fd;
+     -fx-text-fill: #1976d2;
+ }
+
+ /* Scrollbar discreta */
+ .custom-list-view .scroll-bar:vertical {
+     -fx-background-color: transparent;
+ }
+
+ .custom-list-view .scroll-bar:vertical .thumb {
+     -fx-background-color: #d3d3d3;
+     -fx-background-radius: 5px;
+ }
+
+/* ===== LISTA DE LIBROS COMPARTIDOS (TRANSPARENTE) ===== */
+#listViewLibrosCompartidos, .custom-flow-pane {
+    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-border-color: transparent;    /* Sin bordes */
+    -fx-background-insets: 0;         /* Sin márgenes internos */
+    -fx-padding: 20px;                /* Padding solo para separar elementos */
+}
+
+/* Items individuales de libros (manteniendo tu estilo de tarjetas) */
+.item-libro {
+    -fx-background-color: white;      /* Fondo blanco solo para los items */
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.08), 6, 0.1, 0, 2);
+}
+
+/* ScrollPane contenedor */
+.scroll-transparente,
+.scroll-transparente > .viewport {
     -fx-background-color: transparent;
 }
-.list-view .thumb, .scroll-bar .thumb {
+
+/* ===== SCROLLBARS ===== */
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb {
     -fx-background-color: #319795;
     -fx-background-radius: 7px;
     -fx-opacity: 0.38;
 }
-.list-view .thumb:hover, .scroll-bar .thumb:hover {
+
+.scroll-bar:vertical .thumb:hover {
     -fx-opacity: 0.87;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }

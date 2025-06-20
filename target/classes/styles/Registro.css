@@ -1,11 +1,11 @@
 /* Estilo base */
 .root {
     -fx-primary: #2C3E50;     /* Azul oscuro */
-    -fx-secondary: #7F8C8D;   /* Gris */
+    -fx-secondary: #4A4A4A;   /* Gris */
     -fx-accent: #3498DB;      /* Azul suave (para enlaces) */
     -fx-light: #FFFFFF;       /* Blanco */
     -fx-dark: #34495E;        /* Azul más oscuro (hover) */
-    -fx-background-color: #F5F5F5;
+    -fx-background-color: #F9F9F9;
 }
 
 

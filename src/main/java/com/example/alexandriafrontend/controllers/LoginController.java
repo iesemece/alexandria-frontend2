@@ -76,7 +76,7 @@ public class LoginController {
 					});
 
 				} else {
-					System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
+					mostrarAlerta("Credenciales incorrectaas");
 				}
 			}
 
@@ -90,25 +90,28 @@ public class LoginController {
 
 
 	private void mostrarAlerta(String mensaje) {
-		Alert alert = new Alert(Alert.AlertType.INFORMATION);
-		alert.setTitle("Login");
-		alert.setHeaderText(null);
-		alert.setContentText(mensaje);
 
-		// Icono minimalista
-		Text icon = new Text("i"); // Letra "i" estilizada
-		icon.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-fill: white;");
-		StackPane graphic = new StackPane(icon);
-		graphic.setStyle("-fx-background-color: #3498DB; -fx-background-radius: 50%; -fx-min-width: 36px; -fx-min-height: 36px;");
-		alert.setGraphic(graphic);
+		Platform.runLater(() -> {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Login");
+			alert.setHeaderText(null);
+			alert.setContentText(mensaje);
 
-		// Carga CSS
-		URL cssUrl = getClass().getResource("/styles/alertas.css");
-		if (cssUrl != null) {
-			alert.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
-		}
+			// Icono minimalista
+			Text icon = new Text("i"); // Letra "i" estilizada
+			icon.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-fill: white;");
+			StackPane graphic = new StackPane(icon);
+			graphic.setStyle("-fx-background-color: #3498DB; -fx-background-radius: 50%; -fx-min-width: 36px; -fx-min-height: 36px;");
+			alert.setGraphic(graphic);
 
-		alert.showAndWait();
+			// Carga CSS
+			URL cssUrl = getClass().getResource("/styles/alertas.css");
+			if (cssUrl != null) {
+				alert.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+			}
+
+			alert.showAndWait();
+		});
 	}
 
 

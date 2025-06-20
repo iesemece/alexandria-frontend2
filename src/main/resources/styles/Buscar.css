@@ -1,80 +1,116 @@
 /* ==== FONDO GENERAL ==== */
 #contenido, .anchor-pane, .root {
-    -fx-background-color: #FAFBFC;
+    -fx-background-color: #F9F9F9;
 }
 
-/* ==== TÍTULOS ==== */
-.titulo {
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 31px;
+/* ==== TÍTULO PRINCIPAL ==== */
+.titulo-principal {
+    -fx-font-family: "Georgia", serif;
+    -fx-font-size: 36px;
+    -fx-text-fill: #2C3E50;
     -fx-font-weight: bold;
-    -fx-text-fill: #222b45;
-    -fx-effect: dropshadow(gaussian, rgba(33,43,69,0.04), 7, 0.10, 0, 1);
-    -fx-padding: 0 0 10 0;
+    -fx-padding: 0 0 20px 0;
+}
+
+/* ==== SUBTÍTULO ==== */
+.subtitulo {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 18px;
+    -fx-text-fill: #7F8C8D;
+    -fx-font-style: italic;
+    -fx-padding: 18 16 20px 0;
 }
 
 /* ==== CAMPO DE BÚSQUEDA ==== */
 .custom-textfield, .text-field {
-    -fx-background-color: #f7fafc;
-    -fx-border-color: #c4e2de;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 15px;
-    -fx-padding: 5 12 5 12;
-    -fx-text-fill: #28394d;
+    -fx-background-color: white;
+    -fx-border-color: #BDC3C7;
+    -fx-border-width: 1.5px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-padding: 6 12;
+    -fx-text-fill: #2C3E50;
+    -fx-pref-width: 500px;
+    -fx-pref-height: 36px;
     -fx-effect: none;
+    -fx-margin: 0 0 20px 0;
 }
 
-.custom-textfield:focused, .text-field:focused {
-    -fx-border-color: #319795;
-    -fx-background-color: #fff;
-    -fx-effect: dropshadow(gaussian, #38B2AC33, 6, 0.07, 0, 1.4);
+.custom-textfield:focused {
+    -fx-border-color: #3498DB;
+    -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.18), 5, 0.1, 0, 1);
 }
 
-/* ==== LISTA DE RESULTADOS ==== */
+/* ========== SCROLL PANE (CONTENEDOR PRINCIPAL) ========== */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-fit-to-width: true; /* Expande el contenido horizontalmente */
+    -fx-padding: 20px; /* Más espacio alrededor */
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+    -fx-pref-width: 100%;
+}
+
+/* ========== LISTA DE LIBROS ========== */
 .list-view {
     -fx-background-color: transparent;
-    -fx-border-color: #e4ecf5;
-    -fx-border-width: 2px;
-    -fx-background-radius: 16px;
-    -fx-border-radius: 16px;
-    -fx-padding: 6px;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.06), 7, 0.13, 0, 1);
+    -fx-border-color: transparent;
+    -fx-padding: 18px 0;
 }
 
+/* ========== CELDAS DE LIBROS ========== */
 .list-cell {
     -fx-background-color: white;
-    -fx-background-radius: 12px;
-    -fx-padding: 15 22 15 22;
-    -fx-font-family: "Segoe UI", "Roboto", "Arial", sans-serif;
-    -fx-font-size: 16px;
-    -fx-text-fill: #28394d;
-    -fx-border-color: #E9EFF5;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-padding: 20px 20px;
+    -fx-border-color: #f0f0f0;
     -fx-border-width: 0 0 1px 0;
-    -fx-border-radius: 12px;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.08), 4, 0.09, 0, 0.7);
-    -fx-alignment: center-left;
-    -fx-min-height: 48px;
+    -fx-font-family: 'Segoe UI', sans-serif;
 }
 
-.list-cell:filled:selected, .list-cell:filled:hover {
-    -fx-background-color: #f1fcfa;
-    -fx-text-fill: #319795;
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(49,151,149,0.18), 5, 0.09, 0, 1);
+/* Estilo para el texto principal (título) */
+.list-cell .text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2C3E50;
+    -fx-font-weight: normal;
 }
 
-/* ==== SCROLL BAR ==== */
-.list-view .scroll-bar:vertical, .scroll-bar:vertical {
+/* Estilo para el texto secundario (autor) */
+.list-cell .secondary-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #7F8C8D;
+    -fx-font-style: italic;
+    -fx-padding: 3px 0 0 0;
+}
+
+/* ========== ESTADOS INTERACTIVOS ========== */
+.list-cell:filled:hover {
+    -fx-background-color: #f8f8f8;
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #e3f2fd;
+    -fx-text-fill: #1976d2;
+}
+
+/* ========== SCROLLBAR ========== */
+.scroll-bar:vertical {
     -fx-background-color: transparent;
 }
-.list-view .thumb, .scroll-bar .thumb {
-    -fx-background-color: #319795;
-    -fx-background-radius: 8px;
-    -fx-opacity: 0.38;
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: #d3d3d3;
+    -fx-background-radius: 5px;
 }
-.list-view .thumb:hover, .scroll-bar .thumb:hover {
-    -fx-opacity: 0.87;
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 0 0 0;
 }

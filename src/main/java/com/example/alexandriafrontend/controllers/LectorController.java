@@ -15,6 +15,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.epub.EpubReader;
@@ -41,6 +42,9 @@ public class LectorController {
     private StyleClassedTextArea textArea;
 
     private final List<Anotacion> anotaciones = new CopyOnWriteArrayList<>();
+
+    @FXML
+    private HBox seccionAcciones;
 
 
     private Long libroId;
@@ -82,6 +86,12 @@ public class LectorController {
         textArea.getStylesheets().add(getClass().getResource("/styles/lector.css").toExternalForm());
         configurarTooltipComentarios();
         btnCompartir.setOnAction(e -> compartirLibroConUsuario());
+
+        String token = SesionUsuario.getInstancia().getToken();
+        if (token == null || token.trim().isEmpty()) {
+            seccionAcciones.setVisible(false);
+            seccionAcciones.setManaged(false); // evita que ocupe espacio
+        }
     }
 
 
@@ -493,7 +503,6 @@ public class LectorController {
     private void guardarAnotaciones() {
         String token = SesionUsuario.getInstancia().getToken();
         if (libroId == null || token == null) {
-            System.out.println("No se puede guardar: libroId o token nulo");
             return;
         }
 
@@ -552,7 +561,6 @@ public class LectorController {
     public void cargarAnotaciones() {
         String token = SesionUsuario.getInstancia().getToken();
         if (libroId == null || token == null) {
-            System.out.println("No se pueden cargar anotaciones: libroId o token nulo");
             return;
         }
         if (lecturaCompartidaId != null) {
@@ -573,10 +581,10 @@ public class LectorController {
                                 }
                                 anotaciones.add(a);
                             }
-                            System.out.println("📝 Anotaciones colaborativas cargadas y aplicadas.");
+
                         });
                     } else {
-                        System.out.println("No se encontraron anotaciones colaborativas o error: " + response.code());
+
                     }
                 }
 

@@ -13,7 +13,7 @@
 <AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" stylesheets="@/styles/Inicio.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.InicioController">
 
 	<!-- Botones en esquina superior derecha -->
-	<HBox alignment="CENTER_RIGHT" spacing="10" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
+	<HBox alignment="CENTER_RIGHT" spacing="10" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="29">
 		<Button fx:id="btnCrearCuenta" onAction="#handleButtonAction" styleClass="boton-secundario" text="Registrarse">
 			<font>
 				<Font name="Segoe UI" size="14" />

@@ -1,6 +1,6 @@
 /* ========== ESTILOS BASE (MODIFICADO) ========== */
 #contenido {
-    -fx-background-color: transparent; /* Fondo transparente */
+    -fx-background-color: #F9F9F9; /* Fondo transparente */
 }
 
 /* ========== TIPOGRAFÍA (MODIFICADO) ========== */
@@ -16,19 +16,19 @@
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 18px;
     -fx-text-fill: #7F8C8D; /* Color más suave */
-    -fx-font-weight: bold;
+    -fx-font-style: italic;
 }
 
 /* ========== CONTENEDOR DE LIBROS (NUEVO ESTILO) ========== */
 .scroll-transparente {
-    -fx-background-color: transparent;
+    -fx-background-color: #F9F9F9;
     -fx-border-color: transparent; /* Sin bordes */
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
 
 .flow-pane {
-    -fx-background-color: transparent;
+    -fx-background-color: #F9F9F9;
     -fx-hgap: 30px; /* Más espacio horizontal entre libros */
     -fx-vgap: 30px; /* Más espacio vertical entre libros */
     -fx-padding: 20px; /* Más margen interno */
@@ -54,10 +54,21 @@
     -fx-opacity: 0; /* Scrollbars invisibles */
 }
 
+#scrollPaneLibros {
+    -fx-background-color: #F9F9F9;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+}
+
+#scrollPaneLibros .viewport {
+    -fx-background-color: #F9F9F9;
+}
+
 /* ========== BARRA DE CATEGORÍAS ========== */
 #barraCategorias {
     -fx-background-color: transparent;
-    -fx-padding: 0 0 15px 40px; /* Ajusta el padding izquierdo según necesites */
+    -fx-padding: 0 0 0px 20px; /* Ajusta el padding izquierdo según necesites */
     -fx-spacing: 10px; /* Espacio entre botones */
 }
 
@@ -95,6 +106,8 @@
     -fx-faint-focus-color: transparent;
 }
 
+
+
 /* ========== BOTONES (SIN CAMBIOS) ========== */
 .boton-login {
     -fx-background-color: transparent;
@@ -102,13 +115,14 @@
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-pref-width: 100px;
+    -fx-pref-width: 120px;  /* Aumentado de 100px a 120px */
     -fx-pref-height: 32px;
-    -fx-background-radius: 16px;
-    -fx-border-radius: 16px;
+    -fx-background-radius: 18px;  /* Aumentado de 16px a 18px */
+    -fx-border-radius: 18px;      /* Aumentado de 16px a 18px */
     -fx-border-color: #2C3E50;
     -fx-border-width: 1px;
     -fx-cursor: hand;
+    -fx-padding: 0 8 0 8;  /* Padding horizontal agregado */
 }
 
 .boton-login:hover {
@@ -123,11 +137,12 @@
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 13px;
     -fx-font-weight: bold;
-    -fx-pref-width: 100px;
+    -fx-pref-width: 120px;  /* Aumentado de 100px a 120px */
     -fx-pref-height: 32px;
-    -fx-background-radius: 16px;
-    -fx-border-radius: 16px;
+    -fx-background-radius: 18px;  /* Aumentado de 16px a 18px */
+    -fx-border-radius: 18px;      /* Aumentado de 16px a 18px */
     -fx-cursor: hand;
+    -fx-padding: 0 8 0 8;  /* Padding horizontal agregado */
 }
 
 .boton-secundario:hover {
@@ -139,8 +154,8 @@
     -fx-background-color: transparent;
     -fx-text-fill: #7F8C8D;
     -fx-font-family: 'Segoe UI', sans-serif;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-padding: 3px 12px;
+    -fx-padding: 3px 16px;
     -fx-background-radius: 12px;
 }

@@ -5,24 +5,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.geometry.Insets?>
 <AnchorPane fx:id="contenido" prefHeight="600" prefWidth="649.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.FavoritosController">
-   
-   <Label layoutX="50.0" layoutY="93.0" styleClass="titulo" text="Tu biblioteca">
-      <font>
-         <Font name="System Bold" size="31.0" />
-      </font>
-   </Label>
-   <Label layoutX="50.0" layoutY="150.0" styleClass="subtitulo" text="Favoritos">
-      <font>
-         <Font name="System Bold" size="18.0" />
-      </font>
-   </Label>
-   <Label layoutX="50.0" layoutY="192.0" styleClass="descripcion" text="Todos los libros que te han gustado">
-      <font>
-         <Font size="11.0" />
-      </font>
-   </Label>
-   
-    <ListView fx:id="listaFavoritos" layoutX="50.0" layoutY="214.0" prefHeight="306.0" prefWidth="509.0" />
 
+   <Label layoutX="50.0" layoutY="80.0"
+          styleClass="titulo-principal"
+          text="Favoritos"/>
+   <Label layoutX="50.0" layoutY="120.0"
+          styleClass="subtitulo"
+          text="Todos los libros que te han gustado"/>
+
+   <ScrollPane fx:id="scrollPaneLibros" styleClass="scroll-transparente" layoutX="50.0" layoutY="190.0" prefHeight="340.0" prefWidth="580.0"
+               fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+      <FlowPane fx:id="listaFavoritos" prefWrapLength="580" hgap="20" vgap="20">
+         <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+         </padding>
+      </FlowPane>
+   </ScrollPane>
 </AnchorPane>

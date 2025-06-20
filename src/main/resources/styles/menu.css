@@ -11,7 +11,7 @@
 #lblMenuTitulo {
     -fx-font-family: 'Georgia', serif;
     -fx-font-size: 22px;
-    -fx-text-fill: #E0DED8; /* Gris claro (95% neutro) */
+    -fx-text-fill: #F2F2F2; /* Gris claro (95% neutro) */
     -fx-font-weight: bold;
     -fx-padding: 6 0 6 38;
     -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.15), 1, 0, 1, 1);
@@ -21,7 +21,7 @@
 .label.seccion {
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 14px;
-    -fx-text-fill: #A8A6A1; /* Gris medio (90% neutro) */
+    -fx-text-fill: #F2F2F2; /* Gris medio (90% neutro) */
     -fx-font-weight: 600;
     -fx-padding: 0 0 6px 6px;
     -fx-letter-spacing: 0.8px;
@@ -34,7 +34,7 @@
 
 .menu-button {
     -fx-background-color: transparent;
-    -fx-text-fill: #C3C2BD; /* Gris neutro (85%) + 15% beige */
+    -fx-text-fill: #F2F2F2; /* Gris neutro (85%) + 15% beige */
     -fx-font-family: 'Segoe UI', sans-serif;
     -fx-font-size: 15px;
     -fx-font-weight: 500;
@@ -48,13 +48,13 @@
 
 .menu-button:hover {
     -fx-background-color: rgba(220, 220, 215, 0.05); /* Gris neutro */
-    -fx-text-fill: #EDECE8; /* Gris claro (97% neutro) */
+    -fx-text-fill: #F2F2F2; /* Gris claro (97% neutro) */
     -fx-translate-x: 2px;
 }
 
 .menu-button:selected, .menu-button:focused {
     -fx-background-color: rgba(190, 188, 180, 0.1); /* Gris (90% neutro) */
-    -fx-text-fill: #B8B2A5; /* Gris con 20% terroso */
+    -fx-text-fill: #F2F2F2; /* Gris con 20% terroso */
     -fx-font-weight: 600;
     -fx-border-width: 0 0 0 3px;
     -fx-border-color: #8A8883; /* Gris medio (95% neutro) */

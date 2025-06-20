@@ -6,29 +6,118 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+
 <AnchorPane fx:id="lectorPane" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.alexandriafrontend.controllers.LectorController"
             prefWidth="649.0" prefHeight="600.0">
 
     <VBox spacing="5" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-          style="-fx-padding: 10;">
+          style="-fx-padding: 8;" alignment="CENTER">
 
-        <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="NEVER" fitToHeight="true" fitToWidth="false">
-            <HBox fx:id="barraFlotante" spacing="14" styleClass="barra-flotante">
-                <Button text="Amarillo" onAction="#subrayarAmarillo" styleClass="anotacion-yellow"/>
-                <Button text="Azul" onAction="#subrayarAzul" styleClass="anotacion-blue"/>
-                <Button text="Verde" onAction="#subrayarVerde" styleClass="anotacion-green"/>
-                <Button text="Sin subrayado" onAction="#quitarSubrayado" styleClass="anotacion-clear"/>
-                <Button text="Comentario" onAction="#agregarComentario" styleClass="anotacion-comment"/>
-                <Button fx:id="btnGuardarAnotaciones" text="Guardar" onAction="#guardarAnotaciones"
-                        styleClass="anotacion-save"/>
-                <Button fx:id="btnCompartir" layoutX="20" layoutY="20" text="Compartir libro"/>
-                <Button text="Favoritos" onAction="#anadirFavoritos"/>
+        <!-- Barra de herramientas compacta -->
+        <HBox fx:id="barraFlotante" spacing="0" styleClass="barra-herramientas-compacta" alignment="CENTER">
+            <!-- Sección de colores -->
+            <HBox spacing="6" styleClass="seccion-colores" alignment="CENTER_LEFT">
+                <Button onAction="#subrayarAmarillo" styleClass="btn-color-icon">
+                    <graphic>
+                        <Rectangle width="18" height="18" arcWidth="3" arcHeight="3" styleClass="color-amarillo-icon"/>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Subrayado amarillo" />
+                    </tooltip>
+                </Button>
+
+                <Button onAction="#subrayarAzul" styleClass="btn-color-icon">
+                    <graphic>
+                        <Rectangle width="18" height="18" arcWidth="3" arcHeight="3" styleClass="color-azul-icon"/>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Subrayado azul" />
+                    </tooltip>
+                </Button>
+
+                <Button onAction="#subrayarVerde" styleClass="btn-color-icon">
+                    <graphic>
+                        <Rectangle width="18" height="18" arcWidth="3" arcHeight="3" styleClass="color-verde-icon"/>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Subrayado verde" />
+                    </tooltip>
+                </Button>
+
+                <Button onAction="#agregarComentario" styleClass="btn-icon-simple">
+                    <graphic>
+                        <ImageView fitWidth="16" fitHeight="16" preserveRatio="true">
+                            <Image url="@/image/icon-coment.png"/>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Añadir comentario" />
+                    </tooltip>
+                </Button>
+
+                <Button onAction="#quitarSubrayado" styleClass="btn-icon-simple">
+                    <graphic>
+                        <ImageView fitWidth="16" fitHeight="16" preserveRatio="true">
+                            <Image url="@/image/icon-clear.png"/>
+                        </ImageView>
+                    </graphic>
+                    <tooltip>
+                        <Tooltip text="Quitar subrayado" />
+                    </tooltip>
+                </Button>
 
             </HBox>
-        </ScrollPane>
+
+
+
+            <!-- Sección de acciones -->
+            <HBox fx:id="seccionAcciones" spacing="6" styleClass="seccion-acciones" alignment="CENTER_LEFT">
+
+                <!-- Separador -->
+                <Rectangle width="1" height="20" styleClass="separador-vertical"/>
+
+                <Button fx:id="btnGuardarAnotaciones" onAction="#guardarAnotaciones" styleClass="btn-accion-con-texto">
+                    <graphic>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="14" fitHeight="14" preserveRatio="true">
+                                <Image url="@/image/icon-guardar.png"/>
+                            </ImageView>
+                            <Label text="Guardar" styleClass="texto-accion"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button fx:id="btnCompartir" styleClass="btn-accion-con-texto">
+                    <graphic>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="14" fitHeight="14" preserveRatio="true">
+                                <Image url="@/image/icon-compartir.png"/>
+                            </ImageView>
+                            <Label text="Compartir" styleClass="texto-accion"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+
+                <Button onAction="#anadirFavoritos" styleClass="btn-accion-con-texto">
+                    <graphic>
+                        <HBox spacing="4" alignment="CENTER_LEFT">
+                            <ImageView fitWidth="14" fitHeight="14" preserveRatio="true">
+                                <Image url="@/image/icon-favorite.png"/>
+                            </ImageView>
+                            <Label text="Favoritos" styleClass="texto-accion"/>
+                        </HBox>
+                    </graphic>
+                </Button>
+            </HBox>
+        </HBox>
+
         <VirtualizedScrollPane fx:id="vsScroll"
                                VBox.vgrow="ALWAYS"
                                style="-fx-background-color: transparent;">
@@ -39,7 +128,5 @@
                                       styleClass="lector-area"/>
             </content>
         </VirtualizedScrollPane>
-
-
     </VBox>
 </AnchorPane>

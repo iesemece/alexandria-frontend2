@@ -2,15 +2,29 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
 
 <AnchorPane fx:id="contenido" prefHeight="600" prefWidth="900" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.alexandriafrontend.controllers.LecturasCompartidasController">
 
-    <!-- Lista de usuarios -->
-    <Label layoutX="128.0" layoutY="37.0" styleClass="titulo" text="Usuarios disponibles" />
-    <ListView fx:id="listViewUsuarios" layoutX="40.0" layoutY="70.0" prefHeight="111.0" prefWidth="497.0" />
+    <!-- Contenedor principal con más margen superior -->
+    <VBox alignment="TOP_CENTER" spacing="20" AnchorPane.topAnchor="60" AnchorPane.bottomAnchor="40" AnchorPane.leftAnchor="60" AnchorPane.rightAnchor="60">
 
-    <!-- Lista de libros compartidos -->
-    <Label layoutX="132.0" layoutY="234.0" styleClass="titulo" text="Libros compartidos" />
-    <ListView fx:id="listViewLibrosCompartidos" layoutX="40.0" layoutY="269.0" prefHeight="291.0" prefWidth="497.0" />
+        <!-- Sección Usuarios con más margen inferior -->
+        <VBox spacing="5" alignment="CENTER_LEFT" style="-fx-padding: 0 0 0 0;">
+            <Label styleClass="titulo-principal" text="Usuarios disponibles" />
+            <ListView fx:id="listViewUsuarios" prefHeight="200" prefWidth="780" styleClass="custom-list-view" />
+        </VBox>
+
+        <!-- Sección Libros Compartidos con más espacio arriba -->
+        <VBox spacing="5" alignment="CENTER_LEFT" style="-fx-padding: 20 0 5 0;">
+            <Label styleClass="titulo-principal" text="Libros compartidos" />
+            <ScrollPane fx:id="scrollPaneLibros" styleClass="scroll-transparente" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" prefHeight="350" prefWidth="780">
+                <FlowPane fx:id="listViewLibrosCompartidos" styleClass="custom-flow-pane" />
+            </ScrollPane>
+        </VBox>
+    </VBox>
 </AnchorPane>

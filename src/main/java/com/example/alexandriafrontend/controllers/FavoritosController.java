@@ -1,16 +1,15 @@
 package com.example.alexandriafrontend.controllers;
 
-
 import com.example.alexandriafrontend.api.ApiClient;
 import com.example.alexandriafrontend.api.ApiService;
 import com.example.alexandriafrontend.model.Libro;
 import com.example.alexandriafrontend.session.SesionUsuario;
+import com.example.alexandriafrontend.utils.ItemLibro;
 import com.example.alexandriafrontend.utils.LectorHelper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,53 +19,20 @@ import java.util.List;
 public class FavoritosController {
 
     @FXML
-    private ListView<Libro> listaFavoritos;
+    private FlowPane listaFavoritos;
 
     @FXML
     private AnchorPane contenido;
 
-    private ApiService apiService = ApiClient.getApiService();
-
+    private final ApiService apiService = ApiClient.getApiService();
     private SesionUsuario sesionUsuario;
-
 
     @FXML
     private void initialize() {
         sesionUsuario = SesionUsuario.getInstancia();
-        if (sesionUsuario.getToken() != null){
+        if (sesionUsuario.getToken() != null) {
             cargarLibrosFavoritos();
         }
-
-        listaFavoritos.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                Libro libroSeleccionado = listaFavoritos.getSelectionModel().getSelectedItem();
-                if (libroSeleccionado != null) {
-                    LectorHelper.pedirUrlYMostrarLibro(libroSeleccionado, contenido);
-                }
-            }
-        });
-
-        listaFavoritos.setCellFactory(listView -> new ListCell<>() {
-            @Override
-            protected void updateItem(Libro libro, boolean empty) {
-                super.updateItem(libro, empty);
-                if (empty || libro == null) {
-                    setText(null);
-                    setContextMenu(null);
-                } else {
-                    setText(libro.getTitulo());
-
-                    javafx.scene.control.ContextMenu contextMenu = new javafx.scene.control.ContextMenu();
-                    javafx.scene.control.MenuItem eliminarItem = new javafx.scene.control.MenuItem("Eliminar de favoritos");
-
-                    eliminarItem.setOnAction(e -> eliminarLibro(libro));
-                    contextMenu.getItems().add(eliminarItem);
-
-                    setContextMenu(contextMenu);
-                }
-            }
-        });
-
     }
 
     private void cargarLibrosFavoritos() {
@@ -75,12 +41,25 @@ public class FavoritosController {
             @Override
             public void onResponse(Call<List<Libro>> call, Response<List<Libro>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    for (Libro libro : response.body()) {
-                        Libro nuevoLibro = new Libro(libro.getId(), libro.getTitulo(), libro.getAutor(), libro.getCategoria());
-                        javafx.application.Platform.runLater(() -> listaFavoritos.getItems().add(nuevoLibro));
-                    }
+                    Platform.runLater(() -> {
+                        listaFavoritos.getChildren().clear();
+
+                        for (Libro libro : response.body()) {
+                            ItemLibro item = new ItemLibro(libro);
+
+                            item.setOnMouseClicked(event -> {
+                                if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+                                    eliminarLibro(libro);
+                                } else if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                                    LectorHelper.pedirUrlYMostrarLibro(libro, contenido);
+                                }
+                            });
+
+                            listaFavoritos.getChildren().add(item);
+                        }
+                    });
                 } else {
-                    System.out.println("Credenciales inválidas. Inténtalo de nuevo.");
+                    System.out.println("Error al obtener favoritos.");
                 }
             }
 
@@ -100,7 +79,14 @@ public class FavoritosController {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Platform.runLater(() -> listaFavoritos.getItems().remove(libro));
+                    Platform.runLater(() -> {
+                        listaFavoritos.getChildren().removeIf(node -> {
+                            if (node instanceof ItemLibro) {
+                                return ((ItemLibro) node).getLibro().getId() == libro.getId();
+                            }
+                            return false;
+                        });
+                    });
                 } else {
                     System.err.println("No se pudo eliminar: " + response.code());
                 }
@@ -112,5 +98,4 @@ public class FavoritosController {
             }
         });
     }
-
 }
