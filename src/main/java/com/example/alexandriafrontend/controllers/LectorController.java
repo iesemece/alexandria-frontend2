@@ -10,10 +10,9 @@ import com.example.alexandriafrontend.utils.Utils;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import nl.siegmann.epublib.domain.Book;
@@ -430,29 +429,41 @@ public class LectorController {
         }
 
         TextInputDialog dialogo = new TextInputDialog();
-        dialogo.setTitle("Nuevo comentario");
-        dialogo.setHeaderText("Introduce el comentario asociado al subrayado");
-        dialogo.setContentText("Comentario: ");
+        dialogo.setGraphic(null);
+        dialogo.setTitle("Comentario");
+        dialogo.setHeaderText("Escribe el comentario del subrayado");
+        dialogo.setContentText("Comentario:");
+
+
+        URL cssUrl = getClass().getResource("/styles/alertas.css");
+        if (cssUrl != null) {
+            dialogo.getDialogPane().getStylesheets().add(cssUrl.toExternalForm());
+        } else {
+            System.err.println("No se encontró /styles/alert.css");
+        }
+
+
+        ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("/image/logo.png")));
+        logo.setFitWidth(48);
+        logo.setFitHeight(48);
+        dialogo.setGraphic(logo);
+
 
         Optional<String> resultado = dialogo.showAndWait();
 
         resultado.ifPresent(comentario -> {
             for (int i = start; i < end; i++) {
                 List<String> estilos = new ArrayList<>(textArea.getStyleOfChar(i));
-
-                if (!estilos.contains("comentado")) {
-                    estilos.add("comentado");  // línea decorativa
-                }
-
+                if (!estilos.contains("comentado")) estilos.add("comentado");
                 textArea.setStyle(i, i + 1, estilos);
             }
 
             List<String> estilos = new ArrayList<>(textArea.getStyleOfChar(start));
-            Anotacion nueva = new Anotacion(start, end, estilos, comentario);
-            anotaciones.add(nueva);
+            anotaciones.add(new Anotacion(start, end, estilos, comentario));
         });
-
     }
+
+
 
 
     private void configurarTooltipComentarios() {
@@ -583,8 +594,6 @@ public class LectorController {
                             }
 
                         });
-                    } else {
-
                     }
                 }
 

@@ -13,6 +13,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -98,11 +100,13 @@ public class LoginController {
 			alert.setContentText(mensaje);
 
 			// Icono minimalista
-			Text icon = new Text("i"); // Letra "i" estilizada
-			icon.setStyle("-fx-font-weight: bold; -fx-font-size: 16px; -fx-fill: white;");
-			StackPane graphic = new StackPane(icon);
-			graphic.setStyle("-fx-background-color: #3498DB; -fx-background-radius: 50%; -fx-min-width: 36px; -fx-min-height: 36px;");
-			alert.setGraphic(graphic);
+			ImageView icono = new ImageView(new Image(
+					getClass().getResourceAsStream("/image/logo.png")
+			));
+			icono.setFitWidth(48);
+			icono.setFitHeight(48);
+			alert.setGraphic(icono);
+
 
 			// Carga CSS
 			URL cssUrl = getClass().getResource("/styles/alertas.css");
